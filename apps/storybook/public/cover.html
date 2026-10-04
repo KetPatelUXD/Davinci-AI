@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DaVinci.AI Cover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060607;--text:#FFFFFF;--cyan:#3CCBF4;--violet:#A78BFA;--amber:#FFA24C;color-scheme:dark}
+*{margin:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);overflow:hidden}
+body{font-family:Inter,'Helvetica Neue',Arial,sans-serif;cursor:crosshair}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+.burst{position:fixed;left:50%;top:50%;width:min(80vw,900px);aspect-ratio:1;transform:translate(-57%,-44%);pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,90,130,.42),rgba(167,139,250,.14) 45%,rgba(60,203,244,.04) 70%,transparent);filter:blur(8px)}
+.b2{width:min(62vw,700px);transform:translate(-40%,-60%);background:radial-gradient(closest-side,rgba(167,139,250,.26),rgba(60,203,244,.08) 55%,transparent)}
+.flare{position:fixed;left:50%;top:50%;width:min(92vw,1100px);height:2px;transform:translate(-47%,calc(-50% + 18px));pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,140,170,.0) 10%,rgba(255,150,180,.55) 50%,rgba(255,140,170,0) 90%,transparent);filter:blur(1px)}
+.flare::after{content:"";position:absolute;inset:-14px 20%;background:radial-gradient(closest-side,rgba(255,150,180,.25),transparent);filter:blur(6px)}
+h1{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,.86);font-weight:800;letter-spacing:-.035em;line-height:1;white-space:nowrap;
+  font-size:clamp(48px,11vw,168px);text-shadow:0 0 60px rgba(255,140,170,.35),0 2px 30px rgba(0,0,0,.5);pointer-events:none;
+  animation:in 1.6s cubic-bezier(.2,.7,.2,1) both .2s}
+@keyframes in{from{opacity:0;letter-spacing:.04em;filter:blur(8px)}}
+@media (prefers-reduced-motion:reduce){h1{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="c" aria-hidden="true"></canvas>
+<div class="burst" aria-hidden="true"></div>
+<div class="burst b2" aria-hidden="true"></div>
+<div class="flare" aria-hidden="true"></div>
+<h1>DaVinci.AI</h1>
+
+<script>
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('c'),cx=cv.getContext('2d');
+let W,H,DPR,pts=[],links=[],mouse={x:-9999,y:-9999,on:false},sm={x:0,y:0};
+const STOPS=[[255,122,150],[255,162,76],[167,139,250],[96,165,250],[60,203,244]];
+function mix(t){t=Math.max(0,Math.min(1,t));const s=t*(STOPS.length-1),i=Math.min(STOPS.length-2,Math.floor(s)),f=s-i,a=STOPS[i],b=STOPS[i+1];return[a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f]}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function build(){
+  DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
+  const R=Math.min(W,H)*.37, n=Math.round(Math.min(520,Math.max(200,W*H/3000)));pts=[];
+  for(let i=0;i<n;i++){
+    const ang=Math.random()*Math.PI*2;
+    const t=Math.pow(Math.random(),.85); const r=R*(.62+t*.55)+rnd(-8,8);
+    const sx=W/2+Math.cos(ang)*r, sy=H/2+Math.sin(ang)*r;
+    const col=mix(t*1.05);
+    pts.push({hx:sx,hy:sy,x:sx,y:sy,vx:0,vy:0,ph:Math.random()*6.28,sp:rnd(.15,.45),amp:rnd(3,10),
+      r:Math.random()<.18?rnd(2.6,3.6):rnd(1.2,2.4),c:col,t});
+  }
+  links=[];const MAX=Math.min(W,H)*.11;
+  pts.forEach((p,i)=>{const d=pts.map((q,j)=>[j,(q.hx-p.hx)**2+(q.hy-p.hy)**2]).filter(e=>e[0]!==i).sort((a,b)=>a[1]-b[1]).slice(0,4);
+    d.forEach(([j,dd])=>{if(Math.sqrt(dd)<MAX&&i<j)links.push([i,j])})});
+}
+addEventListener('resize',build);build();
+addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.on=true});
+addEventListener('pointerleave',()=>{mouse.on=false;mouse.x=mouse.y=-9999});
+document.addEventListener('mouseleave',()=>{mouse.on=false;mouse.x=mouse.y=-9999});
+
+function frame(time){
+  const T=time/1000;cx.clearRect(0,0,W,H);
+  const tx=mouse.on?(mouse.x-W/2)*-.02:0,ty=mouse.on?(mouse.y-H/2)*-.02:0;sm.x+=(tx-sm.x)*.05;sm.y+=(ty-sm.y)*.05;
+  const rot=RM?0:T*.006, cs=Math.cos(rot), sn=Math.sin(rot), RAD=150;
+  for(const p of pts){
+    const dx0=p.hx-W/2,dy0=p.hy-H/2;
+    let gx=W/2+dx0*cs-dy0*sn+sm.x*(.5+p.t), gy=H/2+dx0*sn+dy0*cs+sm.y*(.5+p.t);
+    if(!RM){gx+=Math.cos(T*p.sp+p.ph)*p.amp;gy+=Math.sin(T*p.sp*1.3+p.ph)*p.amp}
+    const mx=p.x-mouse.x,my=p.y-mouse.y,md=Math.hypot(mx,my);
+    if(md<RAD&&md>0.1&&!RM){const f=(1-md/RAD)**2*2.2;p.vx+=mx/md*f;p.vy+=my/md*f}
+    p.vx+=(gx-p.x)*.03;p.vy+=(gy-p.y)*.03;p.vx*=.86;p.vy*=.86;p.x+=p.vx;p.y+=p.vy;
+    if(RM){p.x=gx;p.y=gy}
+  }
+  const ox=W/2+sm.x*.3, oy=H/2+sm.y*.3; cx.lineWidth=.35;
+  for(const p of pts){const g=cx.createLinearGradient(p.x,p.y,ox,oy);g.addColorStop(0,`rgba(${p.c.map(Math.round)},.26)`);g.addColorStop(.7,`rgba(${p.c.map(Math.round)},.06)`);g.addColorStop(1,`rgba(${p.c.map(Math.round)},0)`);
+    cx.strokeStyle=g;cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(ox,oy);cx.stroke()}
+  cx.lineWidth=.4;
+  for(const [i,j] of links){const a=pts[i],b=pts[j];const d=Math.hypot(a.x-b.x,a.y-b.y);const lim=Math.min(W,H)*.14;if(d>lim)continue;
+    const al=.04+(1-d/lim)*.2;const g=cx.createLinearGradient(a.x,a.y,b.x,b.y);g.addColorStop(0,`rgba(${a.c.map(Math.round)},${al})`);g.addColorStop(1,`rgba(${b.c.map(Math.round)},${al})`);
+    cx.strokeStyle=g;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()}
+  if(mouse.on){const lim=210;cx.lineWidth=.5;
+    for(const p of pts){const d=Math.hypot(p.x-mouse.x,p.y-mouse.y);if(d<lim){cx.strokeStyle=`rgba(${p.c.map(Math.round)},${(1-d/lim)*.32})`;cx.beginPath();cx.moveTo(mouse.x,mouse.y);cx.lineTo(p.x,p.y);cx.stroke()}}
+    const gl=cx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,140);gl.addColorStop(0,'rgba(167,139,250,.14)');gl.addColorStop(1,'rgba(167,139,250,0)');cx.fillStyle=gl;cx.beginPath();cx.arc(mouse.x,mouse.y,140,0,6.283);cx.fill();
+    cx.fillStyle='rgba(255,255,255,.9)';cx.beginPath();cx.arc(mouse.x,mouse.y,2.2,0,6.283);cx.fill()}
+  for(const p of pts){const c=p.c.map(Math.round).join(',');
+    const near=mouse.on?Math.max(0,1-Math.hypot(p.x-mouse.x,p.y-mouse.y)/210):0;const rr=p.r*(1+near*.6);
+    cx.fillStyle=`rgba(${c},.18)`;cx.beginPath();cx.arc(p.x,p.y,rr*2.6,0,6.283);cx.fill();
+    cx.fillStyle=`rgba(${c},${.85+near*.15})`;cx.beginPath();cx.arc(p.x,p.y,rr,0,6.283);cx.fill()}
+  if(!RM)requestAnimationFrame(frame)
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

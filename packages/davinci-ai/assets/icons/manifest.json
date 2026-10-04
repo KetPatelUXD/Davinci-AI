@@ -1,0 +1,377 @@
+{
+  "$doc": "Icon names used by @davinci-ai/react. Names are Font Awesome kebab-case names and are identical in Figma (`Icon` component, property `name`). Default style: light.",
+  "defaultStyle": "light",
+  "fontAwesome": {
+    "version": 7,
+    "family": "Pro",
+    "note": "Install the desktop fonts in Figma; names render as ligatures."
+  },
+  "icons": [
+    {
+      "name": "arrow-down",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/ChatThread.tsx"
+      ]
+    },
+    {
+      "name": "arrow-up",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Composer.tsx"
+      ]
+    },
+    {
+      "name": "bookmark",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/finance/FilterBar.tsx"
+      ]
+    },
+    {
+      "name": "calendar",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/Date.tsx"
+      ]
+    },
+    {
+      "name": "caret-down",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/NumberField.tsx"
+      ]
+    },
+    {
+      "name": "caret-up",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/NumberField.tsx"
+      ]
+    },
+    {
+      "name": "check",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/Checkbox.tsx",
+        "components/inputs/Select.tsx",
+        "components/navigation/Stepper.tsx"
+      ]
+    },
+    {
+      "name": "chevron-down",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Composer.tsx",
+        "components/finance/FilterBar.tsx",
+        "components/finance/News.tsx",
+        "components/inputs/Select.tsx",
+        "components/navigation/AppHeader.tsx"
+      ]
+    },
+    {
+      "name": "chevron-left",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/Date.tsx",
+        "components/navigation/Pagination.tsx"
+      ]
+    },
+    {
+      "name": "chevron-right",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Blocks.tsx",
+        "components/data/List.tsx",
+        "components/inputs/Date.tsx",
+        "components/layout/Disclosure.tsx",
+        "components/navigation/Breadcrumbs.tsx",
+        "components/navigation/Menu.tsx",
+        "components/navigation/Pagination.tsx"
+      ]
+    },
+    {
+      "name": "circle-check",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/display/Callout.tsx",
+        "components/overlays/Alert.tsx",
+        "components/overlays/Toast.tsx"
+      ]
+    },
+    {
+      "name": "circle-info",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/display/Callout.tsx",
+        "components/overlays/Alert.tsx",
+        "components/overlays/Toast.tsx"
+      ]
+    },
+    {
+      "name": "circle-xmark",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/display/Callout.tsx",
+        "components/inputs/FileUpload.tsx",
+        "components/inputs/FormField.tsx",
+        "components/inputs/shared.tsx",
+        "components/overlays/Alert.tsx",
+        "components/overlays/Toast.tsx"
+      ]
+    },
+    {
+      "name": "droplet",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Composer.tsx"
+      ]
+    },
+    {
+      "name": "ellipsis-vertical",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/data/Table.tsx"
+      ]
+    },
+    {
+      "name": "file",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/FileUpload.tsx"
+      ]
+    },
+    {
+      "name": "gear",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Blocks.tsx"
+      ]
+    },
+    {
+      "name": "magnifying-glass",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/TextField.tsx",
+        "components/navigation/CommandPalette.tsx"
+      ]
+    },
+    {
+      "name": "minus",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/Checkbox.tsx"
+      ]
+    },
+    {
+      "name": "pen",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/ChatMessage.tsx"
+      ]
+    },
+    {
+      "name": "plus",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Composer.tsx"
+      ]
+    },
+    {
+      "name": "rotate-right",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/MessageActions.tsx"
+      ]
+    },
+    {
+      "name": "sliders",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Composer.tsx"
+      ]
+    },
+    {
+      "name": "sparkles",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Blocks.tsx",
+        "components/display/Callout.tsx",
+        "components/overlays/Alert.tsx",
+        "components/overlays/Toast.tsx"
+      ]
+    },
+    {
+      "name": "stop",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Composer.tsx"
+      ]
+    },
+    {
+      "name": "thumbs-down",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/MessageActions.tsx"
+      ]
+    },
+    {
+      "name": "thumbs-up",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/MessageActions.tsx"
+      ]
+    },
+    {
+      "name": "triangle-exclamation",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/display/Callout.tsx",
+        "components/overlays/Alert.tsx",
+        "components/overlays/Toast.tsx"
+      ]
+    },
+    {
+      "name": "up-right-from-square",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/actions/Link.tsx"
+      ]
+    },
+    {
+      "name": "upload",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/inputs/FileUpload.tsx"
+      ]
+    },
+    {
+      "name": "xmark",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/chat/Blocks.tsx",
+        "components/chat/Composer.tsx",
+        "components/display/Chip.tsx",
+        "components/inputs/FileUpload.tsx",
+        "components/inputs/Select.tsx",
+        "components/inputs/TextField.tsx",
+        "components/overlays/Alert.tsx",
+        "components/overlays/Dialog.tsx",
+        "components/overlays/Drawer.tsx",
+        "components/overlays/Toast.tsx"
+      ]
+    }
+  ],
+  "builtinSet": [
+    "arrow-down",
+    "arrow-down-right",
+    "arrow-down-wide-short",
+    "arrow-left",
+    "arrow-right",
+    "arrow-trend-up",
+    "arrow-up",
+    "arrow-up-right",
+    "arrow-up-wide-short",
+    "arrows-up-down",
+    "bars",
+    "bell",
+    "bolt",
+    "bookmark",
+    "calendar",
+    "caret-down",
+    "caret-up",
+    "chart-line",
+    "chart-pie",
+    "chart-simple",
+    "check",
+    "chevron-down",
+    "chevron-left",
+    "chevron-right",
+    "chevron-up",
+    "chevrons-up-down",
+    "circle",
+    "circle-check",
+    "circle-info",
+    "circle-xmark",
+    "clock",
+    "command",
+    "copy",
+    "download",
+    "droplet",
+    "ellipsis",
+    "ellipsis-vertical",
+    "eye",
+    "eye-slash",
+    "file",
+    "filter",
+    "fire",
+    "folder",
+    "gear",
+    "globe",
+    "grid-2",
+    "grip-vertical",
+    "hashtag",
+    "house",
+    "link",
+    "list",
+    "lock",
+    "magnifying-glass",
+    "message",
+    "minus",
+    "moon",
+    "mountain",
+    "newspaper",
+    "panel-right",
+    "paperclip",
+    "pen",
+    "plus",
+    "rotate-right",
+    "ship",
+    "sidebar",
+    "sliders",
+    "sparkles",
+    "star",
+    "stop",
+    "sun",
+    "table",
+    "thumbs-down",
+    "thumbs-up",
+    "trash",
+    "triangle-exclamation",
+    "up-right-from-square",
+    "upload",
+    "user",
+    "xmark"
+  ]
+}

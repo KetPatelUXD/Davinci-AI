@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "baseUrl": ".", "paths": { "@davinci-ai/react": ["../davinci-ai/src/index.ts"] } },
+  "include": ["src"]
+}

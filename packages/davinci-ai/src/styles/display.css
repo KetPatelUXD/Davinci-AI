@@ -1,0 +1,90 @@
+/* ===== Display ===== */
+.dv-badge { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 9px; border-radius: var(--dv-radius-pill); font-size: 11.5px; font-weight: 500; line-height: 1; white-space: nowrap; background: var(--dv-field); color: var(--dv-text-secondary); box-shadow: var(--dv-inset-line); }
+.dv-badge[data-size='sm'] { height: 18px; padding: 0 7px; font-size: 11px; }
+.dv-badge__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.dv-badge[data-tone='positive'] { background: var(--dv-wash-positive); color: var(--dv-positive); box-shadow: none; }
+.dv-badge[data-tone='negative'] { background: var(--dv-wash-negative); color: var(--dv-negative); box-shadow: none; }
+.dv-badge[data-tone='warning'] { background: var(--dv-wash-warning); color: var(--dv-warning); box-shadow: none; }
+.dv-badge[data-tone='info'] { background: var(--dv-wash-info); color: var(--dv-info); box-shadow: none; }
+.dv-badge[data-tone='brand'] { background: var(--dv-wash-brand); color: var(--dv-brand); box-shadow: none; }
+.dv-badge[data-variant='solid'] { color: var(--dv-on-fill); box-shadow: none; background: var(--dv-on); color: var(--dv-on-text); }
+.dv-badge[data-variant='solid'][data-tone='positive'] { background: var(--dv-positive-fill); color: var(--dv-on-fill); }
+.dv-badge[data-variant='solid'][data-tone='negative'] { background: var(--dv-negative-fill); color: var(--dv-on-fill); }
+.dv-badge[data-variant='solid'][data-tone='warning'] { background: var(--dv-warning-fill); color: var(--dv-on-fill); }
+.dv-badge[data-variant='solid'][data-tone='info'] { background: var(--dv-info-fill); color: var(--dv-on-fill); }
+.dv-badge[data-variant='solid'][data-tone='brand'] { background: var(--dv-brand-fill); color: var(--dv-on-fill); }
+.dv-badge[data-variant='outline'] { background: transparent; box-shadow: inset 0 0 0 1px currentColor; }
+
+.dv-chip__x { margin-right: -2px; }
+
+/* ---- DeltaPill ---- */
+.dv-delta { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 6px 0 12px; border-radius: var(--dv-radius-pill); background: var(--dv-field); box-shadow: var(--dv-inset-line); font-size: 12px; color: var(--dv-text-secondary); white-space: nowrap; }
+.dv-delta > b { font-weight: 500; }
+.dv-delta[data-dir='up'] > b { color: var(--dv-positive); }
+.dv-delta[data-dir='down'] > b { color: var(--dv-negative); }
+.dv-delta__ctx { color: var(--dv-text-secondary); }
+.dv-delta__arrow { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; font-style: normal; box-shadow: inset 0 0 0 1px var(--dv-line-strong); flex: none; color: inherit; }
+.dv-delta[data-dir='up'] .dv-delta__arrow { color: var(--dv-positive); }
+.dv-delta[data-dir='down'] .dv-delta__arrow { color: var(--dv-negative); }
+.dv-delta:not([data-dir='up']):not([data-dir='down']) .dv-delta__arrow { color: var(--dv-text-secondary); }
+
+/* ---- Avatar ---- */
+.dv-avatar { --s: 32px; display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%; font-size: calc(var(--s) * 0.34); font-weight: 600; color: var(--dv-on-avatar); background: var(--dv-avatar); overflow: hidden; flex: none; user-select: none; }
+.dv-avatar[data-size='sm'] { --s: 24px; } .dv-avatar[data-size='lg'] { --s: 40px; }
+.dv-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.dv-avatar[data-more] { background: var(--dv-panel); color: var(--dv-text-secondary); box-shadow: var(--dv-inset-line-strong); }
+.dv-avatars { display: inline-flex; }
+.dv-avatars .dv-avatar + .dv-avatar { margin-left: -8px; box-shadow: 0 0 0 2px var(--dv-bg); }
+
+.dv-kbd { display: inline-flex; align-items: center; font: inherit; font-size: 11px; line-height: 1; padding: 3px 8px; border-radius: 8px; background: var(--dv-field); box-shadow: var(--dv-inset-line); color: var(--dv-text-secondary); }
+
+/* ---- Tooltip ---- */
+.dv-tooltip { padding: var(--dv-tooltip-py) var(--dv-tooltip-px); border-radius: var(--dv-radius-tooltip); background: var(--dv-on); color: var(--dv-on-text); font-size: 12px; line-height: 1.35; max-width: 280px; box-shadow: var(--dv-shadow-tip); animation: dv-pop 0.12s var(--dv-ease); }
+.dv-tooltip[data-entering] { animation: dv-pop 0.12s var(--dv-ease); }
+
+/* ---- Skeleton ---- */
+.dv-skeleton { display: block; border-radius: 8px; background: linear-gradient(90deg, var(--dv-field) 25%, var(--dv-hover) 50%, var(--dv-field) 75%); background-size: 200% 100%; animation: dv-shimmer 1.6s linear infinite; }
+.dv-skeleton--circle { border-radius: 50%; }
+.dv-skeleton-lines { display: grid; gap: 8px; width: 100%; }
+
+/* ---- Progress / Meter ---- */
+.dv-progress { display: grid; gap: 8px; width: 100%; }
+.dv-progress__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.dv-progress__val { font-size: 12.5px; font-weight: 500; }
+.dv-progress__track { height: 6px; border-radius: 6px; background: var(--dv-data-3); overflow: hidden; position: relative; }
+.dv-progress__fill { height: 100%; border-radius: inherit; background: var(--dv-on); transition: width var(--dv-dur-slow) var(--dv-ease); }
+[data-tone='positive'] > .dv-progress__track > .dv-progress__fill, [data-tone='positive'] .dv-progress__fill { background: var(--dv-positive); }
+[data-tone='negative'] .dv-progress__fill { background: var(--dv-negative); }
+[data-tone='warning'] .dv-progress__fill { background: var(--dv-warning); }
+[data-tone='info'] .dv-progress__fill { background: var(--dv-info); }
+[data-tone='brand'] .dv-progress__fill { background: var(--dv-brand); }
+.dv-progress[data-indeterminate] .dv-progress__fill { width: 40%; position: absolute; animation: dv-indet 1.4s var(--dv-ease) infinite; }
+@keyframes dv-indet { from { left: -40%; } to { left: 100%; } }
+.dv-progresscircle { display: inline-grid; place-items: center; }
+.dv-progresscircle__track { stroke: var(--dv-data-3); }
+.dv-progresscircle__fill { stroke: var(--dv-on); transition: stroke-dashoffset var(--dv-dur-slow) var(--dv-ease); }
+.dv-progresscircle[data-tone='positive'] .dv-progresscircle__fill { stroke: var(--dv-positive); }
+.dv-progresscircle[data-tone='negative'] .dv-progresscircle__fill { stroke: var(--dv-negative); }
+.dv-progresscircle__spin { animation: dv-spin 1s linear infinite; }
+
+/* ---- Empty / Callout ---- */
+.dv-empty { display: grid; justify-items: center; gap: 8px; padding: 40px 24px; text-align: center; }
+.dv-empty__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--dv-panel); box-shadow: var(--dv-inset-line); color: var(--dv-text-secondary); margin-bottom: 4px; }
+.dv-empty__title { margin: 0; font-size: 15px; font-weight: 600; }
+.dv-empty__desc { margin: 0 0 8px; max-width: 360px; color: var(--dv-text-secondary); font-size: 13px; }
+.dv-callout { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: var(--dv-radius-tile); background: var(--dv-panel); box-shadow: var(--dv-inset-line); }
+.dv-callout__icon { margin-top: 2px; }
+.dv-callout__body { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.dv-callout__title { margin: 0; font-weight: 600; font-size: 13px; }
+.dv-callout__text { color: var(--dv-text-secondary); font-size: 13px; }
+.dv-callout[data-tone='positive'] { background: var(--dv-wash-positive); } .dv-callout[data-tone='positive'] .dv-callout__icon { color: var(--dv-positive); }
+.dv-callout[data-tone='negative'] { background: var(--dv-wash-negative); } .dv-callout[data-tone='negative'] .dv-callout__icon { color: var(--dv-negative); }
+.dv-callout[data-tone='warning'] { background: var(--dv-wash-warning); } .dv-callout[data-tone='warning'] .dv-callout__icon { color: var(--dv-warning); }
+.dv-callout[data-tone='info'] { background: var(--dv-wash-info); } .dv-callout[data-tone='info'] .dv-callout__icon { color: var(--dv-info); }
+.dv-callout[data-tone='brand'] { background: var(--dv-wash-brand); } .dv-callout[data-tone='brand'] .dv-callout__icon { color: var(--dv-brand); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dv-skeleton { animation: none; }
+  .dv-progress[data-indeterminate] .dv-progress__fill { animation: none; left: 0; width: 100%; opacity: 0.5; }
+  .dv-progresscircle__spin { animation: none; }
+}

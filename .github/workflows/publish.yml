@@ -1,0 +1,45 @@
+name: Publish (manual – disabled until the repo moves to the corporate org)
+
+# This workflow exists but does nothing unless the repository variable PUBLISH_ENABLED is "true"
+# and it is started by hand. Scope, registry and owner come from davinci.config.json / repo variables – nothing is hard-coded.
+on:
+  workflow_dispatch:
+    inputs:
+      registry:
+        description: 'Registry URL (default: davinci.config.json → registry; e.g. https://npm.pkg.github.com for GitHub Packages)'
+        required: false
+      dry-run:
+        description: 'Dry run (npm publish --dry-run)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    if: ${{ vars.PUBLISH_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - name: Read scope and registry from config
+        id: cfg
+        run: |
+          echo "scope=$(node -p "require('./davinci.config.json').scope")" >> "$GITHUB_OUTPUT"
+          REG='${{ inputs.registry }}'
+          echo "registry=${REG:-$(node -p "require('./davinci.config.json').registry")}" >> "$GITHUB_OUTPUT"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Publish @davinci-ai/react
+        working-directory: packages/davinci-ai
+        run: |
+          echo "${{ steps.cfg.outputs.scope }}:registry=${{ steps.cfg.outputs.registry }}" >> .npmrc
+          HOST="${{ steps.cfg.outputs.registry }}"; HOST="${HOST#https:}"
+          echo "${HOST}/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+          pnpm publish --no-git-checks ${{ inputs.dry-run && '--dry-run' || '' }}

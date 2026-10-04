@@ -1,0 +1,114 @@
+# Getting started with DaVinci.AI
+
+Use the DaVinci.AI components in your own project. Pick **one** route: do it yourself (Route A) or let an AI assistant do it (Route B).
+
+> **Before you start** you need two things:
+> 1. **Node.js** (version 22 or newer). Download it from nodejs.org and install it like any app.
+> 2. **The package file**, called `davinci-ai-react-0.1.0.tgz`. Ask whoever looks after the design system to send it to you. Save it somewhere easy, for example your Desktop.
+
+---
+
+## Route A: do it yourself (about 10 minutes)
+
+### 1. Open a terminal
+- **Mac:** press `Cmd + Space`, type **Terminal**, press Enter.
+- **Windows:** press the Windows key, type **PowerShell**, press Enter.
+- **In VS Code:** menu **Terminal → New Terminal**.
+
+### 2. Make a new project (skip this if you already have one)
+Copy and paste these lines, pressing Enter after each:
+```
+npm create vite@latest my-app -- --template react-ts
+cd my-app
+npm install
+```
+If it asks questions, press Enter to accept the defaults.
+
+### 3. Install DaVinci.AI
+Replace the path with where you saved the file (on a Mac, a file on your Desktop is `~/Desktop/davinci-ai-react-0.1.0.tgz`):
+```
+npm install ~/Desktop/davinci-ai-react-0.1.0.tgz
+```
+
+### 4. Switch it on
+Open the file `src/main.tsx` and **replace everything in it** with this:
+```tsx
+import { createRoot } from 'react-dom/client';
+import '@davinci-ai/react/styles.css';
+import '@davinci-ai/react/base.css';
+import { ThemeProvider, Button } from '@davinci-ai/react';
+
+createRoot(document.getElementById('root')!).render(
+  <ThemeProvider canvas attachToRoot>
+    <div style={{ padding: 24 }}>
+      <Button iconStart="plus">New alert</Button>
+    </div>
+  </ThemeProvider>,
+);
+```
+Then delete the line `import './index.css'` if it is still anywhere, and empty the files `src/index.css` and `src/App.css` (they style the page and would clash).
+
+### 5. See it
+```
+npm run dev
+```
+Open the address it prints (usually `http://localhost:5173`). You should see a dark page with a white **New alert** button. 🎉
+
+### 6. Use more components
+Browse the Storybook (ask for the link, or see "Run the Storybook" below). Every component shows its name and a code example. Import it from `@davinci-ai/react`, for example:
+```tsx
+import { Card, Stat, PriceChange } from '@davinci-ai/react';
+```
+
+### Rules to keep things looking right
+- Use the library components. Don't write your own colours or restyle them.
+- Light version: `<ThemeProvider theme="light">`.
+- If a component you need doesn't exist, ask the design-system owner to add it. Don't build a lookalike.
+
+---
+
+## Route B: let an AI assistant do it (Claude Code)
+
+1. Open your project folder in VS Code with Claude Code.
+2. Copy this message, change the file path, and paste it to Claude Code:
+
+```
+Install the DaVinci.AI design system into this project.
+
+1. Install this package file: /FULL/PATH/TO/davinci-ai-react-0.1.0.tgz
+2. Import '@davinci-ai/react/styles.css' and '@davinci-ai/react/base.css' once in the app entry file.
+3. Wrap the app in <ThemeProvider canvas attachToRoot> from '@davinci-ai/react'.
+4. Remove any existing global CSS (like Vite's index.css) that styles body or the page.
+5. Read node_modules/@davinci-ai/react/AGENTS.md and copy its rules into this project's CLAUDE.md (create it if missing), so you always follow them.
+6. Add a <Button iconStart="plus">New alert</Button> to prove it works, run the dev server, and tell me the address to open.
+
+From now on build UI only with components from @davinci-ai/react (list and props are in node_modules/@davinci-ai/react/components.json). Never write custom colours. If a component is missing, tell me instead of making one.
+```
+
+3. Approve its steps. It will tell you the address to open (usually `http://localhost:5173`).
+
+Afterwards you can ask things like: *"Build a watchlist page with a table and a chart using DaVinci.AI components."*
+
+---
+
+## Run the Storybook (the component catalogue)
+Only needed by the person who has the DaVinci.AI project folder:
+```
+cd Davinci-AI
+corepack enable
+pnpm install
+pnpm storybook
+```
+Open the address it prints.
+
+## If something goes wrong
+
+| What you see | What to do |
+|---|---|
+| `command not found: npm` | Install Node.js from nodejs.org, then open a **new** terminal. |
+| The page is white or the button looks plain | You missed step 4. Check both `import '@davinci-ai/react/...css'` lines are there. |
+| Everything is squashed to the middle | Empty `src/index.css` and `src/App.css`. |
+| Red text mentioning "Invalid hook call" | Run `npm ls react`. If it lists React twice, ask a developer; it is a known setup issue. |
+| Errors about `.tgz` not found | The file path is wrong. Drag the file into the terminal window to paste its exact path. |
+
+Still stuck? Send a screenshot of the terminal to the design-system owner.

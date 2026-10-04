@@ -1,0 +1,22 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BothThemes, TypeScale } from './docs/DocBlocks';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+**Inter** for UI, self-hosted through `@fontsource-variable/inter` (opt-in via `@davinci-ai/react/fonts.css`, so it never leaks into host apps). Numbers always use **tabular figures**.
+
+- **13 is the dense base**; 14 for comfortable/sparse forms. Weights 300 / 400 / 500 / 600.
+- **Display numerals** (KPI and hero prices, donut centre) are weight **300**, letter-spacing −0.035em, line-height 1, with the unit as a small 400-weight muted suffix – the thin large figure is a signature of the style.
+- **Card titles** are 16/400 in `text-secondary` (quiet), section headings 15/600, page title 20/600 with a 13/400 secondary subtitle.
+
+<BothThemes>
+  <TypeScale />
+</BothThemes>
+
+```tsx
+<Heading level={1} variant="title">Markets</Heading>
+<Text tone="secondary">Follow prices from assessment to decision</Text>
+<DisplayNumber value="84.62" unit="USD" size={64} />
+```

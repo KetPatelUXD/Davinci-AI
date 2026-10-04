@@ -1,0 +1,106 @@
+/* ===== DaVinci.AI foundation: root, ambient light, surfaces, typography, focus, a11y adaptations ===== */
+.dv-root {
+  font-family: var(--dv-font-sans);
+  font-size: var(--dv-type-base-size);
+  line-height: 1.45;
+  color: var(--dv-text);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+.dv-root--canvas { position: relative; background: var(--dv-bg); min-height: 100%; transition: background 0.3s, color 0.3s; }
+.dv-root, .dv-root *, .dv-root *::before, .dv-root *::after { box-sizing: border-box; }
+.dv-contents { display: contents; }
+.dv-num { font-variant-numeric: tabular-nums; }
+.dv-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.dv-icon { flex: none; width: var(--dv-icon-size, 16px); height: var(--dv-icon-size, 16px); fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.dv-icon--fill { fill: currentColor; stroke: none; }
+.dv-logo { flex: none; }
+
+/* ---- Focus: never removed ---- */
+.dv-root :focus-visible, .dv-focus-ring { outline: 2px solid var(--dv-focus); outline-offset: 2px; }
+.dv-root input:focus-visible, .dv-root textarea:focus-visible { outline: none; }
+
+/* ---- Ambient light (Graphite) ---- */
+.dv-ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.dv-ambient[data-position='absolute'] { position: absolute; }
+.dv-ambient::before { content: ''; position: absolute; width: 70vw; height: 60vw; left: -22vw; top: -30vw; background: radial-gradient(closest-side, var(--dv-ambient-glow), transparent); filter: blur(10px); }
+.dv-ambient::after { content: ''; position: absolute; width: 26vw; height: 180vh; right: 14vw; top: -40vh; transform: rotate(-28deg); background: linear-gradient(90deg, transparent, var(--dv-ambient-beam) 50%, transparent); filter: blur(40px); animation: dv-beam 18s ease-in-out infinite alternate; }
+.dv-ambient--dots::before, .dv-ambient--dots::after { display: none; }
+.dv-ambient--dots { background-image: radial-gradient(var(--dv-chart-dots) 1px, transparent 1px); background-size: 16px 16px; }
+@keyframes dv-beam { to { transform: rotate(-24deg) translateX(-6vw); } }
+@keyframes dv-rise { from { opacity: 0; transform: translateY(12px); } }
+@keyframes dv-spin { to { transform: rotate(360deg); } }
+@keyframes dv-pop { from { opacity: 0; transform: scale(0.97); } }
+@keyframes dv-fade { from { opacity: 0; } }
+@keyframes dv-slide-r { from { transform: translateX(100%); } }
+@keyframes dv-slide-l { from { transform: translateX(-100%); } }
+@keyframes dv-slide-b { from { transform: translateY(100%); } }
+@keyframes dv-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* ---- Surfaces ---- */
+.dv-card { position: relative; border-radius: var(--dv-radius-card); background: var(--dv-card); box-shadow: var(--dv-shadow-card); isolation: isolate; color: var(--dv-text); }
+.dv-card[data-border='1px'] { box-shadow: var(--dv-inset-line), var(--dv-shadow-card); }
+.dv-card[data-rise] { animation: dv-rise 0.7s var(--dv-p-easing-enter) both; animation-delay: var(--dv-rise-delay, 0s); }
+.dv-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0; transition: opacity 0.35s;
+  background: radial-gradient(380px circle at var(--mx, -999px) var(--my, -999px), var(--dv-spotlight-edge), transparent 45%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.dv-card::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.35s; z-index: -1; background: radial-gradient(460px circle at var(--mx, -999px) var(--my, -999px), var(--dv-spotlight-fill), transparent 55%); }
+.dv-card[data-border='spotlight']:hover::before, .dv-card[data-border='spotlight']:hover::after, .dv-card[data-border='spotlight']:focus-within::before, .dv-card[data-border='spotlight']:focus-within::after { opacity: 1; }
+.dv-card__pad { padding: var(--dv-card-py) var(--dv-card-px); }
+.dv-card__title { font-size: var(--dv-type-card-title-size); line-height: var(--dv-type-card-title-lh); font-weight: 400; letter-spacing: -0.005em; color: var(--dv-text-secondary); margin: 0; }
+.dv-card__title small, .dv-card__title .dv-card__unit { color: var(--dv-text-muted); font-size: 13px; font-weight: 400; }
+
+.dv-panel { border-radius: var(--dv-radius-panel); background: var(--dv-panel); box-shadow: var(--dv-inset-line); padding: var(--dv-panel-p); min-width: 0; }
+.dv-field-surface { background: var(--dv-field); box-shadow: var(--dv-inset-line); }
+
+.dv-glass { background: var(--dv-glass); -webkit-backdrop-filter: blur(var(--dv-blur-glass)) saturate(140%); backdrop-filter: blur(var(--dv-blur-glass)) saturate(140%); box-shadow: var(--dv-inset-line-strong), var(--dv-shadow-glass); }
+
+/* ---- Typography ---- */
+.dv-heading { margin: 0; color: var(--dv-text); }
+.dv-heading--title { font-size: var(--dv-type-title-size); line-height: var(--dv-type-title-lh); font-weight: 600; letter-spacing: -0.01em; }
+.dv-heading--section { font-size: var(--dv-type-section-size); line-height: var(--dv-type-section-lh); font-weight: 600; }
+.dv-heading--card { font-size: var(--dv-type-card-title-size); line-height: var(--dv-type-card-title-lh); font-weight: 400; color: var(--dv-text-secondary); letter-spacing: -0.005em; }
+.dv-heading--h24 { font-size: 24px; line-height: 32px; font-weight: 600; letter-spacing: -0.01em; }
+.dv-heading--h32 { font-size: 32px; line-height: 40px; font-weight: 600; letter-spacing: -0.02em; }
+.dv-text--base { font-size: var(--dv-type-base-size); line-height: var(--dv-type-base-lh); }
+.dv-text--small { font-size: var(--dv-type-small-size); line-height: var(--dv-type-small-lh); }
+.dv-text--comfortable { font-size: var(--dv-type-comfortable-size); line-height: var(--dv-type-comfortable-lh); }
+.dv-text--body-lg { font-size: var(--dv-type-body-lg-size); line-height: var(--dv-type-body-lg-lh); }
+.dv-text--overline { font-size: var(--dv-type-overline-size); line-height: var(--dv-type-overline-lh); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+.dv-tone--secondary { color: var(--dv-text-secondary); } .dv-tone--muted { color: var(--dv-text-muted); }
+.dv-tone--positive { color: var(--dv-positive); } .dv-tone--negative { color: var(--dv-negative); } .dv-tone--brand { color: var(--dv-brand); }
+.dv-weight--regular { font-weight: 400; } .dv-weight--medium { font-weight: 500; } .dv-weight--semibold { font-weight: 600; }
+.dv-label { color: var(--dv-text-secondary); font-size: 12.5px; font-weight: 400; }
+.dv-display { font-weight: 300; letter-spacing: -0.035em; line-height: 1; color: var(--dv-text); }
+.dv-display small { font-size: 0.32em; font-weight: 400; color: var(--dv-text-muted); letter-spacing: 0; margin-left: 6px; }
+.dv-display--42 { font-size: 42px; } .dv-display--48 { font-size: 48px; } .dv-display--64 { font-size: 64px; }
+.dv-code { display: inline-block; padding: 1px 8px; border-radius: var(--dv-radius-code); background: var(--dv-field); box-shadow: var(--dv-inset-line); color: var(--dv-text); font-size: 11.5px; font-weight: 500; line-height: 1.5; }
+.dv-divider { border: 0; margin: 0; background: var(--dv-line); flex: none; }
+.dv-divider[aria-orientation='horizontal'], .dv-divider--h { height: 1px; width: 100%; }
+.dv-divider[aria-orientation='vertical'], .dv-divider--v { width: 1px; align-self: stretch; }
+
+/* ---- Stack / grid helpers (also exposed as components) ---- */
+.dv-stack { display: flex; flex-direction: column; gap: var(--dv-gap, 16px); min-width: 0; }
+.dv-stack[data-dir='row'] { flex-direction: row; align-items: var(--dv-align, center); }
+.dv-stack[data-wrap] { flex-wrap: wrap; }
+.dv-grid { display: grid; gap: var(--dv-gap, 16px); grid-template-columns: repeat(var(--dv-cols, 12), minmax(0, 1fr)); }
+.dv-spacer { flex: 1; }
+
+
+/* ===== Accessibility adaptations ===== */
+@media (prefers-reduced-motion: reduce) {
+  .dv-root *, .dv-root *::before, .dv-root *::after, .dv-ambient::after, [data-theme] *, [data-theme] *::before, [data-theme] *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  .dv-ambient::after { animation: none !important; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .dv-card { background: var(--dv-surface); }
+  .dv-glass { background: var(--dv-glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (forced-colors: active) {
+  .dv-card, .dv-panel, .dv-glass { border: 1px solid CanvasText; background: Canvas; box-shadow: none; }
+  .dv-root :focus-visible, .dv-focus-ring { outline: 2px solid Highlight; }
+  .dv-ambient { display: none; }
+}

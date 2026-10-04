@@ -1,0 +1,45 @@
+{
+  "name": "davinci-ai-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@12.8.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "tokens": "pnpm --filter @davinci-ai/tokens build",
+    "tokens:figma": "pnpm --filter @davinci-ai/tokens build:figma",
+    "build": "pnpm tokens && pnpm --filter @davinci-ai/react build",
+    "build-storybook": "pnpm manifest && pnpm --filter @davinci-ai/storybook build",
+    "storybook": "pnpm manifest && pnpm --filter @davinci-ai/storybook dev",
+    "playground": "pnpm --filter @davinci-ai/playground dev",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint . && node scripts/lint-tokens.mjs",
+    "format": "prettier --write .",
+    "test": "pnpm --filter @davinci-ai/react test",
+    "test:storybook": "pnpm --filter @davinci-ai/storybook test:ci",
+    "test:screens": "playwright test",
+    "manifest": "pnpm tokens:figma && pnpm --filter @davinci-ai/react manifest",
+    "set-scope": "node scripts/set-scope.mjs",
+    "changeset": "changeset",
+    "test:storybook:light": "SB_THEME=light pnpm --filter @davinci-ai/storybook test:ci",
+    "test:all": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm build-storybook && pnpm test:storybook && pnpm test:storybook:light && pnpm test:screens"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.63.0",
+    "@types/pngjs": "^6.0.5",
+    "eslint": "^9.39.5",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
+    "http-server": "^14.1.1",
+    "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0",
+    "prettier": "^3.9.9",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.71.0"
+  }
+}

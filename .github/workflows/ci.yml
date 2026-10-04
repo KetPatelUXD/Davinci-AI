@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Optional: only needed if you install the Font Awesome Pro peer in CI. Never committed.
+      FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Token build (CSS, TS, Tailwind theme, Figma exports)
+        run: pnpm tokens && pnpm tokens:figma
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Lint (eslint incl. jsx-a11y + token/opacity lint)
+        run: pnpm lint
+      - name: Unit, axe and contrast tests
+        run: pnpm test
+      - name: Build library + manifest
+        run: pnpm build
+      - name: Build Storybook
+        run: pnpm build-storybook
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Storybook test runner (axe, dark + light)
+        run: |
+          pnpm --filter @davinci-ai/storybook test:ci
+          SB_THEME=light pnpm --filter @davinci-ai/storybook test:ci
+      - name: Screenshot + visual diff tests (dark + light)
+        run: pnpm test:screens
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screens
+          path: dist/screens
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: apps/storybook/storybook-static

@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Theming and portability" />
+
+# Theming and portability
+
+```tsx
+<ThemeProvider
+  theme="dark"            // 'dark' (default) | 'light' | 'system' | custom
+  styleName="graphite"    // hook for future styles
+  density="comfortable"   // | 'compact'
+  cardBorder="spotlight"  // | 'none' | '1px'
+  direction="standard"    // | 'inverted' (red up / green down)
+  colorBlindSafe          // blue / orange long-short
+  locale="en-US"          // numbers, currency, dates
+  attachToRoot            // also set attributes on <html> (page background + portals)
+  canvas                  // paint the canvas colour
+>
+```
+
+Providers nest. Overlays (menus, dialogs, tooltips, toasts) render in portals and inherit the theme from the provider.
+
+## Using the package
+
+| You use… | Import |
+|---|---|
+| Components | `import { Button } from '@davinci-ai/react'` |
+| Precompiled CSS (no Tailwind needed) | `import '@davinci-ai/react/styles.css'` |
+| Opt-in page base (body, box-sizing) | `import '@davinci-ai/react/base.css'` |
+| Opt-in Inter | `import '@davinci-ai/react/fonts.css'` |
+| Tailwind v4 in the host app | `@import '@davinci-ai/react/tailwind';` after `tokens.css` → `bg-surface`, `text-secondary`, `rounded-card`, `shadow-card`… |
+| Tokens (JSON + TS) | `@davinci-ai/react/tokens` and `@davinci-ai/react/tokens.json` |
+
+The library's own Tailwind classes use the **`dv:` prefix** so they never clash with host utilities. There are no global resets or font injection unless you opt in. SSR safe (Next.js App Router: client components carry `"use client"`).
+
+## Per-project theme without forking
+
+```bash
+npx davinci theme                    # interactive: primary colour, density, radius feel, default mode
+npx davinci theme --describe "calm teal fintech, rounded, light by default"
+```
+
+It writes a project theme file (token overrides + CSS) you import after `styles.css`.
+
+## Overriding tokens by hand
+
+```css
+[data-theme='dark'] { --dv-brand: #2dd4bf; --dv-brand-fill: #0f766e; }
+```
+
+Keep the contrast rules: re-run `pnpm test` in your fork of the tokens or use the CLI, which validates what it writes.

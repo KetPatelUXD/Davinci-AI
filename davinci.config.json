@@ -1,0 +1,6 @@
+{
+  "_comment": "Single place to change the npm scope / registry / owner. Run `pnpm set-scope` after editing.",
+  "scope": "@davinci-ai",
+  "registry": "https://registry.npmjs.org",
+  "githubOwnerEnv": "GITHUB_REPOSITORY_OWNER"
+}

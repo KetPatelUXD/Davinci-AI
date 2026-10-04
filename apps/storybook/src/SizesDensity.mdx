@@ -1,0 +1,20 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BothThemes, SizeTable, DensityDemo } from './docs/DocBlocks';
+
+<Meta title="Foundations/Sizes and density" />
+
+# Sizes and density
+
+Comfortable is the default (matches the reference). Put `data-density="compact"` on any container – or wrap in `<DensityProvider density="compact">` – for dense screens. Table rows are 64px comfortable (two-line cells) and 40px compact. **Nothing interactive is smaller than 24×24** (WCAG 2.5.8).
+
+<BothThemes>
+  <SizeTable />
+</BothThemes>
+
+## Density in action
+
+<BothThemes>
+  <DensityDemo />
+</BothThemes>
+
+Dense forms use `<Form layout="dense">` (compact controls); occasional sparse forms use `<Form layout="sparse">` (comfortable, larger controls).

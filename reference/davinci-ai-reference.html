@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DaVinci.AI Preview v4 · Graphite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS · Graphite ============ */
+:root,[data-theme="dark"]{
+  --bg:#060607;--bg-2:#0B0B0D;
+  --surface:#131315;--raised:#1A1A1D;--well:#0E0E10;--hover:#222226;
+  --line:rgba(255,255,255,.06);--line-2:rgba(255,255,255,.09);--border-strong:#6B6B73;
+  --text:#F5F5F6;--text-2:#ABABB3;--text-3:#94949C;
+  --on:#F4F4F6;--on-text:#0E0E10;            /* white "selected" pill + primary */
+  --card:linear-gradient(158deg,rgba(255,255,255,.075) 0%,rgba(255,255,255,.03) 34%,rgba(255,255,255,.014) 100%);
+  --panel:linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  --field:rgba(255,255,255,.045);
+  --shadow:0 40px 80px -30px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.06);
+  --spot:rgba(255,255,255,.03);--edge-hi:rgba(255,255,255,.42);
+  --brand:#A78BFA;--brand-fill:#7C3AED;
+  --pos:#34D399;--pos-fill:#05875F;--pos-wash:rgba(52,211,153,.12);
+  --neg:#FB7185;--neg-fill:#DB2777;--neg-wash:rgba(251,113,133,.12);
+  --data-1:#22A3B8;--data-2:#F5873A;--data-3:#3A3A40;
+  --line-chart:#FFFFFF;--band:rgba(255,255,255,.07);--grid:rgba(255,255,255,.05);--dots:rgba(255,255,255,.07);
+  --beam:rgba(255,255,255,.055);--glow:rgba(255,255,255,.07);
+}
+[data-theme="light"]{
+  --bg:#ECECEE;--bg-2:#F2F2F4;
+  --surface:#FAFAFB;--raised:#FFFFFF;--well:#F1F1F3;--hover:#EBEBEE;
+  --line:rgba(24,24,27,.07);--line-2:rgba(24,24,27,.1);--border-strong:#8A8A94;
+  --text:#18181B;--text-2:#52525B;--text-3:#6B6B74;
+  --on:#18181B;--on-text:#FFFFFF;
+  --card:linear-gradient(158deg,#FFFFFF 0%,#FBFBFC 50%,#F7F7F8 100%);
+  --panel:linear-gradient(170deg,#F6F6F8,#F2F2F4);
+  --field:#F0F0F2;
+  --shadow:0 30px 60px -30px rgba(24,24,27,.25),inset 0 1px 0 #fff;
+  --spot:rgba(24,24,27,.02);--edge-hi:rgba(24,24,27,.25);
+  --brand:#7C3AED;
+  --pos:#047857;--pos-wash:rgba(5,150,105,.1);
+  --neg:#BE185D;--neg-wash:rgba(219,39,119,.09);
+  --data-1:#0E7C8E;--data-2:#E06A16;--data-3:#D4D4D8;
+  --line-chart:#18181B;--band:rgba(24,24,27,.05);--grid:rgba(24,24,27,.06);--dots:rgba(24,24,27,.08);
+  --beam:rgba(255,255,255,.7);--glow:rgba(255,255,255,.9);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{font-family:Inter,system-ui,sans-serif;font-feature-settings:"cv11","ss01";color:var(--text);font-size:13px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;background:var(--bg);transition:background .3s,color .3s}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:999px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+svg.i{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ============ LIGHT: top-left glow + diagonal beam ============ */
+.light{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.light::before{content:"";position:absolute;width:70vw;height:60vw;left:-22vw;top:-30vw;background:radial-gradient(closest-side,var(--glow),transparent);filter:blur(10px)}
+.light::after{content:"";position:absolute;width:26vw;height:180vh;right:14vw;top:-40vh;transform:rotate(-28deg);background:linear-gradient(90deg,transparent,var(--beam) 50%,transparent);filter:blur(40px);animation:beam 18s ease-in-out infinite alternate}
+@keyframes beam{to{transform:rotate(-24deg) translateX(-6vw)}}
+
+/* ============ SHELL ============ */
+.shell{position:relative;z-index:1;max-width:1560px;margin:0 auto;padding:22px 28px 180px}
+.nav{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;letter-spacing:.02em;min-width:220px}
+.brand .logo{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--card);box-shadow:var(--shadow)}
+.tabs{margin:0 auto;display:flex;gap:2px;padding:5px;border-radius:999px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.tabs button{border:0;background:none;color:var(--text-3);padding:9px 18px;border-radius:999px;cursor:pointer;font-size:13.5px;transition:color .2s,background .25s}
+.tabs button:hover{color:var(--text)}
+.tabs button[aria-current]{background:var(--on);color:var(--on-text);font-weight:500;box-shadow:0 6px 20px -6px rgba(0,0,0,.6)}
+.circ{width:42px;height:42px;border-radius:50%;border:0;display:grid;place-items:center;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);color:var(--text-2);cursor:pointer;transition:color .2s,background .2s}
+.circ:hover{color:var(--text);background:var(--hover)}
+.user{display:flex;align-items:center;gap:10px;padding:5px 14px 5px 5px;border-radius:999px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.ava{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;color:#0E0E10;background:linear-gradient(135deg,#E9E9EC,#9C9CA6)}
+.user b{display:block;font-size:12.5px;font-weight:500}.user small{font-size:11px;color:var(--text-3)}
+
+.head{display:flex;align-items:flex-end;gap:10px;margin:34px 0 22px}
+.head h1{font-size:20px;font-weight:600;letter-spacing:-.01em}
+.head p{color:var(--text-2);margin-top:4px}
+.sp{flex:1}
+.pill{height:38px;display:inline-flex;align-items:center;gap:8px;padding:0 16px;border-radius:999px;border:0;cursor:pointer;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);color:var(--text-2);font-size:12.5px;font-weight:500;transition:color .2s,background .2s}
+.pill:hover{color:var(--text)}
+.pill.on{background:var(--on);color:var(--on-text);box-shadow:0 10px 30px -10px rgba(255,255,255,.25)}
+[data-theme="light"] .pill.on{box-shadow:0 10px 24px -10px rgba(0,0,0,.4)}
+.pill.on:hover{filter:brightness(.94)}
+.circ.sm{width:38px;height:38px}
+
+/* ============ CARDS ============ */
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.card{position:relative;border-radius:26px;background:var(--card);box-shadow:var(--shadow);isolation:isolate;animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:radial-gradient(380px circle at var(--mx,-999px) var(--my,-999px),var(--edge-hi),transparent 45%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s;pointer-events:none}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(460px circle at var(--mx,-999px) var(--my,-999px),var(--spot),transparent 55%);opacity:0;transition:opacity .35s;pointer-events:none;z-index:-1}
+.card:hover::before,.card:hover::after,.card:focus-within::before{opacity:1}
+.pad{padding:22px 24px}
+.ttl{font-size:16px;font-weight:400;color:var(--text-2);letter-spacing:-.005em}
+.h{font-size:15px;font-weight:600}
+.panel{border-radius:20px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);padding:16px}
+.c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}
+.stack{display:grid;gap:16px;grid-template-rows:1fr 1fr}
+
+/* chips */
+.delta{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 6px 0 12px;border-radius:999px;background:var(--field);box-shadow:inset 0 0 0 1px var(--line);font-size:12px;color:var(--text-2);white-space:nowrap}
+.delta i{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;box-shadow:inset 0 0 0 1px var(--line-2)}
+.delta i svg{width:11px;height:11px;stroke-width:2}
+.delta.up b{color:var(--pos);font-weight:500}.delta.dn b{color:var(--neg);font-weight:500}
+.delta.dn i svg{transform:rotate(180deg)}
+.code{display:inline-block;padding:1px 8px;border-radius:7px;background:var(--field);box-shadow:inset 0 0 0 1px var(--line);color:var(--text);font-size:11.5px;font-weight:500}
+
+/* big numbers – light weight */
+.big{font-weight:300;letter-spacing:-.035em;line-height:1}
+.big small{font-size:.32em;font-weight:400;color:var(--text-3);letter-spacing:0;margin-left:6px}
+
+/* ============ KPI (stacked) ============ */
+.kpi{padding:20px 22px 18px;display:flex;flex-direction:column;gap:6px;min-height:0}
+.kpi .row{display:flex;align-items:center;gap:10px}
+.kpi .spk{flex:1;min-height:62px;margin:6px -4px 8px}
+.kpi .spk{position:relative}.kpi .spk svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.dot{position:absolute;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);background:var(--bg);box-shadow:0 0 0 1.5px var(--line-chart);pointer-events:none}
+.dot::after{content:"";position:absolute;inset:3.5px;border-radius:50%;background:var(--line-chart)}
+.kpi .big{font-size:42px}
+
+/* ============ HERO ============ */
+.hero{display:flex;flex-direction:column}
+.hero .top{display:flex;align-items:flex-start;gap:14px}
+.hero .big{font-size:64px;margin-top:12px}
+.seg{position:relative;display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.seg button{position:relative;z-index:1;border:0;background:none;color:var(--text-3);padding:7px 14px;border-radius:999px;cursor:pointer;font-size:12.5px;font-weight:500;transition:color .25s}
+.seg button:hover{color:var(--text)}
+.seg button[aria-pressed="true"]{color:var(--on-text)}
+.seg .thumb{position:absolute;top:4px;bottom:4px;border-radius:999px;background:var(--on);transition:left .3s cubic-bezier(.3,.7,.3,1),width .3s cubic-bezier(.3,.7,.3,1)}
+.chart{position:relative;flex:1;min-height:250px;margin:14px -6px 0;border-radius:18px;background-image:radial-gradient(var(--dots) 1px,transparent 1px);background-size:16px 16px;cursor:crosshair}
+.chart svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tip{position:absolute;pointer-events:none;transform:translate(-50%,-130%);padding:8px 12px;border-radius:12px;background:var(--on);color:var(--on-text);font-size:12px;white-space:nowrap;opacity:0;transition:opacity .15s;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
+.tip span{opacity:.6}
+.ring{position:absolute;width:13px;height:13px;border-radius:50%;transform:translate(-50%,-50%);background:var(--bg);box-shadow:0 0 0 1.5px var(--line-chart);opacity:0;pointer-events:none;transition:opacity .15s}
+.ring::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--line-chart)}
+.vband{position:absolute;top:0;bottom:22px;width:64px;transform:translateX(-50%);background:linear-gradient(var(--band),transparent);border-radius:10px;opacity:0;pointer-events:none;transition:opacity .15s}
+.stats{display:grid;grid-template-columns:repeat(4,1fr) 1.6fr;gap:16px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.stats span{display:block;color:var(--text-3);font-size:12px}.stats b{font-weight:500;font-size:15px}
+.rng{position:relative;height:4px;border-radius:4px;margin-top:10px;background:linear-gradient(90deg,var(--neg),var(--data-3) 50%,var(--pos))}
+.rng i{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:var(--on);transform:translate(-50%,-50%);box-shadow:0 0 0 3px var(--bg)}
+
+/* ============ DONUT ============ */
+.donut{position:relative;width:200px;height:200px;margin:18px auto 14px}
+.donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+.donut .ctr{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.donut .ctr .big{font-size:48px}
+.donut .ctr small{display:block;color:var(--text-2);font-size:12px;margin-top:6px}
+.legend{display:grid;gap:2px}
+.legend div{display:grid;grid-template-columns:auto 1fr auto 44px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.legend div:first-child{border-top:0}
+.legend i{width:10px;height:10px;border-radius:50%}
+.legend .pc{color:var(--text-3);text-align:right}
+
+/* ============ TICKET ============ */
+.ticket{display:flex;flex-direction:column;gap:14px;min-width:0}.ticket .panel{min-width:0}
+.switchrow{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 18px;border-radius:999px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.switchrow b{font-weight:500;flex:1}
+.sw{position:relative;width:46px;height:26px;border-radius:999px;border:0;cursor:pointer;background:var(--field);box-shadow:inset 0 0 0 1px var(--line-2);transition:background .25s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--text-3);transition:left .25s cubic-bezier(.3,.7,.3,1),background .25s}
+.sw[aria-checked="true"]{background:var(--hover)}
+.sw[aria-checked="true"]::after{left:23px;background:var(--on)}
+.fld{display:grid;gap:8px;min-width:0}
+.fld label{color:var(--text-2);font-size:12.5px}
+.inp{display:flex;align-items:center;height:44px;padding:0 16px;border-radius:14px;background:var(--field);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .2s}
+.inp:focus-within{box-shadow:inset 0 0 0 1px var(--border-strong),0 0 0 3px rgba(167,139,250,.25)}
+.inp input{flex:1;min-width:0;width:100%;border:0;background:none;outline:none;color:var(--text);font:inherit;font-size:14px;font-weight:500}
+.inp span{color:var(--text-3);font-size:12px}
+.sel{justify-content:space-between;cursor:pointer;font-size:13.5px;font-weight:500}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.sides button{height:38px;border:0;border-radius:999px;background:none;color:var(--text-3);cursor:pointer;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .25s,color .25s}
+.sides button i{width:8px;height:8px;border-radius:50%}
+.sides .b i{background:var(--pos)}.sides .s i{background:var(--neg)}
+.sides button[aria-pressed="true"]{background:var(--on);color:var(--on-text)}
+.sum{display:flex;justify-content:space-between;color:var(--text-2)}
+.sum b{color:var(--text);font-weight:500}
+.cta{height:48px;border:0;border-radius:999px;cursor:pointer;font-weight:600;font-size:14px;color:#fff;background:var(--pos-fill);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 14px 34px -14px rgba(5,135,95,.9);transition:background .25s,box-shadow .25s,transform .12s}
+.cta:active{transform:scale(.985)}
+.cta.sell{background:var(--neg-fill);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 14px 34px -14px rgba(219,39,119,.9)}
+
+/* ============ TABLE ============ */
+.tbar{display:flex;align-items:center;gap:10px;padding:18px 20px 16px}
+.search{display:flex;align-items:center;gap:8px;height:38px;width:260px;padding:0 14px;border-radius:999px;background:var(--field);box-shadow:inset 0 0 0 1px var(--line);color:var(--text-3)}
+.search input{border:0;background:none;outline:none;color:var(--text);font:inherit;flex:1;min-width:0}
+.search input::placeholder{color:var(--text-3)}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--panel);color:var(--text-3);font-weight:400;font-size:12px;text-align:left;padding:12px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);white-space:nowrap}
+thead th .so{opacity:.6;margin-left:4px}
+tbody td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:rgba(255,255,255,.025)}
+[data-theme="light"] tbody tr:hover{background:rgba(24,24,27,.025)}
+.r{text-align:right}
+.ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);color:var(--text-2)}
+.nm{display:flex;align-items:center;gap:12px}
+.nm b{display:block;font-weight:500;font-size:13.5px}.nm small{color:var(--text-3);font-size:12px}
+.chg{font-weight:500}.chg.up{color:var(--pos)}.chg.dn{color:var(--neg)}
+.last{font-weight:500;font-size:13.5px;border-radius:6px;padding:2px 6px;transition:background .6s}
+.flash-up{background:var(--pos-wash)}.flash-dn{background:var(--neg-wash)}
+.mini{width:120px;height:30px;display:block;overflow:visible}
+.dr{position:relative;width:90px;height:3px;border-radius:3px;background:var(--line-2)}
+.dr i{position:absolute;top:50%;width:3px;height:11px;border-radius:2px;background:var(--text);transform:translate(-50%,-50%)}
+.kebab{width:30px;height:30px;border-radius:50%;border:0;background:none;color:var(--text-3);cursor:pointer;display:grid;place-items:center}
+.kebab:hover{background:var(--hover);color:var(--text)}
+
+/* ============ PULSE (accent-bar tiles) ============ */
+.pulse{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:16px}
+.tile{position:relative;display:flex;align-items:center;gap:12px;padding:14px 16px 14px 20px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;cursor:pointer;transition:background .2s,transform .2s}
+.tile:hover{background:var(--hover);transform:translateY(-1px)}
+.tile::before{content:"";position:absolute;left:10px;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--c)}
+.tile span{flex:1;color:var(--text-2)}
+.tile b{font-weight:500}
+
+/* ============ LEO ============ */
+.leo{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:20;width:min(720px,calc(100vw - 48px));display:flex;flex-direction:column;gap:10px;padding:16px 12px 12px 20px;border-radius:26px;background:rgba(18,18,20,.84);backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);box-shadow:inset 0 0 0 1px var(--line-2),0 30px 60px -20px rgba(0,0,0,.9);transition:box-shadow .2s}
+.leo:focus-within{box-shadow:inset 0 0 0 1px var(--border-strong),0 30px 60px -20px rgba(0,0,0,.9)}
+.leo .r1{display:flex;align-items:center;gap:12px}
+.leo .r2{display:flex;align-items:center;gap:6px;margin-left:-8px}
+.leo .act{height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;border-radius:999px;border:0;background:none;color:var(--text-2);cursor:pointer;font-size:12.5px;font-weight:500;transition:background .2s,color .2s}
+.leo .act:hover{background:var(--hover);color:var(--text)}
+.leo .act.ctx{background:var(--field);box-shadow:inset 0 0 0 1px var(--line);color:var(--text)}
+.leo .act.ctx b{font-weight:500;color:var(--text-3)}
+[data-theme="light"] .leo{background:rgba(255,255,255,.9)}
+.leo input{flex:1;border:0;background:none;outline:none;color:var(--text);font:inherit;font-size:14px}
+.leo input::placeholder{color:var(--text-3)}
+.kbd{font-size:11px;padding:3px 8px;border-radius:8px;background:var(--field);box-shadow:inset 0 0 0 1px var(--line);color:var(--text-2)}
+.send{width:40px;height:40px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:var(--on);color:var(--on-text);transition:transform .15s}
+.send:hover{transform:scale(1.06)}
+.sugg{position:fixed;left:50%;bottom:132px;transform:translate(-50%,8px);z-index:20;display:flex;gap:8px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+body:has(.leo:focus-within) .sugg,.sugg:hover{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.sugg button{border:0;cursor:pointer;font-size:12px;color:var(--text-2);padding:8px 14px;border-radius:999px;background:rgba(18,18,20,.85);backdrop-filter:blur(20px);box-shadow:inset 0 0 0 1px var(--line-2)}
+[data-theme="light"] .sugg button{background:rgba(255,255,255,.92)}
+.sugg button:hover{color:var(--text)}
+
+@media (max-width:1280px){.c3,.c6{grid-column:span 6}.stackwrap{grid-column:span 12}.c4,.c8{grid-column:span 12}.pulse{grid-template-columns:repeat(3,1fr)}.tabs button{padding:9px 12px}.brand{min-width:0}}
+@media (max-width:760px){.c3,.c6{grid-column:span 12}.tabs,.user div{display:none}.hero .big{font-size:48px}.pulse{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="light" aria-hidden="true"></div>
+
+<div class="shell">
+  <!-- NAV -->
+  <header class="nav">
+    <div class="brand">
+      <span class="logo"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3CCBF4"/><stop offset=".5" stop-color="#A78BFA"/><stop offset="1" stop-color="#FFA24C"/></linearGradient></defs><rect x="42" y="58" width="156" height="156" rx="30" fill="none" stroke="url(#lg)" stroke-width="18"/><path d="M120 76C124 108 132 116 164 120 132 124 124 132 120 164 116 132 108 124 76 120 108 116 116 108 120 76Z" fill="url(#lg)"/></svg></span>
+      DaVinci.AI
+    </div>
+    <nav class="tabs" aria-label="Primary">
+      <button aria-current="page">Markets</button><button>Assessments</button><button>Watchlists</button><button>Analytics</button><button>Reports</button><button>Settings</button>
+    </nav>
+    <button class="circ" aria-label="Search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
+    <button class="circ" id="theme" aria-label="Toggle light and dark mode"><svg class="i" viewBox="0 0 24 24"><path d="M20.5 13.2A8.5 8.5 0 1 1 10.8 3.5a6.6 6.6 0 0 0 9.7 9.7z"/></svg></button>
+    <div class="user"><span class="ava">KP</span><div><b>Ket Patel</b><small>Product Design</small></div><svg class="i" viewBox="0 0 24 24" style="margin-left:8px;color:var(--text-3)"><path d="M6 9l6 6 6-6"/></svg></div>
+  </header>
+
+  <!-- PAGE HEAD -->
+  <div class="head">
+    <div><h1>Markets</h1><p>Follow prices from assessment to decision · fictional sample data</p></div>
+    <div class="sp"></div>
+    <button class="pill"><svg class="i" viewBox="0 0 24 24"><path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/></svg>Filters</button>
+    <button class="pill num"><svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Sep 2 – Oct 2, 2026<svg class="i" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    <button class="pill on"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New alert</button>
+    <button class="circ sm" aria-label="Refresh"><svg class="i" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4.5h-4.5"/></svg></button>
+  </div>
+
+  <div class="grid">
+    <!-- stacked KPIs -->
+    <div class="c3 stack stackwrap">
+      <section class="card kpi" style="animation-delay:.02s" data-k="Brent-style M1|84.62|1.42|0"></section>
+      <section class="card kpi" style="animation-delay:.06s" data-k="Gulf Coast Diesel|261.35|-0.86|1"></section>
+    </div>
+
+    <!-- hero -->
+    <section class="card c6 pad hero" style="animation-delay:.1s" aria-labelledby="ht">
+      <div class="top">
+        <div>
+          <h2 class="ttl" id="ht">North Sea Crude M1 <span style="color:var(--text-3);font-size:13px">· $/bbl</span></h2>
+          <div class="big num"><span data-count="84.62">84.62</span><small>USD</small></div>
+          <div style="margin-top:14px"><span class="delta up num"><b>+1.42%</b> vs yesterday <i><svg class="i" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></i></span></div>
+        </div>
+        <div class="sp"></div>
+        <div class="seg" role="group" aria-label="Time range" data-seg><span class="thumb"></span><button aria-pressed="false">1D</button><button aria-pressed="false">1W</button><button aria-pressed="true">1M</button><button aria-pressed="false">YTD</button><button aria-pressed="false">1Y</button></div>
+      </div>
+      <div class="chart" id="chart"><div class="vband"></div><div class="ring"></div><div class="tip"></div></div>
+      <div class="stats num">
+        <div><span>Open</span><b>83.44</b></div><div><span>High</span><b>85.10</b></div><div><span>Low</span><b>82.97</b></div><div><span>Volume</span><b>412k</b></div>
+        <div><span>Day range · 82.97 – 85.10</span><div class="rng"><i style="left:77%"></i></div></div>
+      </div>
+    </section>
+
+    <!-- donut -->
+    <section class="card c3 pad" style="animation-delay:.14s" aria-labelledby="dt">
+      <h2 class="ttl" id="dt">Watchlist exposure</h2>
+      <div class="donut" id="donut"><div class="ctr"><div><div class="big num">24</div><small>Assessments</small></div></div></div>
+      <div class="legend num">
+        <div><i style="background:var(--data-1)"></i><span>Oil &amp; products</span><b>11</b><span class="pc">46%</span></div>
+        <div><i style="background:var(--data-2)"></i><span>Gas &amp; power</span><b>8</b><span class="pc">33%</span></div>
+        <div><i style="background:var(--text-3)"></i><span>Freight &amp; metals</span><b>5</b><span class="pc">21%</span></div>
+      </div>
+    </section>
+
+    <!-- ticket -->
+    <section class="card c4 pad ticket" style="animation-delay:.18s" aria-labelledby="tk">
+      <div class="switchrow"><b id="tk">Quick ticket · NSC1</b><span style="color:var(--text-3);font-size:12px">GTC</span><button class="sw" role="switch" aria-checked="true" aria-label="Good till cancelled" id="sw"></button></div>
+      <div class="panel" style="display:grid;gap:14px">
+        <div class="sides" role="group" aria-label="Side"><button class="b" aria-pressed="true"><i></i>Buy · Long</button><button class="s" aria-pressed="false"><i></i>Sell · Short</button></div>
+        <div class="fld"><label>Order type</label><div class="inp sel" tabindex="0" role="button">Limit<svg class="i" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fld"><label for="qty">Quantity</label><div class="inp"><input id="qty" class="num" value="25,000"><span>bbl</span></div></div>
+          <div class="fld"><label for="px">Limit price</label><div class="inp"><input id="px" class="num" value="84.60"><span>USD</span></div></div>
+        </div>
+      </div>
+      <div class="sum"><span>Notional</span><b class="num">$2,115,000.00</b></div>
+      <div class="sum"><span>Est. fees</span><b class="num">$412.50</b></div>
+      <button class="cta" id="cta">Place buy order</button>
+    </section>
+
+    <!-- table -->
+    <section class="card c8" style="animation-delay:.22s;overflow:hidden" aria-labelledby="wl">
+      <div class="tbar">
+        <div class="seg" role="group" aria-label="View" data-seg><span class="thumb"></span><button aria-pressed="true" id="wl">Watchlist</button><button aria-pressed="false">Recently viewed</button><button aria-pressed="false">Alerts</button></div>
+        <div class="sp"></div>
+        <label class="search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input placeholder="Search assessments"></label>
+        <button class="circ sm" aria-label="Filter"><svg class="i" viewBox="0 0 24 24"><path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/></svg></button>
+      </div>
+      <table>
+        <thead><tr><th style="padding-left:22px">Assessment<span class="so">↕</span></th><th>Code</th><th class="r">Last<span class="so">↕</span></th><th class="r">Chg %<span class="so">↕</span></th><th>Day range</th><th>30D</th><th class="r" style="padding-right:18px">Actions</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+
+    <!-- pulse -->
+    <section class="card c12 pad" style="animation-delay:.26s" aria-labelledby="pt">
+      <div style="display:flex;align-items:center"><h2 class="ttl" id="pt">Market pulse</h2><div class="sp"></div><span class="delta num">12 markets · <b style="color:var(--text)">7 up</b><i><svg class="i" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></i></span></div>
+      <div class="pulse num" id="pulse"></div>
+    </section>
+  </div>
+</div>
+
+<!-- LEO -->
+<div class="sugg" aria-label="Suggested questions"><button>Why did North Sea crude rise today?</button><button>Compare diesel cracks vs last month</button><button>Summarise freight news</button></div>
+<form class="leo" onsubmit="return false" aria-label="Ask LEO">
+  <div class="r1">
+    <svg width="24" height="24" viewBox="0 0 240 240" aria-hidden="true"><defs><linearGradient id="lg2" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3CCBF4"/><stop offset=".5" stop-color="#A78BFA"/><stop offset="1" stop-color="#FFA24C"/></linearGradient></defs><path d="M72 42H168Q198 42 198 72V156Q198 186 168 186H112L66 222 76 186H72Q42 186 42 156V72Q42 42 72 42Z" fill="none" stroke="url(#lg2)" stroke-width="14" stroke-linejoin="round"/><path d="M120 78C124 104 130 110 154 114 130 118 124 124 120 150 116 124 110 118 86 114 110 110 116 104 120 78Z" fill="url(#lg2)"/></svg>
+    <label for="ask" style="position:absolute;left:-9999px">Ask LEO</label>
+    <input id="ask" placeholder="Ask LEO about prices, spreads or news…" autocomplete="off">
+  </div>
+  <div class="r2">
+    <button type="button" class="act" aria-label="Add files or context"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button type="button" class="act" aria-label="Tools"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
+    <button type="button" class="act ctx"><svg class="i" viewBox="0 0 24 24"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/></svg>NSC1 <b>· in context</b><svg class="i" viewBox="0 0 24 24" style="width:12px;height:12px;color:var(--text-3)"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="sp"></div>
+    <button type="button" class="act">LEO · Markets<svg class="i" viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M6 9l6 6 6-6"/></svg></button>
+    <span class="kbd">⌘L</span>
+    <button class="send" aria-label="Send" style="margin-left:6px"><svg class="i" viewBox="0 0 24 24" style="stroke-width:2"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+  </div>
+</form>
+
+<script>
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const walk=(n,s,v,d=.48)=>{let a=[s];for(let i=1;i<n;i++)a.push(a[i-1]*(1+(Math.random()-d)*v));return a};
+function smooth(p){let d=`M${p[0][0]},${p[0][1]}`;for(let i=0;i<p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;d+=`C${(b[0]+(c[0]-a[0])/6).toFixed(1)},${(b[1]+(c[1]-a[1])/6).toFixed(1)} ${(c[0]-(e[0]-b[0])/6).toFixed(1)},${(c[1]-(e[1]-b[1])/6).toFixed(1)} ${c[0].toFixed(1)},${c[1].toFixed(1)}`}return d}
+const ARROW='<svg class="i" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+
+/* Nexora-style sparkline: monochrome line, highlight band, ring markers */
+function nspark(vals,w,h,id,band=true){const mn=Math.min(...vals),mx=Math.max(...vals);const P=6;const pts=vals.map((v,i)=>[i/(vals.length-1)*w,h-P-(v-mn)/(mx-mn||1)*(h-2*P)]);const d=smooth(pts);
+const a=Math.floor(vals.length*.62),b=Math.floor(vals.length*.86);const xa=pts[a][0],xb=pts[b][0];
+const ring=(p)=>`<i class="dot" style="left:${(p[0]/w*100).toFixed(2)}%;top:${(p[1]/h*100).toFixed(2)}%"></i>`;
+return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="b${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" style="stop-color:var(--line-chart);stop-opacity:.10"/><stop offset="1" style="stop-color:var(--line-chart);stop-opacity:0"/></linearGradient><linearGradient id="f${id}" x1="0" x2="1"><stop offset="0" style="stop-color:var(--line-chart);stop-opacity:.15"/><stop offset=".25" style="stop-color:var(--line-chart);stop-opacity:1"/></linearGradient></defs>
+<line x1="0" x2="${w}" y1="${h*.62}" y2="${h*.62}" stroke="var(--grid)" stroke-dasharray="2 4"/>
+${band?`<rect x="${xa}" y="0" width="${xb-xa}" height="${h}" rx="6" fill="url(#b${id})"/>`:''}
+<path d="${d}" fill="none" stroke="url(#f${id})" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+</svg>${band?ring(pts[a])+ring(pts[b]):''}`}
+
+/* KPIs */
+document.querySelectorAll('[data-k]').forEach((k,j)=>{const [n,v,c]=k.dataset.k.split('|');const ch=+c,up=ch>=0;
+k.innerHTML=`<div class="row"><h2 class="ttl">${n}</h2></div><div class="spk">${nspark(walk(36,+v,.005,up?.42:.58),260,62,'k'+j)}</div>
+<div class="row"><div class="big num" data-count="${v}">${v}</div><span class="delta ${up?'up':'dn'} num"><b>${up?'+':'−'}${Math.abs(ch).toFixed(2)}%</b> 1D <i>${ARROW}</i></span></div>`});
+
+/* hero chart */
+(function(){const el=document.getElementById('chart');const W=900,H=260,P=22;const data=walk(90,82.3,.008,.46);const last=84.62,shift=last-data[data.length-1];for(let i=60;i<data.length;i++)data[i]+=shift*(i-60)/(data.length-61);
+const mn=Math.min(...data)-.35,mx=Math.max(...data)+.35;const X=i=>i/(data.length-1)*W,Y=v=>(H-P)-(v-mn)/(mx-mn)*(H-P-18);const pts=data.map((v,i)=>[X(i),Y(v)]);const d=smooth(pts);
+let g='';for(let k=0;k<4;k++){const y=18+k*(H-P-18)/3;g+=`<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="var(--grid)" stroke-dasharray="2 5"/><text x="${W}" y="${y-5}" text-anchor="end" font-size="10.5" fill="var(--text-3)">${(mx-k*(mx-mn)/3).toFixed(2)}</text>`}
+const lb=['Sep 02','Sep 09','Sep 16','Sep 23','Sep 30'].map((t,i)=>`<text x="${i/4*W}" y="${H-3}" font-size="10.5" fill="var(--text-3)" text-anchor="${i==0?'start':i==4?'end':'middle'}">${t}</text>`).join('');
+const a=Math.floor(data.length*.72),b=Math.floor(data.length*.9);
+el.insertAdjacentHTML('afterbegin',`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="North Sea Crude M1 30-day price, up 1.42 percent"><defs><linearGradient id="hb" x1="0" x2="0" y1="0" y2="1"><stop offset="0" style="stop-color:var(--line-chart);stop-opacity:.09"/><stop offset="1" style="stop-color:var(--line-chart);stop-opacity:0"/></linearGradient><linearGradient id="hf" x1="0" x2="0" y1="0" y2="1"><stop offset="0" style="stop-color:var(--line-chart);stop-opacity:.07"/><stop offset=".8" style="stop-color:var(--line-chart);stop-opacity:0"/></linearGradient><linearGradient id="hs" x1="0" x2="1"><stop offset="0" style="stop-color:var(--line-chart);stop-opacity:.25"/><stop offset=".3" style="stop-color:var(--line-chart);stop-opacity:1"/></linearGradient><filter id="gl"><feGaussianBlur stdDeviation="5"/></filter></defs>${g}
+<rect x="${X(a)}" y="0" width="${X(b)-X(a)}" height="${H-P}" rx="10" fill="url(#hb)"/>
+<path d="${d} L${W},${H-P} L0,${H-P}Z" fill="url(#hf)"/><path d="${d}" fill="none" stroke="var(--line-chart)" stroke-width="6" opacity=".18" filter="url(#gl)" vector-effect="non-scaling-stroke"/><path id="hl" d="${d}" fill="none" stroke="url(#hs)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+${lb}</svg>`);
+[a,b].forEach(i=>el.insertAdjacentHTML('beforeend',`<i class="dot" style="left:${(X(i)/W*100).toFixed(2)}%;top:${(Y(data[i])/H*100).toFixed(2)}%"></i>`));
+const line=el.querySelector('#hl');if(!RM){const L=line.getTotalLength();line.style.strokeDasharray=L;line.style.strokeDashoffset=L;line.getBoundingClientRect();line.style.transition='stroke-dashoffset 1.6s cubic-bezier(.3,.7,.3,1)';line.style.strokeDashoffset=0}
+const tip=el.querySelector('.tip'),ring=el.querySelector('.ring'),band=el.querySelector('.vband');
+el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const i=Math.max(0,Math.min(data.length-1,Math.round((e.clientX-r.left)/r.width*(data.length-1))));const px=X(i)/W*r.width,py=Y(data[i])/H*r.height;
+ring.style.left=band.style.left=tip.style.left=px+'px';ring.style.top=tip.style.top=py+'px';const day=new Date(2026,8,2+Math.floor(i/3));tip.innerHTML=`<b class="num">$${data[i].toFixed(2)}</b> <span>${day.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;[tip,ring,band].forEach(n=>n.style.opacity=1)});
+el.addEventListener('mouseleave',()=>[tip,ring,band].forEach(n=>n.style.opacity=0));})();
+
+/* donut */
+(function(){const segs=[[46,'var(--data-1)'],[33,'var(--data-2)'],[21,'var(--text-3)']];const R=84,C=2*Math.PI*R,gap=6;let off=0,s='';
+s+=`<circle cx="100" cy="100" r="${R}" fill="none" stroke="var(--line)" stroke-width="16"/><circle cx="100" cy="100" r="62" fill="none" stroke="var(--line)" stroke-width="1"/>`;
+segs.forEach(([p,c],i)=>{const len=C*p/100-gap;s+=`<circle class="seg-arc" cx="100" cy="100" r="${R}" fill="none" stroke="${c}" stroke-width="16" stroke-linecap="round" stroke-dasharray="${RM?len:0} ${C}" data-len="${len}" stroke-dashoffset="${-off}" style="transition:stroke-dasharray 1.1s ${.15*i+.3}s cubic-bezier(.3,.7,.3,1)"/>`;off+=C*p/100});
+document.getElementById('donut').insertAdjacentHTML('afterbegin',`<svg viewBox="0 0 200 200" aria-hidden="true">${s}</svg>`);
+requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('.seg-arc').forEach(a=>a.setAttribute('stroke-dasharray',`${a.dataset.len} ${C}`))));})();
+
+/* table */
+const IC={oil:'<path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/>',gas:'<path d="M12 21c-4 0-6-3-6-6 0-4 4-6 4-11 3 2 4 4 4 6 1-1 2-2 2-3 2 2 2 5 2 8 0 3-2 6-6 6z"/>',ship:'<path d="M3 17l2 3h14l2-3zM6 17V9h12v8M9 9V5h6v4"/>',metal:'<path d="M4 18l3-8h10l3 8zM9 10l1-4h4l1 4"/>'};
+const W8=[['oil','North Sea Crude M1','Crude oil','NSC1',84.62],['oil','Texas Light Sweet M1','Crude oil','WTX1',80.11],['oil','NWE Diesel 10ppm','Refined products','ULS',812.5],['gas','Continental Gas M1','Natural gas','TTF1',31.08],['ship','Capesize 5TC','Dry freight','CPF',18420],['metal','Aluminium 3M','Base metals','ALU3',2318]];
+const tb=document.getElementById('rows');const fmt=v=>v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+W8.forEach((r,j)=>{const ch=(Math.random()*3-1.2);const up=ch>=0;tb.insertAdjacentHTML('beforeend',`<tr><td style="padding-left:22px"><div class="nm"><span class="ic"><svg class="i" viewBox="0 0 24 24">${IC[r[0]]}</svg></span><div><b>${r[1]}</b><small>${r[2]}</small></div></div></td>
+<td><span class="code">${r[3]}</span></td><td class="r num"><span class="last" data-v="${r[4]}">${fmt(r[4])}</span></td><td class="r num chg ${up?'up':'dn'}">${up?'+':'−'}${Math.abs(ch).toFixed(2)}%</td>
+<td><div class="dr"><i style="left:${20+Math.random()*60}%"></i></div></td><td>${nspark(walk(30,r[4],.015,up?.45:.55),120,30,'t'+j,false).replace('<svg','<svg class="mini"')}</td>
+<td class="r" style="padding-right:18px"><button class="kebab" aria-label="Actions for ${r[1]}"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>`)});
+if(!RM)setInterval(()=>{const c=document.querySelectorAll('.last');const el=c[Math.floor(Math.random()*c.length)];const v=+el.dataset.v,nv=v*(1+(Math.random()-.5)*.003);el.dataset.v=nv;el.textContent=fmt(nv);const cl=nv>=v?'flash-up':'flash-dn';el.classList.add(cl);setTimeout(()=>el.classList.remove(cl),700)},1400);
+
+/* pulse */
+const PU=[['Brent-style',1.42],['WTI-style',.88],['Diesel',-.86],['Jet',.31],['Gas TTF',-2.14],['Power DE',-.42],['LNG JKM',1.95],['Coal',-1.2],['Capesize',.37],['Panamax',2.4],['Aluminium',1.06],['Copper',-.18]];
+document.getElementById('pulse').innerHTML=PU.map(([n,v])=>`<div class="tile" tabindex="0" style="--c:${v>=0?'var(--pos)':'var(--neg)'}"><span>${n}</span><b class="chg ${v>=0?'up':'dn'}">${v>=0?'+':'−'}${Math.abs(v).toFixed(2)}%</b></div>`).join('');
+
+/* segmented thumbs */
+function segInit(s){const th=s.querySelector('.thumb');const place=()=>{const b=s.querySelector('[aria-pressed="true"]');th.style.left=b.offsetLeft+'px';th.style.width=b.offsetWidth+'px'};s.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{s.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));place()}));place();addEventListener('resize',place);document.fonts&&document.fonts.ready.then(place)}
+document.querySelectorAll('[data-seg]').forEach(segInit);
+
+/* tabs, side, switch, theme */
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.removeAttribute('aria-current'));b.setAttribute('aria-current','page')});
+const cta=document.getElementById('cta');document.querySelectorAll('.sides button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.sides button').forEach(x=>x.setAttribute('aria-pressed',x===b));const s=b.classList.contains('s');cta.classList.toggle('sell',s);cta.textContent=s?'Place sell order':'Place buy order'});
+const sw=document.getElementById('sw');sw.onclick=()=>sw.setAttribute('aria-checked',sw.getAttribute('aria-checked')!=='true');
+document.getElementById('theme').onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'};
+
+/* cursor spotlight */
+document.querySelectorAll('.card').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
+
+/* count-up */
+if(!RM)document.querySelectorAll('[data-count]').forEach(el=>{const t=+el.dataset.count,dec=(el.dataset.count.split('.')[1]||'').length;const t0=performance.now();const f=n=>{const p=Math.min(1,(n-t0)/1200),e=1-Math.pow(1-p,3);el.textContent=(t*e).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)});
+
+/* ⌘L */
+addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='l'){e.preventDefault();document.getElementById('ask').focus()}});
+</script>
+</body>
+</html>

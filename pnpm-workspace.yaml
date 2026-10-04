@@ -1,0 +1,10 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+autoInstallPeers: false
+strictPeerDependencies: false
+allowBuilds:
+  esbuild: true
+  "@swc/core": true
+  "@tailwindcss/oxide": true
+  "@figma/code-connect": true

@@ -1,0 +1,22 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BothThemes, MotionDemos } from './docs/DocBlocks';
+
+<Meta title="Foundations/Motion" />
+
+# Motion
+
+Use motion to clarify state, not to decorate: press scale, popover fade+scale, drawer slide, toggle thumb, row hover, price flash.
+
+<BothThemes>
+  <MotionDemos />
+</BothThemes>
+
+| Token | Value |
+|---|---|
+| `dur-fast` / `dur-base` / `dur-slow` | 120 / 160 / 200 ms |
+| `dur-thumb` | 300 ms (segmented thumb) |
+| `ease` | `cubic-bezier(.3,.7,.4,1)` |
+
+Signature motions: cards rise (12px, 700ms, 40ms stagger) · segmented/tab thumb slides · chart line draws in (1.6s) · donut arcs sweep · display numerals count up (1.2s ease-out) · switch thumb slides.
+
+**Reduced motion:** everything falls back to instant or opacity-only. The only looping animation permitted is the slow ambient beam drift, and it stops too. Price flashes are skipped; streaming cursors stop blinking; the ticker tape stops scrolling and becomes a scrollable list.

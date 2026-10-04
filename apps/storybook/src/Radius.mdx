@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BothThemes, RadiusSamples, ElevationSamples } from './docs/DocBlocks';
+
+<Meta title="Foundations/Radius and elevation" />
+
+# Radius
+
+Generous rounding; **pills** for navigation and buttons (this supersedes the older "never pill buttons" rule).
+
+<BothThemes>
+  <RadiusSamples />
+</BothThemes>
+
+# Elevation, glass and light
+
+- **Card:** `card` gradient + `shadow-card`, **no border at rest**, radius 26.
+- **Spotlight (default hover):** on pointer move the card gets a 1px edge that is lit only near the cursor (a radial gradient masked to a 1px ring) plus a soft inner glow; it fades in over 350ms on hover **and** `:focus-within`. `useSpotlight` + CSS.
+- **Panel:** nested surface (`panel` fill + inset `line`, radius 20).
+- **Glass (floating only):** composer, suggestion chips, sticky bars, toasts, menus and dialogs – `blur(24px) saturate(140%)`, opaque enough that content beneath never shows through legibly.
+- **AppBackground:** `bg` + soft top-left `ambient-glow` + one blurred diagonal `ambient-beam` drifting very slowly (static under reduced motion).
+- `prefers-reduced-transparency: reduce` → cards become solid `surface`, glass becomes solid `raised`.
+
+<BothThemes>
+  <ElevationSamples />
+</BothThemes>

@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "baseUrl": ".", "types": ["vite/client"], "paths": { "@davinci-ai/react/tokens": ["../../packages/davinci-ai/src/tokens.ts"], "@davinci-ai/react": ["../../packages/davinci-ai/src/index.ts"], "@davinci-ai/examples": ["../../packages/examples/src/index.ts"] } },
+  "include": [".storybook", "src", "../../packages/davinci-ai/src/**/*.stories.tsx", "../../packages/examples/src/**/*.stories.tsx"]
+}

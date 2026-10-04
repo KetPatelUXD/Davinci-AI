@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Extending the library" />
+
+# Extending the library
+
+How to add components, composites, pages and custom styling in a project that uses `@davinci-ai/react` – without losing library updates.
+
+## 1. What lives where
+
+| Kind | Where it lives | Examples |
+|---|---|---|
+| **Primitives** | Library | `Button`, `TextField`, `Select`, `Card`, `Tooltip` |
+| **Base composites** (useful to any project) | Library | `Stat`, `PriceChange`, `Table`, `OrderTicket`, `Composer`, `QuoteCard` |
+| **Project widgets** (specific to one product or screen) | The project | "Desk risk summary", a screen-specific panel wired to real data |
+| **Page templates** | `packages/examples` today (private); a separate templates package later | Markets dashboard, watchlist page |
+
+Rule of thumb: *would another team's project want it unchanged?* Yes → library. It is mostly "these library components arranged for my screen" → project.
+
+**Promotion rule:** if a second project wants the same project widget, move it into the library with its story, test and manifest entry.
+
+## 2. I need a component that doesn't exist
+
+1. **Check it is really missing.** Search `components.json` or Storybook. An existing component with different props, or a composition of two, often does the job.
+2. **Build it in the library repo** (on a branch), never in the consuming project:
+   - component in `packages/davinci-ai/src/components/<group>/`, React Aria based, typed props with JSDoc (`@when` / `@whenNot`)
+   - CSS in `src/styles/*.css` using **tokens only**
+   - a story, an axe test in `src/test/components.test.tsx`, an entry in `scripts/components.config.mjs`, an export in `src/index.ts`
+   - a changeset (`pnpm changeset`, *minor* for a new component)
+   - `pnpm test:all`
+3. **Get it into the project:**
+   - **Linked** (`link:` / `file:`): `pnpm build` in the library and the project sees it immediately – the fast loop while iterating.
+   - **Tarball:** `pnpm build && pnpm pack`, reinstall the `.tgz`.
+   - **Registry** (once set up): version, publish, update the dependency.
+4. Use it, merge the library branch, **pin the version**.
+
+> Don't build it in the project "to move later". It drifts, misses the accessibility/theme/density work, and you end up with two versions.
+
+## 3. Building a project widget
+
+Compose library components. Don't restyle them.
+
+**Safe**
+- Compose components and use their **documented props** (`variant`, `size`, `intent`, `density`…) – that is the stable API.
+- Style only the widget's **own wrapper**: layout, spacing, sizing, alignment (`Stack`, `Grid`, your own container).
+- Use **token variables** for anything colour-like on your wrapper (`var(--dv-surface)`, `var(--dv-line)`), so dark/light and theming keep working.
+
+**Breaks on library updates**
+- CSS that targets internals: `.dv-btn`, `[data-selected]`, `.dv-card__title` – class names and data attributes are **not** a public API.
+- Overriding token values inside one widget to tweak a primitive (fine globally via a theme, a hidden fork per widget).
+- Copying a primitive's markup or CSS into the project.
+
+**Never:** hard-coded hex values, inline `style` colours, recreating a library component with your own CSS, unlabelled icon-only buttons, colour as the only signal.
+
+## 4. Custom styling – options, safest first
+
+1. **Theme-level (preferred, applies everywhere).** `npx davinci theme` changes brand colour, density, radius feel and default mode, and verifies contrast. Or override tokens in your CSS *after* `styles.css`:
+   ```css
+   [data-theme='dark'] { --dv-brand: #2dd4bf; --dv-brand-fill: #0f766e; }
+   :root { --dv-radius-card: 16px; }
+   ```
+   Re-check contrast if you change colours by hand (the CLI does it for you).
+2. **Props and variants.** Most differences already exist – check `components.json` first.
+3. **Layout around components** with `Stack` / `Grid` / spacing.
+4. **Add a token or variant to the library** when more than one place needs it, so it keeps the contrast tests, both themes and Figma sync.
+5. **Last resort: a project-level override of library CSS.** It works because the CSS is plain classes, but it is fragile, bypasses the contrast tests and may not follow dark/light. Keep it rare, small, commented, and use `var(--dv-…)` values.
+
+## 5. Keeping updates painless
+
+- **Pin the library version** and upgrade deliberately; read the changelog first (Changesets writes it).
+- After each upgrade, **check your widgets in dark and light**. The library's tests cover its own components, not your compositions – run axe on your own screens.
+- Keep project widgets in **one folder** (for example `src/widgets/`) so you know where to look if something changes.
+- If a widget keeps needing a tweak the primitives can't do, **ask for a prop or variant in the library** instead of patching around it.
+- In a micro-frontend, **share one React** and use one library version across all MFEs (the CSS is global once imported).
+
+## 6. For AI assistants
+
+Copy the rules in `@davinci-ai/react/AGENTS.md` into the project's `CLAUDE.md`. They say: library components only, tokens only, create missing components in the library first, WCAG 2.2 AA, semantic colour roles, size/density conventions.

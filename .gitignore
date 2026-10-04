@@ -1,0 +1,11 @@
+node_modules
+dist
+storybook-static
+.env
+.npmrc
+*.log
+.DS_Store
+coverage
+test-results
+playwright-report
+.turbo

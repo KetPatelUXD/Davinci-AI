@@ -1,0 +1,17 @@
+@layer theme, base, components, utilities;
+@import '../generated/tokens.css';
+@import 'tailwindcss/theme.css' layer(theme) prefix(dv);
+@import '../generated/tailwind-theme.internal.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(dv);
+@import '../generated/tailwind-utilities.internal.css';
+@source '../';
+@import './foundation.css';
+@import './actions.css';
+@import './inputs.css';
+@import './display.css';
+@import './navigation.css';
+@import './overlays.css';
+@import './layout.css';
+@import './data.css';
+@import './finance.css';
+@import './chat.css';

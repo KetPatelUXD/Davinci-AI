@@ -1,0 +1,70 @@
+/* ===== Data: Table, List, Tree, DescriptionList ===== */
+.dv-table { --row-h: var(--dv-table-row-height); font-size: var(--dv-grid-font-size); min-width: 0; }
+.dv-table[data-density='compact'] { --row-h: 40px; --dv-grid-cell-padding-x: 10px; --dv-grid-cell-padding-y: 6px; --dv-grid-font-size: 12px; font-size: 12px; }
+.dv-table[data-density='comfortable'] { --row-h: 64px; --dv-grid-cell-padding-x: 14px; --dv-grid-cell-padding-y: 14px; --dv-grid-font-size: 13px; font-size: 13px; }
+.dv-table__toolbar { display: flex; align-items: center; gap: 10px; padding: 18px 20px 16px; flex-wrap: wrap; }
+.dv-table__scroll { overflow: auto; border-radius: inherit; }
+.dv-table__el { width: 100%; border-collapse: collapse; outline: none; }
+.dv-table__head .dv-table__th, .dv-table__th { background: var(--dv-grid-header-bg); color: var(--dv-text-muted); font-weight: 400; font-size: 12px; text-align: left; padding: 12px var(--dv-grid-cell-padding-x); border-top: 1px solid var(--dv-grid-border); border-bottom: 1px solid var(--dv-grid-border); white-space: nowrap; outline: none; cursor: default; }
+.dv-table__th:first-child, .dv-table__td:first-child { padding-left: 22px; }
+.dv-table__th:last-child, .dv-table__td:last-child { padding-right: 18px; }
+.dv-table__th[data-align='end'], .dv-table__td[data-align='end'] { text-align: right; }
+.dv-table__th[data-align='end'] .dv-table__thin { justify-content: flex-end; }
+.dv-table__thin { display: inline-flex; align-items: center; gap: 4px; }
+.dv-table__th[data-focus-visible] { outline: 2px solid var(--dv-focus); outline-offset: -2px; }
+.dv-table__th[aria-sort] { color: var(--dv-text); }
+.dv-table__th[data-hovered] { color: var(--dv-text); }
+.dv-table__sort { color: var(--dv-text-muted); }
+.dv-table__sort--on { color: var(--dv-text); }
+.dv-table[data-sticky] .dv-table__th { position: sticky; top: 0; z-index: 2; background-color: var(--dv-surface); background-image: var(--dv-grid-header-bg); }
+.dv-table__row { height: var(--row-h); outline: none; cursor: default; transition: background var(--dv-dur-base); }
+.dv-table__td { padding: var(--dv-grid-cell-padding-y) var(--dv-grid-cell-padding-x); border-bottom: 1px solid var(--dv-grid-border); vertical-align: middle; white-space: nowrap; outline: none; }
+.dv-table__row:last-child .dv-table__td { border-bottom: 0; }
+.dv-table__row[data-hovered] { background: var(--dv-grid-row-hover); }
+.dv-table[data-zebra] .dv-table__row:nth-child(even) { background: var(--dv-grid-row-hover); }
+.dv-table__row[data-selected] { background: var(--dv-hover); }
+.dv-table__row[data-href], .dv-table__row[data-has-action] { cursor: pointer; }
+.dv-table__row[data-focus-visible] { outline: 2px solid var(--dv-focus); outline-offset: -2px; }
+.dv-table__td[data-focus-visible] { outline: 2px solid var(--dv-focus); outline-offset: -2px; }
+.dv-table__th--select, .dv-table__td--select { width: 44px; padding-right: 0; }
+.dv-table__row[data-disabled] { color: var(--dv-text-disabled); }
+.dv-asset { display: flex; align-items: center; gap: 12px; }
+.dv-asset__icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; flex: none; background: var(--dv-panel); box-shadow: var(--dv-inset-line); color: var(--dv-text-secondary); }
+.dv-asset__text { display: grid; line-height: 1.35; }
+.dv-asset__text b { font-weight: 500; font-size: 13.5px; color: var(--dv-text); }
+.dv-asset__text small { color: var(--dv-text-muted); font-size: 12px; }
+.dv-kebab { display: inline-grid; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 50%; background: none; color: var(--dv-text-muted); cursor: pointer; padding: 0; }
+.dv-kebab[data-hovered], .dv-kebab[data-pressed] { background: var(--dv-hover); color: var(--dv-text); }
+.dv-kebab[data-focus-visible] { outline: 2px solid var(--dv-focus); outline-offset: 2px; }
+
+/* ---- List ---- */
+.dv-list { display: grid; outline: none; }
+.dv-list__item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; box-shadow: 0 1px 0 var(--dv-line); outline: none; cursor: default; border-radius: 0; color: var(--dv-text); transition: background var(--dv-dur-base); }
+.dv-list--dense .dv-list__item { padding: 8px 12px; }
+.dv-list__item[data-hovered] { background: var(--dv-row-hover); }
+.dv-list__item[data-selected] { background: var(--dv-hover); }
+.dv-list__item[data-focus-visible] { outline: 2px solid var(--dv-focus); outline-offset: -2px; border-radius: 12px; }
+.dv-list__item[data-disabled] { color: var(--dv-text-disabled); }
+.dv-list__text { display: grid; flex: 1; min-width: 0; }
+.dv-list__title { font-weight: 500; font-size: 13px; }
+.dv-list__desc { font-size: 12px; color: var(--dv-text-muted); }
+
+/* ---- Tree ---- */
+.dv-tree { display: grid; gap: 2px; outline: none; }
+.dv-tree__item { outline: none; border-radius: 12px; font-size: 13px; cursor: default; padding-left: calc((var(--tree-item-level, 1) - 1) * 18px); }
+.dv-tree__row { display: flex; align-items: center; gap: 6px; min-height: 34px; padding: 4px 10px 4px 4px; border-radius: 12px; color: var(--dv-text); }
+.dv-tree__item[data-hovered] > .dv-tree__row, .dv-tree__item[data-hovered] .dv-tree__row { background: var(--dv-row-hover); }
+.dv-tree__item[data-selected] .dv-tree__row { background: var(--dv-hover); font-weight: 500; }
+.dv-tree__item[data-focus-visible] { outline: 2px solid var(--dv-focus); outline-offset: -2px; }
+.dv-tree__chev { display: inline-grid; place-items: center; width: 22px; height: 22px; border: 0; background: none; color: var(--dv-text-muted); padding: 0; border-radius: 6px; transition: transform var(--dv-dur-base); }
+.dv-tree__chev--empty { visibility: hidden; }
+.dv-tree__item[data-expanded] > .dv-tree__row .dv-tree__chev, .dv-tree__item[data-expanded] .dv-tree__chev { transform: rotate(90deg); }
+
+/* ---- DescriptionList ---- */
+.dv-dl { margin: 0; display: grid; gap: 10px; }
+.dv-dl__row { display: flex; justify-content: space-between; gap: 16px; color: var(--dv-text-secondary); }
+.dv-dl[data-layout='stacked'] .dv-dl__row { flex-direction: column; gap: 2px; }
+.dv-dl dt { color: var(--dv-text-secondary); }
+.dv-dl dd { margin: 0; color: var(--dv-text); font-weight: 500; text-align: right; }
+.dv-dl[data-layout='stacked'] dd { text-align: left; }
+

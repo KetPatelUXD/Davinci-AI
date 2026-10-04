@@ -1,0 +1,7 @@
+/* Opt-in global base: import `@davinci-ai/react/base.css` only if you want DaVinci to style the page. */
+@layer base {
+  html { background: var(--dv-bg); }
+  body { margin: 0; font-family: var(--dv-font-sans); font-size: 13px; line-height: 1.45; color: var(--dv-text); background: var(--dv-bg); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  *, *::before, *::after { box-sizing: border-box; }
+  button { font: inherit; color: inherit; }
+}

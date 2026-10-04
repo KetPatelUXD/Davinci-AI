@@ -1,0 +1,36 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BothThemes, ColorSwatches, GradientSwatches } from './docs/DocBlocks';
+
+<Meta title="Foundations/Colour" />
+
+# Colour
+
+Three token layers: **primitive** (full Tailwind palette 50–950, the `brand` violet ramp and the custom `graphite` neutral ramp), **semantic** roles (what components use, defined per mode) and **component** tokens. *Components never reference primitives directly.*
+
+Neutrals are **pure greys** – no blue, violet or brown cast. White (`on`) is the selection colour; in light mode it inverts to ink.
+
+<BothThemes>
+  <ColorSwatches />
+</BothThemes>
+
+## Card and panel sheens
+
+<BothThemes>
+  <GradientSwatches />
+</BothThemes>
+
+## Opacity rules
+
+- **Allowed** for card/panel sheens, glass fills, decorative edges (`line`), washes (hover/selected/price flash), shadows and ambient light.
+- **Not allowed** for text, icons, control borders, focus rings and disabled states – these use **solid** tokens (`text-disabled`, `fill-disabled`, `border-disabled`).
+- Every translucent value is a named token, and a lint/test fails the build if a text or control-border token becomes translucent.
+
+## Contrast is tested, not assumed
+
+For every text/icon token and every surface it can sit on (`bg`, `surface`, `raised`, `hover`, `well` and the **composited** `card`/`panel` gradients at every stop, including the lit corner with the spotlight on) in dark, light, colour-blind-safe and inverted-direction variants: body text ≥ 4.5:1, icons/graphics ≥ 3:1, control borders and focus ≥ 3:1, white labels on every `*-fill` ≥ 4.5:1. See `packages/davinci-ai/src/test/contrast.test.ts`.
+
+Where a value in the supplied reference failed the gate it was adjusted and logged in `DECISIONS.md` (e.g. dark `border-strong`, light `text-muted`, light `warning`).
+
+## Long / short mapping
+
+`positive` (green) and `negative` (red/pink) are never the only signal – ▲/▼ icons, +/− signs and text always accompany them. Switch with `ThemeProvider direction="inverted"` (red up / green down) or `colorBlindSafe` (blue / orange).

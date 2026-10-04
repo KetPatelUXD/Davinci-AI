@@ -1,0 +1,8 @@
+# Copy to .npmrc (git-ignored). Never commit a real token.
+# Font Awesome Pro registry (peer dependency of @davinci-ai/react)
+@fortawesome:registry=https://npm.fontawesome.com/
+@awesome.me:registry=https://npm.fontawesome.com/
+//npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}
+# Publishing registry (npm or GitHub Packages)
+# @davinci-ai:registry=https://npm.pkg.github.com
+# //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}

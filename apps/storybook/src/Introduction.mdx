@@ -1,0 +1,43 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# DaVinci.AI
+
+An accessible, themeable **React design system for dense financial, analytics, commodities-pricing and trading applications** – the *Graphite* style: near-black canvas lit from the top-left, borderless cards, white as the selection colour, colour reserved for meaning.
+
+> All sample data in this Storybook is **fictional**. Names, codes and prices do not represent any real assessment.
+
+## Principles
+
+1. **Accessible by design – WCAG 2.2 AA.** Keyboard operable, visible focus, screen-reader correct, contrast verified for every text/icon token on every surface in both themes (automated).
+2. **Dark-first.** Dark is the default; light is a full equal with its own tuned colours.
+3. **Dense, calm, minimal.** Colour means something: brand actions, long/short, status.
+4. **Progressive disclosure.** Essentials first; detail on demand.
+5. **Agent ready.** Predictable names, typed props, `components.json` and `AGENTS.md`.
+6. **Portable.** One package, no global side-effects, themeable per project.
+7. **Contemporary and slick.** Never at the expense of legibility or accessibility.
+
+## Install
+
+```bash
+pnpm add @davinci-ai/react react react-dom
+```
+
+```tsx
+import '@davinci-ai/react/styles.css';
+import '@davinci-ai/react/fonts.css';   // optional: self-hosted Inter
+import { ThemeProvider, Button } from '@davinci-ai/react';
+
+<ThemeProvider canvas attachToRoot>
+  <Button iconStart="plus">New alert</Button>
+</ThemeProvider>
+```
+
+The package scope is configurable in one place (`davinci.config.json`, then `pnpm set-scope`) so it can move to a corporate org later.
+
+## Where to start
+
+- **Foundations** – colour, type, size, radius, elevation, motion, accessibility, theming, density, icons.
+- **Components** – every variant and state, with keyboard maps and ARIA notes in each docs page.
+- **Examples → Markets dashboard** – the pixel-match of the Graphite reference, built only from library components.

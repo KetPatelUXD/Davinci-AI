@@ -1,0 +1,104 @@
+{
+  "name": "@davinci-ai/react",
+  "version": "0.1.0",
+  "description": "DaVinci.AI \u2013 accessible, themeable React design system for dense financial applications (Graphite style).",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "davinci": "./bin/davinci.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./base.css": "./dist/base.css",
+    "./fonts.css": "./dist/fonts.css",
+    "./tailwind": "./dist/tailwind-theme.css",
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "import": "./dist/tokens.js"
+    },
+    "./tokens.json": "./dist/tokens.json",
+    "./tokens.css": "./dist/tokens.css",
+    "./components.json": "./dist/components.json",
+    "./icons/manifest.json": "./assets/icons/manifest.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "assets",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node ../tokens/scripts/build.mjs --figma && vite build && node scripts/postbuild.mjs && node scripts/build-manifest.mjs",
+    "manifest": "node scripts/build-manifest.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node ../tokens/scripts/build.mjs && vitest run",
+    "test:watch": "vitest",
+    "figma:connect": "figma connect publish",
+    "figma:connect:parse": "figma connect parse"
+  },
+  "peerDependencies": {
+    "@fontsource-variable/inter": "^5.0.0",
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/pro-light-svg-icons": "^7.0.0",
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@fortawesome/fontawesome-svg-core": {
+      "optional": true
+    },
+    "@fortawesome/pro-light-svg-icons": {
+      "optional": true
+    },
+    "@fontsource-variable/inter": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@internationalized/date": "^3.8.2",
+    "clsx": "^2.1.1",
+    "motion": "^12.43.0",
+    "react-aria": "^3.52.1",
+    "react-aria-components": "^1.21.1"
+  },
+  "devDependencies": {
+    "@figma/code-connect": "^2.0.1",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@storybook/react-vite": "^9.1.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "axe-core": "^4.10.3",
+    "culori": "^4.0.2",
+    "jsdom": "^26.1.0",
+    "react": "^19.1.0",
+    "react-docgen-typescript": "^2.4.0",
+    "react-dom": "^19.1.0",
+    "storybook": "^9.1.20",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.6",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.7",
+    "vitest-axe": "^0.1.0"
+  }
+}

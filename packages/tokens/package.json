@@ -1,0 +1,14 @@
+{
+  "name": "@davinci-ai/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DaVinci.AI design tokens (DTCG source + build)",
+  "scripts": {
+    "seed": "node scripts/seed.mjs",
+    "build": "node scripts/build.mjs",
+    "build:figma": "node scripts/build.mjs --figma",
+    "typecheck": "echo 'tokens: no ts'"
+  },
+  "files": ["tokens.json", "dist"]
+}

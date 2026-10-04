@@ -1,0 +1,29 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BothThemes, KeyboardMap } from './docs/DocBlocks';
+
+<Meta title="Foundations/Accessibility" />
+
+# Accessibility
+
+**WCAG 2.2 AA is the floor, in both themes, both styles and both densities.** Accessibility is never traded for aesthetics – where the visual reference conflicted with it, accessibility won and the decision is in `DECISIONS.md`.
+
+## What is enforced
+
+- **Keyboard:** everything operable; visible `:focus-visible` rings (2px `focus` + 2px offset) that are never removed.
+- **Names and roles:** React Aria Components under the hood; labels are required for inputs and icon-only controls (`IconButton` requires `label` in TypeScript).
+- **Contrast:** automated for every token × surface pair, including the lit card corner with the spotlight on (see Colour).
+- **Colour is never alone:** long/short, status and validation always pair colour with an icon, sign or text.
+- **Live data:** price ticks are **not** announced. Opt in with `PriceFlash announceThresholdPercent` to hear only significant moves.
+- **Preferences:** `prefers-reduced-motion`, `prefers-reduced-transparency`, `prefers-contrast: more` (stronger borders/text) and `forced-colors` are respected.
+- **Target size ≥ 24×24.**
+- **CI gates:** axe (jest-axe style) in unit tests for every component in dark and light, axe in Storybook's test runner, and the contrast suite.
+
+## Keyboard map
+
+<BothThemes>
+  <KeyboardMap />
+</BothThemes>
+
+## Chat
+
+`ChatThread` is a `role="log"` that is **not** a live region (streamed text is never read token by token). When a reply completes, set its `announcement` to announce it once, politely.

@@ -1,0 +1,20 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BothThemes, IconGrid } from './docs/DocBlocks';
+
+<Meta title="Foundations/Icons" />
+
+# Icons
+
+Icons are **live names**: `<Icon name="chart-line" />`. The same kebab-case name is the `name` property of the Figma `Icon` component, so designers and developers use identical names.
+
+- **Font Awesome Pro 7 Light** is the intended set. FA is an **optional peer dependency**, installed from the private registry with a token that lives only in a git-ignored `.npmrc` and in CI secrets (see `.npmrc.example`).
+- A built-in 24px stroke set (below) covers every icon the library itself uses so nothing breaks without FA.
+- Register FA definitions once: `<IconProvider icons={createIconMap([faChartLine, …])}>`, or pass `icon={faChartLine}` directly.
+- Decorative icons are `aria-hidden`. Icon-only buttons **require** a label (`IconButton label="…"`).
+- ▲/▼ indicators are icons/SVG, never system glyphs.
+
+<BothThemes>
+  <IconGrid />
+</BothThemes>
+
+`assets/icons/manifest.json` lists every name the library uses (with default style `light`).

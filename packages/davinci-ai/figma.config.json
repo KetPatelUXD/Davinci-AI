@@ -1,0 +1,11 @@
+{
+  "codeConnect": {
+    "include": [
+      "figma/code-connect/**/*.figma.tsx"
+    ],
+    "parser": "react",
+    "importPaths": {
+      "packages/davinci-ai/src/index.ts": "@davinci-ai/react"
+    }
+  }
+}
