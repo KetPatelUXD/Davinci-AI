@@ -62,4 +62,4 @@ export const Parts: S = {
   decorators: [(S) => <div style={{ width: 640 }}><S /></div>],
   render: () => <PartsDemo />,
 };
-export const Artifact: S = { decorators: [(S) => <div style={{ width: 520, height: 320 }}><S /></div>], render: () => (<ArtifactPanel title="NSC1 vs peers" kind="Table" onClose={() => {}}><Prose><p>Larger outputs open in a side panel with their own scroll.</p></Prose></ArtifactPanel>) };
+export const Artifact: S = { decorators: [(S) => <div style={{ width: 520, height: 320 }}><S /></div>], render: () => (<ArtifactPanel title="NSC1 vs peers" type="Table" onClose={() => {}}><Prose><p>Larger outputs open in a side panel with their own scroll.</p></Prose></ArtifactPanel>) };

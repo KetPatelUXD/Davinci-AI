@@ -52,13 +52,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       data-variant={variant}
       data-intent={resolvedIntent}
       data-size={size}
-      data-full={fullWidth || undefined}
-      className={cn('dv-btn', className)}
+      data-full-width={fullWidth || undefined}
+      className={cn('dv-button', className)}
     >
       {({ isPending }) => (
         <>
           {isPending ? <Spinner size="sm" /> : renderIcon(iconStart)}
-          {children != null && <span className="dv-btn__label">{children}</span>}
+          {children != null && <span className="dv-button__label">{children}</span>}
           {!isPending && renderIcon(iconEnd)}
         </>
       )}

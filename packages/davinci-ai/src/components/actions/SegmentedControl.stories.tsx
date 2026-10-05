@@ -25,7 +25,7 @@ export const WithIcons: S = {
 export const FullWidth: S = { render: (a) => (<div style={{ width: 420 }}><SegmentedControl {...a} fullWidth /></div>) };
 export const Disabled: S = { args: { isDisabled: true } };
 export const KeyboardArrowRight: S = {
-  play: async ({ canvasElement }) => { const c = within(canvasElement); await userEvent.tab(); await userEvent.keyboard('{ArrowRight}'); void c; },
+  play: async ({ canvasElement }) => { const c = within(canvasElement); await userEvent.tab(); await userEvent.keyboard('{ArrowRight}'); await new Promise((r) => setTimeout(r, 500)); void c; },
 };
 export const SideAndTabs: S = {
   render: () => (

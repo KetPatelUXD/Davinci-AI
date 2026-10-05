@@ -15,7 +15,7 @@ export const Group: S = {
 };
 export const Links: S = {
   args: { 'aria-label': 'x' },
-  render: () => (<Row><Link href="#docs">Read the docs</Link><Link href="https://example.com" external>External link</Link><Link href="#inherit" tone="inherit">Inherited colour</Link></Row>),
+  render: () => (<Row><Link href="#docs">Read the docs</Link><Link href="https://example.com" external>External link</Link><Link href="#inherit" intent="inherit">Inherited colour</Link></Row>),
 };
 export const Toggles: S = {
   args: { 'aria-label': 'x' },

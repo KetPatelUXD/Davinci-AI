@@ -22,13 +22,13 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
   ref,
 ) {
   return (
-    <RACTextField {...rest} className={cn('dv-field', className)} data-size={size}>
+    <RACTextField {...rest} className={cn('dv-field dv-text-field', className)} data-size={size}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
       <Group className="dv-input">
         {iconStart && <span className="dv-input__icon">{renderIcon(iconStart)}</span>}
         {prefix && <span className="dv-input__affix">{prefix}</span>}
         <Input ref={ref} placeholder={placeholder} className={cn('dv-input__el', inputClassName)} />
-        {suffix && <span className="dv-input__affix dv-input__affix--end">{suffix}</span>}
+        {suffix && <span className="dv-input__affix">{suffix}</span>}
       </Group>
       <FieldFoot description={description} errorMessage={errorMessage} />
     </RACTextField>
@@ -43,9 +43,9 @@ export interface TextAreaProps extends Omit<RACTextFieldProps, 'className' | 'ch
 /** Multi-line text input. */
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea({ label, description, errorMessage, isOptional, size, placeholder, rows = 4, className, ...rest }, ref) {
   return (
-    <RACTextField {...rest} className={cn('dv-field', className)} data-size={size}>
+    <RACTextField {...rest} className={cn('dv-field dv-text-area', className)} data-size={size}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
-      <div className="dv-input dv-input--area">
+      <div className="dv-input" data-variant="area">
         <RACTextArea ref={ref} rows={rows} placeholder={placeholder} className="dv-input__el" />
       </div>
       <FieldFoot description={description} errorMessage={errorMessage} />
@@ -61,6 +61,7 @@ export function PasswordField(props: PasswordFieldProps) {
   return (
     <TextField
       {...props}
+      className={cn('dv-password-field', props.className)}
       type={shown ? 'text' : 'password'}
       autoComplete={props.autoComplete ?? 'current-password'}
       suffix={
@@ -82,12 +83,12 @@ export interface SearchFieldProps extends Omit<RACSearchFieldProps, 'className' 
 /** Pill search field with a clear button (Escape also clears). */
 export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(function SearchField({ label, description, errorMessage, isOptional, size = 'md', placeholder = 'Search', className, ...rest }, ref) {
   return (
-    <RACSearchField {...rest} className={cn('dv-field dv-search', className)} data-size={size}>
+    <RACSearchField {...rest} className={cn('dv-field dv-search-field', className)} data-size={size}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
-      <Group className="dv-input dv-input--pill">
+      <Group className="dv-input" data-variant="pill">
         <span className="dv-input__icon"><Icon name="magnifying-glass" /></span>
         <Input ref={ref} placeholder={placeholder} className="dv-input__el" />
-        <RACButton className="dv-input__action dv-search__clear" aria-label="Clear search"><Icon name="xmark" size={14} /></RACButton>
+        <RACButton className="dv-input__action dv-search-field__clear" aria-label="Clear search"><Icon name="xmark" size={14} /></RACButton>
       </Group>
       <FieldFoot description={description} errorMessage={errorMessage} />
     </RACSearchField>

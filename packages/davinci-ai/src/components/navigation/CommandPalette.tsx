@@ -42,24 +42,24 @@ export function CommandPalette({ commands, onRun, isOpen, onOpenChange, hotkey =
   const groups = Array.from(new Set(commands.map((c) => c.group ?? 'Commands')));
   const run = (id: Key) => { set(false); onRun(String(id)); };
   return (
-    <ModalOverlay isOpen={open} onOpenChange={set} isDismissable {...attrs} className={cn(root, 'dv-overlay dv-overlay--top')}>
-      <Modal className="dv-modal dv-modal--palette dv-glass">
-        <Dialog aria-label="Command palette" className="dv-palette">
+    <ModalOverlay isOpen={open} onOpenChange={set} isDismissable {...attrs} className={cn(root, 'dv-overlay')} data-placement="top">
+      <Modal className="dv-dialog__modal dv-glass" data-variant="palette">
+        <Dialog aria-label="Command palette" className="dv-command-palette">
           <Autocomplete filter={contains}>
-            <SearchField autoFocus aria-label="Search commands" className="dv-palette__search">
+            <SearchField autoFocus aria-label="Search commands" className="dv-command-palette__search">
               <Icon name="magnifying-glass" />
-              <Input placeholder={placeholder} className="dv-palette__input" />
+              <Input placeholder={placeholder} className="dv-command-palette__input" />
               <Keyboard className="dv-kbd">Esc</Keyboard>
             </SearchField>
-            <RACMenu className="dv-menu dv-palette__list" onAction={run} renderEmptyState={() => <div className="dv-listbox__empty">No matching commands</div>}>
+            <RACMenu className="dv-menu dv-command-palette__list" onAction={run} renderEmptyState={() => <div className="dv-listbox__empty">No matching commands</div>}>
               {groups.map((g) => (
                 <MenuSection key={g} className="dv-menu__section">
                   <Header className="dv-menu__heading">{g}</Header>
                   {commands.filter((c) => (c.group ?? 'Commands') === g).map((c) => (
-                    <MenuItem key={c.id} id={c.id} textValue={`${c.label} ${c.keywords ?? ''}`} className="dv-menuitem">
+                    <MenuItem key={c.id} id={c.id} textValue={`${c.label} ${c.keywords ?? ''}`} className="dv-menu__item">
                       {renderIcon(c.icon)}
-                      <span className="dv-menuitem__label">{c.label}</span>
-                      {c.shortcut && <Keyboard className="dv-menuitem__kbd">{c.shortcut}</Keyboard>}
+                      <span className="dv-menu__item-label">{c.label}</span>
+                      {c.shortcut && <Keyboard className="dv-menu__item-shortcut">{c.shortcut}</Keyboard>}
                     </MenuItem>
                   ))}
                 </MenuSection>

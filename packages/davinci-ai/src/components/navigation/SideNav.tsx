@@ -31,12 +31,12 @@ export function SideNav({ items, currentId, onNavigate, collapsed, defaultCollap
   const { className: root, ...attrs } = useThemeAttributes();
   const set = (c: boolean) => { setOwn(c); onCollapsedChange?.(c); };
   return (
-    <nav aria-label={label} className={cn('dv-sidenav', className)} data-collapsed={isCollapsed || undefined}>
-      <ul className="dv-sidenav__list">
+    <nav aria-label={label} className={cn('dv-side-nav', className)} data-collapsed={isCollapsed || undefined}>
+      <ul className="dv-side-nav__list">
         {items.map((it) => {
           const current = it.id === currentId;
-          const content = (<>{renderIcon(it.icon, 18)}<span className={isCollapsed ? 'dv:sr-only' : 'dv-sidenav__label'}>{it.label}</span>{!isCollapsed && it.badge && <span className="dv-sidenav__badge dv:tabular-nums">{it.badge}</span>}</>);
-          const common = { 'aria-current': current ? ('page' as const) : undefined, onPress: () => onNavigate?.(it.id), className: 'dv-sidenav__item', 'data-current': current || undefined };
+          const content = (<>{renderIcon(it.icon, 18)}<span className={isCollapsed ? 'dv:sr-only' : 'dv-side-nav__label'}>{it.label}</span>{!isCollapsed && it.badge && <span className="dv-side-nav__badge dv:tabular-nums">{it.badge}</span>}</>);
+          const common = { 'aria-current': current ? ('page' as const) : undefined, onPress: () => onNavigate?.(it.id), className: 'dv-side-nav__item', 'data-current': current || undefined };
           const el = it.href ? <RACLink href={it.href} {...common}>{content}</RACLink> : <RACButton {...common}>{content}</RACButton>;
           return (
             <li key={it.id}>
@@ -47,7 +47,7 @@ export function SideNav({ items, currentId, onNavigate, collapsed, defaultCollap
           );
         })}
       </ul>
-      <RACButton className="dv-sidenav__toggle" aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!isCollapsed} onPress={() => set(!isCollapsed)}>
+      <RACButton className="dv-side-nav__toggle" aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!isCollapsed} onPress={() => set(!isCollapsed)}>
         <Icon name={isCollapsed ? 'chevron-right' : 'chevron-left'} size={16} />
       </RACButton>
     </nav>

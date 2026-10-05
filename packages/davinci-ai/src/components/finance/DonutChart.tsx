@@ -25,13 +25,13 @@ export interface LegendItem {
 /** Legend rows: dot · label · value · percent, separated by 1px lines. Pairs colour with text. */
 export function ChartLegend({ items, className }: { items: LegendItem[]; className?: string }) {
   return (
-    <ul className={cn('dv-legend dv:tabular-nums', className)}>
+    <ul className={cn('dv-chart-legend dv:tabular-nums', className)}>
       {items.map((it) => (
-        <li key={it.id} className="dv-legend__row">
+        <li key={it.id} className="dv-chart-legend__row">
           <i style={{ background: it.color }} aria-hidden="true" />
           <span>{it.label}</span>
           <b>{it.value}</b>
-          {it.percent && <span className="dv-legend__pc">{it.percent}</span>}
+          {it.percent && <span className="dv-chart-legend__percent">{it.percent}</span>}
         </li>
       ))}
     </ul>
@@ -80,8 +80,8 @@ export function DonutChart({ segments, centerValue, centerLabel, size = 200, sho
   const colors = segments.map((s, i) => s.color ?? DEFAULTS[i % DEFAULTS.length]!);
   const pct = segments.map((s) => Math.round((s.value / total) * 100));
   return (
-    <div className={cn('dv-donutwrap', className)}>
-      <div className="dv-donut" style={{ width: size, height: size }} role="group" aria-label={rest['aria-label']}>
+    <div className={cn('dv-donut-chart', className)}>
+      <div className="dv-donut-chart__ring" style={{ width: size, height: size }} role="group" aria-label={rest['aria-label']}>
         <svg viewBox="0 0 200 200" aria-hidden="true">
           <circle cx="100" cy="100" r={R} fill="none" stroke="var(--dv-line)" strokeWidth="16" />
           <circle cx="100" cy="100" r="62" fill="none" stroke="var(--dv-line)" strokeWidth="1" />
@@ -95,7 +95,7 @@ export function DonutChart({ segments, centerValue, centerLabel, size = 200, sho
             return el;
           })}
         </svg>
-        <div className="dv-donut__center">
+        <div className="dv-donut-chart__center">
           <div>
             <DisplayNumber size={48} value={numeric ? formatNumber(count, { decimals: 0, locale }) : centerValue} />
             {centerLabel && <small>{centerLabel}</small>}

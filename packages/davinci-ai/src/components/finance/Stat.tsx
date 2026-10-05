@@ -35,7 +35,7 @@ export function Stat({ title, value, decimals = 2, unit, delta, series, size = '
   return (
     <Card {...rest} padded={false} title={undefined} aria-labelledby={id} className={cn('dv-stat', className)} data-size={size}>
       <h2 id={id} className="dv-card__title">{title}</h2>
-      {series && <div className="dv-stat__spark"><Sparkline data={series} band tone="mono" height="100%" decorative /></div>}
+      {series && <div className="dv-stat__sparkline"><Sparkline data={series} band intent="mono" height="100%" decorative /></div>}
       <div className="dv-stat__row">
         <DisplayNumber value={text} unit={unit} size={px as 42 | 48} />
         {delta && <DeltaPill {...delta} />}

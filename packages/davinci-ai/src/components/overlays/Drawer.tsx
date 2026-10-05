@@ -20,17 +20,17 @@ export interface DrawerProps extends Pick<ModalOverlayProps, 'isOpen' | 'default
 export function Drawer({ trigger, title, children, footer, side = 'right', size = 420, isDismissable = true, className, ...rest }: DrawerProps) {
   const { className: root, ...attrs } = useThemeAttributes();
   const modal = (
-    <ModalOverlay {...rest} isDismissable={isDismissable} {...attrs} className={cn(root, 'dv-overlay dv-overlay--drawer')} data-side={side}>
+    <ModalOverlay {...rest} isDismissable={isDismissable} {...attrs} className={cn(root, 'dv-overlay')} data-side={side}>
       <Modal className={cn('dv-drawer dv-glass', className)} data-side={side} style={{ ['--dv-drawer-size' as string]: `${size}px` }}>
-        <RACDialog className="dv-dialog dv-dialog--drawer">
+        <RACDialog className="dv-dialog" data-variant="drawer">
           {({ close }) => (
             <>
-              <header className="dv-dialog__head">
+              <header className="dv-dialog__header">
                 <Heading slot="title" className="dv-dialog__title">{title}</Heading>
                 <IconButton label="Close panel" icon="xmark" variant="ghost" size="sm" onPress={close} />
               </header>
-              <div className="dv-dialog__body dv-dialog__body--grow">{children}</div>
-              {footer && <footer className="dv-dialog__foot">{footer}</footer>}
+              <div className="dv-dialog__body" data-grow>{children}</div>
+              {footer && <footer className="dv-dialog__footer">{footer}</footer>}
             </>
           )}
         </RACDialog>

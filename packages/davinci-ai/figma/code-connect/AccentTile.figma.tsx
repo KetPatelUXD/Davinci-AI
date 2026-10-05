@@ -8,9 +8,9 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 figma.connect(AccentTile, FIGMA_NODE_URL, {
   props: {
     label: figma.string('label'),
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
   },
-  example: ({ label, tone }) => (
-    <AccentTile tone={tone}>{label}</AccentTile>
+  example: ({ label, intent }) => (
+    <AccentTile intent={intent}>{label}</AccentTile>
   ),
 });

@@ -12,7 +12,7 @@ const columns: TableColumn<Assessment>[] = [
   { id: 'last', header: 'Last', numeric: true, allowsSorting: true, cell: (r) => <PriceFlash value={r.last}>{formatNumber(r.last)}</PriceFlash> },
   { id: 'chg', header: 'Chg %', numeric: true, allowsSorting: true, cell: (r) => <PriceChange percent={r.change} hideIcon /> },
   { id: 'range', header: 'Day range', cell: (r) => <DayRange low={r.low} high={r.high} value={r.last} /> },
-  { id: '30d', header: '30D', cell: (r) => <Sparkline data={r.series} tone="mono" height={30} animate={false} baseline={false} decorative style={{ width: 120 }} /> },
+  { id: '30d', header: '30D', cell: (r) => <Sparkline data={r.series} intent="mono" height={30} animate={false} baseline={false} decorative style={{ width: 120 }} /> },
   { id: 'actions', header: <span className="dv:sr-only">Actions</span>, textValue: 'Actions', align: 'end', cell: (r) => (
     <RowActions name={r.name} items={[{ id: 'open', label: 'Open assessment', icon: 'chart-line' }, { id: 'alert', label: 'Create alert', icon: 'bell' }, { id: 'rm', label: 'Remove from watchlist', icon: 'trash', destructive: true }]} />
   ) },

@@ -50,7 +50,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
       style={st}
     >
       {(title || actions) && (
-        <header className="dv-card__head">
+        <header className="dv-card__header">
           {title && <H id={id} className="dv-card__title">{title}{unit && <> <span className="dv-card__unit">{unit}</span></>}</H>}
           {actions && <div className="dv-card__actions">{actions}</div>}
         </header>

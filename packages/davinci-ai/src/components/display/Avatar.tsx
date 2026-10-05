@@ -32,7 +32,7 @@ export function AvatarGroup({ people, max = 4, size = 'md', className, ...rest }
   const shown = people.slice(0, max);
   const extra = people.length - shown.length;
   return (
-    <div role="group" aria-label={`${people.length} people`} className={cn('dv-avatars', className)} {...rest}>
+    <div role="group" aria-label={`${people.length} people`} className={cn('dv-avatar-group', className)} {...rest}>
       {shown.map((p) => <Avatar key={p.name} {...p} size={size} />)}
       {extra > 0 && <span className="dv-avatar" data-size={size} data-more="true" aria-label={`${extra} more`} role="img">+{extra}</span>}
     </div>

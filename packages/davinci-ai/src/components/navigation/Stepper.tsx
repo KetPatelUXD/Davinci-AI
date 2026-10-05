@@ -24,7 +24,7 @@ export function Stepper({ steps, current, orientation = 'horizontal', className,
       {steps.map((s, i) => {
         const state = i < current ? 'complete' : i === current ? 'current' : 'upcoming';
         return (
-          <li key={s.id} className="dv-stepper__step" data-state={state} aria-current={state === 'current' ? 'step' : undefined}>
+          <li key={s.id} className="dv-stepper__step" data-status={state} aria-current={state === 'current' ? 'step' : undefined}>
             <span className="dv-stepper__dot" aria-hidden="true">{state === 'complete' ? <Icon name="check" size={12} strokeWidth={2.4} /> : i + 1}</span>
             <span className="dv-stepper__text">
               <span className="dv-stepper__label">{s.label}<span className="dv:sr-only">{state === 'complete' ? ' (completed)' : state === 'current' ? ' (current step)' : ' (not started)'}</span></span>

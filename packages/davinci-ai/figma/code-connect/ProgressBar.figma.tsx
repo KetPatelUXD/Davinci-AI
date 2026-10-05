@@ -9,9 +9,9 @@ figma.connect(ProgressBar, FIGMA_NODE_URL, {
   props: {
     label: figma.string('label'),
     showValue: figma.boolean('showValue'),
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
   },
-  example: ({ label, showValue, tone }) => (
-    <ProgressBar showValue={showValue} tone={tone}>{label}</ProgressBar>
+  example: ({ label, showValue, intent }) => (
+    <ProgressBar showValue={showValue} intent={intent}>{label}</ProgressBar>
   ),
 });

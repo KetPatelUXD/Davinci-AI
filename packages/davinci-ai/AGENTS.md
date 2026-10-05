@@ -21,6 +21,7 @@ Rules for AI code assistants and developers **consuming** the design system. Fol
 8. **Progressive disclosure.** Show the essential first; put detail in `Disclosure`, `Popover`, `Drawer`, `Menu`, `ReasoningBlock`.
 9. **Numbers:** right-align, tabular figures (`NumberText`, table `numeric` columns), locale `en-US` unless told otherwise (`ThemeProvider locale`). Use `PriceChange`/`DeltaPill` for signed changes (never colour a bare number).
 10. **Fictional data only in examples and docs.** Never use real assessment names, prices or brands.
+11. **Use the naming convention** (`docs/naming-convention.md`, Storybook → Guides → Naming). Props: `variant`, `intent` (never `tone`), `size`, `orientation`, `isX` booleans. Name your own widgets and page regions the same way (`Widget/Header`, `Page/Sidebar`). Never target `dv-*` classes or `data-*` attributes from project CSS; `components.json` lists each component's `css.block` / `css.parts`.
 
 ## Setup
 

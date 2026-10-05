@@ -21,6 +21,7 @@ Rules for AI code assistants and developers **consuming** the design system. Fol
 8. **Progressive disclosure.** Show the essential first; put detail in `Disclosure`, `Popover`, `Drawer`, `Menu`, `ReasoningBlock`.
 9. **Numbers:** right-align, tabular figures (`NumberText`, table `numeric` columns), locale `en-US` unless told otherwise (`ThemeProvider locale`). Use `PriceChange`/`DeltaPill` for signed changes (never colour a bare number).
 10. **Fictional data only in examples and docs.** Never use real assessment names, prices or brands.
+11. **Use the naming convention** (`docs/naming-convention.md`, Storybook → Guides → Naming). Props: `variant`, `intent` (never `tone`), `size`, `orientation`, `isX` booleans. Name your own widgets and page regions the same way (`Widget/Header`, `Page/Sidebar`). Never target `dv-*` classes or `data-*` attributes from project CSS; `components.json` lists each component's `css.block` / `css.parts`.
 
 ## Setup
 
@@ -72,6 +73,7 @@ Run the app's axe checks; the library's own CI fails on contrast regressions (to
 - Monorepo (pnpm): `packages/tokens` (DTCG source + build), `packages/davinci-ai` (`@davinci-ai/react`), `packages/examples` (private example pages + fictional data), `apps/storybook`, `apps/playground` (**private – never published or deployed**).
 - Tokens: edit the tables in `packages/tokens/scripts/seed.mjs`, run `pnpm --filter @davinci-ai/tokens seed && pnpm tokens`, commit `tokens.json`. Components never reference primitives; translucent values are named `alpha` primitives.
 - A new component needs: the component (React Aria based, typed props with JSDoc incl. `@when` / `@whenNot`), CSS in `src/styles/*.css` using tokens only, a story file, an axe test in `src/test/components.test.tsx`, an entry (category, keyboard/ARIA notes, states, anatomy with token names) in `scripts/components.config.mjs`, and an export in `src/index.ts`.
+- Naming: follow `docs/naming-convention.md`. A new component's CSS block is `dv-{kebab-name}`, parts are `dv-{block}__{part}` (flat, hyphenated), modifiers are data attributes that mirror props, and the manifest anatomy part names must equal the real parts (`pnpm check:naming` and `pnpm check:anatomy` run in `pnpm lint`; DOM-only helper parts go in `domParts`, shared blocks in `shares`). Figma is regenerated from `components.json` using the same names.
 - Gates: `pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm build-storybook && pnpm test:storybook && pnpm test:screens`.
 - Decisions go in `DECISIONS.md`, progress in `PROGRESS.md`. Code is the source of truth for Figma – never the reverse (see `docs/figma-kit.md`).
 

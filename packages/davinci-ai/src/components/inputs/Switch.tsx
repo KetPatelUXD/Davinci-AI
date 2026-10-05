@@ -31,9 +31,9 @@ export interface SwitchRowProps extends Omit<SwitchProps, 'children' | 'aria-lab
 export function SwitchRow({ title, hint, switchLabel, className, ...rest }: SwitchRowProps) {
   const id = useId();
   return (
-    <div className={cn('dv-switchrow', className)}>
-      <b id={id} className="dv-switchrow__title">{title}</b>
-      {hint && <span className="dv-switchrow__hint">{hint}</span>}
+    <div className={cn('dv-switch-row', className)}>
+      <b id={id} className="dv-switch-row__title">{title}</b>
+      {hint && <span className="dv-switch-row__hint">{hint}</span>}
       <Switch aria-label={switchLabel} aria-describedby={id} {...rest} />
     </div>
   );

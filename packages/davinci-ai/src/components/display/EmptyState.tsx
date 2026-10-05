@@ -13,10 +13,10 @@ export interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 't
 /** Zero-data state: explain what is missing and offer the next step. */
 export function EmptyState({ icon = 'magnifying-glass', title, description, action, className, ...rest }: EmptyStateProps) {
   return (
-    <div className={cn('dv-empty', className)} {...rest}>
-      <span className="dv-empty__icon">{renderIcon(icon, 20)}</span>
-      <p className="dv-empty__title">{title}</p>
-      {description && <p className="dv-empty__desc">{description}</p>}
+    <div className={cn('dv-empty-state', className)} {...rest}>
+      <span className="dv-empty-state__icon-well">{renderIcon(icon, 20)}</span>
+      <p className="dv-empty-state__title">{title}</p>
+      {description && <p className="dv-empty-state__description">{description}</p>}
       {action}
     </div>
   );

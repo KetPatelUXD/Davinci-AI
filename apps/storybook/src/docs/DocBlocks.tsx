@@ -154,14 +154,14 @@ export function MotionDemos() {
   const [sw, setSw] = useState(true);
   return (
     <div style={{ display: 'grid', gap: 20 }}>
-      <div style={{ display: 'grid', gap: 6 }}><Text variant="small" tone="muted">Segmented thumb slides (300ms) · press scale .985 (120ms) · switch thumb slides</Text>
+      <div style={{ display: 'grid', gap: 6 }}><Text variant="small" intent="muted">Segmented thumb slides (300ms) · press scale .985 (120ms) · switch thumb slides</Text>
         <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
           <SegmentedControl aria-label="Demo" value={on} onChange={setOn} options={[{ id: 'a', label: 'One' }, { id: 'b', label: 'Two' }, { id: 'c', label: 'Three' }]} />
           <Button>Press me</Button>
           <Switch isSelected={sw} onChange={setSw}>Switch</Switch>
         </div>
       </div>
-      <Text variant="small" tone="muted">Durations 120 / 160 / 200 ms · easing cubic-bezier(.3,.7,.4,1) · cards rise 12px / 700ms with 40ms stagger · chart line draws 1.6s · donut arcs sweep · numerals count up 1.2s. <b>All motion honours prefers-reduced-motion</b>; the only looping animation is the slow ambient beam.</Text>
+      <Text variant="small" intent="muted">Durations 120 / 160 / 200 ms · easing cubic-bezier(.3,.7,.4,1) · cards rise 12px / 700ms with 40ms stagger · chart line draws 1.6s · donut arcs sweep · numerals count up 1.2s. <b>All motion honours prefers-reduced-motion</b>; the only looping animation is the slow ambient beam.</Text>
     </div>
   );
 }

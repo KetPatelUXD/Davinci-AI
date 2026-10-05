@@ -89,24 +89,24 @@ export function Composer({
   };
 
   return (
-    <div className={cn('dv-composer-wrap', className)} data-docked={docked || undefined}>
+    <div className={cn('dv-composer', className)} data-docked={docked || undefined}>
       {suggestions && suggestions.length > 0 && (
         <SuggestedPrompts floating prompts={suggestions} onSelect={(p) => { set(p); ref.current?.focus(); }} />
       )}
-      <form className="dv-composer dv-glass" aria-label="Ask LEO" onSubmit={submit}>
-        <div className="dv-composer__r1">
+      <form className="dv-composer__form dv-glass" aria-label="Ask LEO" onSubmit={submit}>
+        <div className="dv-composer__row-primary">
           <LeoMark size={24} />
           <label htmlFor={id} className="dv:sr-only">Ask LEO</label>
           <textarea id={id} ref={ref} rows={1} value={text} placeholder={placeholder} autoComplete="off" className="dv-composer__input" onChange={(e) => set(e.target.value)} onKeyDown={onKeyDown} />
         </div>
-        <div className="dv-composer__r2">
-          <IconButton label="Add files or context" icon="plus" variant="ghost" size="sm" className="dv-composer__act" onPress={onAttach} />
-          <IconButton label="Tools" icon="sliders" variant="ghost" size="sm" className="dv-composer__act" onPress={onTools} />
+        <div className="dv-composer__row-secondary">
+          <IconButton label="Add files or context" icon="plus" variant="ghost" size="sm" className="dv-composer__actions" onPress={onAttach} />
+          <IconButton label="Tools" icon="sliders" variant="ghost" size="sm" className="dv-composer__actions" onPress={onTools} />
           {contexts.map((c) => (
-            <span key={c.id} className="dv-composer__ctx">
+            <span key={c.id} className="dv-composer__context">
               <Icon name="droplet" size={14} />
               <span>{c.label} <b>· in context</b></span>
-              <IconButton label={`Remove ${c.label} from context`} icon="xmark" variant="ghost" size="sm" className="dv-composer__ctxx" onPress={() => onRemoveContext?.(c.id)} />
+              <IconButton label={`Remove ${c.label} from context`} icon="xmark" variant="ghost" size="sm" className="dv-composer__context-remove" onPress={() => onRemoveContext?.(c.id)} />
             </span>
           ))}
           <span className="dv:flex-1" />
@@ -116,7 +116,7 @@ export function Composer({
             items={modes.map((m) => ({ id: m.id, label: m.label, onAction: () => { setModeId(m.id); onModeChange?.(m.id); } }))}
             trigger={<Button variant="ghost" size="sm" iconEnd="chevron-down">LEO · {currentMode.label}</Button>}
           />
-          <Kbd aria-label="Command L" className="dv-composer__kbd">⌘L</Kbd>
+          <Kbd aria-label="Command L" className="dv-composer__hint">⌘L</Kbd>
           {isStreaming ? (
             <IconButton label="Stop generating" icon="stop" variant="solid" size="md" className="dv-composer__send" onPress={onStop} />
           ) : (

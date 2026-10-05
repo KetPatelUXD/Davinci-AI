@@ -8,12 +8,12 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 figma.connect(Text, FIGMA_NODE_URL, {
   props: {
     variant: figma.enum('variant', { 'comfortable': 'comfortable', 'base': 'base', 'small': 'small', 'overline': 'overline', 'body-lg': 'body-lg' }),
-    tone: figma.enum('tone', { 'default': 'default', 'secondary': 'secondary', 'muted': 'muted', 'positive': 'positive', 'negative': 'negative', 'brand': 'brand' }),
+    intent: figma.enum('intent', { 'default': 'default', 'secondary': 'secondary', 'muted': 'muted', 'positive': 'positive', 'negative': 'negative', 'brand': 'brand' }),
     weight: figma.enum('weight', { 'regular': 'regular', 'medium': 'medium', 'semibold': 'semibold' }),
     tabular: figma.boolean('tabular'),
     truncate: figma.boolean('truncate'),
   },
-  example: ({ variant, tone, weight, tabular, truncate }) => (
-    <Text variant={variant} tone={tone} weight={weight} tabular={tabular} truncate={truncate}></Text>
+  example: ({ variant, intent, weight, tabular, truncate }) => (
+    <Text variant={variant} intent={intent} weight={weight} tabular={tabular} truncate={truncate}></Text>
   ),
 });

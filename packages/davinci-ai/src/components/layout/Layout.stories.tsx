@@ -31,12 +31,12 @@ export const Surfaces: S = {
     <Card title="Panel inside a card" style={{ width: 420 }}>
       <Panel><Col gap={8}><b>Nested panel</b><span style={{ color: 'var(--dv-text-secondary)' }}>Used for grouped form controls, pill bars and table headers.</span></Col></Panel>
       <div style={{ height: 12 }} />
-      <Row><AccentTile label="Brent-style" value="+1.42%" tone="positive" /><AccentTile label="Diesel" value="−0.86%" tone="negative" /></Row>
+      <Row><AccentTile label="Brent-style" value="+1.42%" intent="positive" /><AccentTile label="Diesel" value="−0.86%" intent="negative" /></Row>
     </Card>
   ),
 };
 export const StackAndGrid: S = {
-  render: () => (<Col width={560}><Stack direction="row" gap={8}><Button>One</Button><Button variant="subtle">Two</Button></Stack><Grid gap={12}>{[3, 3, 6].map((s, i) => <GridItem key={i} span={s}><Panel>span {s}</Panel></GridItem>)}</Grid></Col>),
+  render: () => (<Col width={560}><Stack orientation="horizontal" gap={8}><Button>One</Button><Button variant="subtle">Two</Button></Stack><Grid gap={12}>{[3, 3, 6].map((s, i) => <GridItem key={i} span={s}><Panel>span {s}</Panel></GridItem>)}</Grid></Col>),
 };
 export const Interactive: S = {
   render: () => (

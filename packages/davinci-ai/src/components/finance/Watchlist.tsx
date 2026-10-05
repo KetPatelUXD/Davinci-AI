@@ -38,7 +38,7 @@ export interface WatchlistProps {
  */
 export function Watchlist({ items, decimals = 2, dense = true, className, ...rest }: WatchlistProps) {
   return (
-    <GridList {...rest} items={items} className={cn('dv-watch', dense && 'dv-watch--dense', className)}>
+    <GridList {...rest} items={items} className={cn('dv-watchlist', className)} data-dense={dense || undefined}>
       {(it) => <WatchlistRow item={it} decimals={decimals} />}
     </GridList>
   );
@@ -49,14 +49,14 @@ export const PriceList = Watchlist;
 export function WatchlistRow({ item, decimals = 2 }: { item: WatchlistItem; decimals?: number }) {
   const { locale } = useTheme();
   return (
-    <GridListItem id={item.id} textValue={`${item.name}, ${formatNumber(item.last, { decimals, locale })}`} className="dv-watch__row">
-      <span className="dv-watch__id">
+    <GridListItem id={item.id} textValue={`${item.name}, ${formatNumber(item.last, { decimals, locale })}`} className="dv-watchlist__row">
+      <span className="dv-watchlist__id">
         <CodeChip>{item.symbol}</CodeChip>
-        <span className="dv-watch__name">{item.name}</span>
+        <span className="dv-watchlist__name">{item.name}</span>
       </span>
-      {item.series && <Sparkline className="dv-watch__spark" data={item.series} tone="mono" height={28} animate={false} baseline={false} decorative />}
-      <PriceFlash value={item.last} className="dv-watch__last">{formatNumber(item.last, { decimals, locale })}</PriceFlash>
-      <PriceChange percent={item.changePercent} value={item.change} decimals={decimals} size="sm" className="dv-watch__chg" />
+      {item.series && <Sparkline className="dv-watchlist__sparkline" data={item.series} intent="mono" height={28} animate={false} baseline={false} decorative />}
+      <PriceFlash value={item.last} className="dv-watchlist__last">{formatNumber(item.last, { decimals, locale })}</PriceFlash>
+      <PriceChange percent={item.changePercent} value={item.change} decimals={decimals} size="sm" className="dv-watchlist__change" />
     </GridListItem>
   );
 }

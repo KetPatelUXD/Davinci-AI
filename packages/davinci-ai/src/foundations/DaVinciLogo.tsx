@@ -17,7 +17,7 @@ export function DaVinciLogo({ variant = 'mark', size = 32, title = 'DaVinci.AI',
   const w = variant === 'lockup' ? (size * 760) / 240 : size;
   return (
     <svg
-      className={cn('dv-logo', className)}
+      className={cn('dv-da-vinci-logo', className)}
       viewBox={variant === 'lockup' ? '0 0 760 240' : '0 0 240 240'}
       width={w}
       height={size}
@@ -53,7 +53,7 @@ export function DaVinciLogo({ variant = 'mark', size = 32, title = 'DaVinci.AI',
 export function LeoMark({ size = 24, className, ...rest }: { size?: number } & Omit<SVGProps<SVGSVGElement>, 'children'>) {
   const id = useId().replace(/:/g, '');
   return (
-    <svg className={cn('dv-logo', className)} viewBox="0 0 240 240" width={size} height={size} aria-hidden="true" {...rest}>
+    <svg className={cn('dv-da-vinci-logo', className)} viewBox="0 0 240 240" width={size} height={size} aria-hidden="true" {...rest}>
       <defs>
         <linearGradient id={`${id}-l`} x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="#3CCBF4" />

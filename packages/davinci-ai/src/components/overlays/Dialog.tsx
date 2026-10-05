@@ -28,17 +28,17 @@ export function Dialog({ trigger, title, description, children, footer, size = '
   const { className: root, ...attrs } = useThemeAttributes();
   const modal = (
     <ModalOverlay {...rest} isDismissable={role === 'dialog' && isDismissable} {...attrs} className={cn(root, 'dv-overlay')}>
-      <Modal className={cn('dv-modal dv-glass', className)} data-size={size}>
+      <Modal className={cn('dv-dialog__modal dv-glass', className)} data-size={size}>
         <RACDialog role={role} className="dv-dialog">
           {({ close }) => (
             <>
-              <header className="dv-dialog__head">
+              <header className="dv-dialog__header">
                 <Heading slot="title" className="dv-dialog__title">{title}</Heading>
                 {role === 'dialog' && <IconButton label="Close dialog" icon="xmark" variant="ghost" size="sm" onPress={close} />}
               </header>
-              {description && <p className="dv-dialog__desc">{description}</p>}
+              {description && <p className="dv-dialog__description">{description}</p>}
               {children && <div className="dv-dialog__body">{children}</div>}
-              {footer && <footer className="dv-dialog__foot">{footer}</footer>}
+              {footer && <footer className="dv-dialog__footer">{footer}</footer>}
             </>
           )}
         </RACDialog>

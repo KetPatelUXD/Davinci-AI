@@ -7,9 +7,9 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 
 figma.connect(ProgressCircle, FIGMA_NODE_URL, {
   props: {
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
   },
-  example: ({ tone }) => (
-    <ProgressCircle tone={tone}></ProgressCircle>
+  example: ({ intent }) => (
+    <ProgressCircle intent={intent}></ProgressCircle>
   ),
 });

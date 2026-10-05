@@ -14,7 +14,7 @@ export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
 
 /** Heading with visual variants decoupled from semantic level. Use `card` for the quiet title inside a Card. */
 export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(function Heading({ level = 2, variant = 'section', className, ...rest }, ref) {
-  return createElement(`h${level}`, { ref, className: cn('dv-heading', `dv-heading--${variant}`, className), ...rest });
+  return createElement(`h${level}`, { ref, className: cn('dv-heading', className), 'data-variant': variant, ...rest });
 });
 
 export type TextVariant = 'base' | 'small' | 'overline' | 'comfortable' | 'body-lg';
@@ -23,7 +23,7 @@ export type TextTone = 'default' | 'secondary' | 'muted' | 'positive' | 'negativ
 export interface TextProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
   variant?: TextVariant;
-  tone?: TextTone;
+  intent?: TextTone;
   weight?: 'regular' | 'medium' | 'semibold';
   /** Tabular figures – always on for numbers; set for any text that sits in a numeric column. */
   tabular?: boolean;
@@ -31,9 +31,12 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
 }
 
 /** Body text on the Graphite type scale (13 base for dense UI). */
-export function Text({ as = 'span', variant = 'base', tone = 'default', weight, tabular, truncate, className, ...rest }: TextProps) {
+export function Text({ as = 'span', variant = 'base', intent = 'default', weight, tabular, truncate, className, ...rest }: TextProps) {
   return createElement(as, {
-    className: cn('dv-text', `dv-text--${variant}`, `dv-tone--${tone}`, weight && `dv-weight--${weight}`, tabular && 'dv:tabular-nums', truncate && 'dv:truncate dv:min-w-0', className),
+    className: cn('dv-text', tabular && 'dv:tabular-nums', truncate && 'dv:truncate dv:min-w-0', className),
+    'data-variant': variant,
+    'data-intent': intent,
+    'data-weight': weight,
     ...rest,
   });
 }
@@ -51,7 +54,7 @@ export interface NumberTextProps extends HTMLAttributes<HTMLSpanElement> {
 }
 /** Tabular-figure numeric text (`Mono` value style). */
 export function NumberText({ strong, className, ...rest }: NumberTextProps) {
-  return <span className={cn('dv:tabular-nums', strong && 'dv-weight--medium', className)} {...rest} />;
+  return <span className={cn('dv-number-text dv:tabular-nums', className)} data-strong={strong || undefined} {...rest} />;
 }
 export const Mono = NumberText;
 
@@ -65,7 +68,7 @@ export interface DisplayNumberProps extends HTMLAttributes<HTMLDivElement> {
 /** Thin (300) large numeral with a small muted unit – the signature figure of the style. */
 export function DisplayNumber({ value, unit, size = 42, className, ...rest }: DisplayNumberProps) {
   return (
-    <div className={cn('dv-display dv:tabular-nums', `dv-display--${size}`, className)} {...rest}>
+    <div className={cn('dv-display-number dv:tabular-nums', className)} data-size={size} {...rest}>
       <span>{value}</span>
       {unit != null && <small>{unit}</small>}
     </div>

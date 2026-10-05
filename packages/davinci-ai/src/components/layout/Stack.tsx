@@ -3,7 +3,7 @@ import { cn } from '../../utils/cn';
 
 export interface StackProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
-  direction?: 'column' | 'row';
+  orientation?: 'vertical' | 'horizontal';
   /** Gap in px. */
   gap?: number;
   align?: CSSProperties['alignItems'];
@@ -11,10 +11,10 @@ export interface StackProps extends HTMLAttributes<HTMLElement> {
 }
 
 /** One-dimensional flex layout with token-friendly gaps. */
-export function Stack({ as = 'div', direction = 'column', gap = 16, align, wrap, className, style, ...rest }: StackProps) {
+export function Stack({ as = 'div', orientation = 'vertical', gap = 16, align, wrap, className, style, ...rest }: StackProps) {
   return createElement(as, {
     className: cn('dv-stack', className),
-    'data-dir': direction,
+    'data-orientation': orientation,
     'data-wrap': wrap || undefined,
     style: { ['--dv-gap' as string]: `${gap}px`, ...(align ? { ['--dv-align' as string]: align } : {}), ...style },
     ...rest,
@@ -38,7 +38,7 @@ export function GridItem({ span = 12, className, style, ...rest }: GridItemProps
   const s = typeof span === 'number' ? { base: span } : span;
   return (
     <div
-      className={cn('dv-griditem', className)}
+      className={cn('dv-grid-item', className)}
       style={{ ['--dv-span' as string]: s.base ?? 12, ['--dv-span-md' as string]: s.md ?? s.base ?? 12, ['--dv-span-lg' as string]: s.lg ?? s.md ?? s.base ?? 12, ...style }}
       {...rest}
     />

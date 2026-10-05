@@ -23,8 +23,8 @@ export const Typography: S = {
       <Heading variant="card">Card title 16/400 secondary</Heading>
       <Text>Base 13 dense – the default for data-heavy screens.</Text>
       <Text variant="comfortable">Comfortable 14 – sparse forms.</Text>
-      <Text variant="small" tone="muted">Small 12 muted</Text>
-      <Text variant="overline" tone="secondary">Overline 11</Text>
+      <Text variant="small" intent="muted">Small 12 muted</Text>
+      <Text variant="overline" intent="secondary">Overline 11</Text>
       <Row gap={32} align="end"><DisplayNumber value="84.62" unit="USD" size={64} /><DisplayNumber value="261.35" size={42} /><NumberText strong>1,234,567.89</NumberText></Row>
     </Col>
   ),
@@ -43,7 +43,7 @@ export const IconSwap: S = {
     </IconProvider>
   ),
 };
-export const FocusRings: S = { render: () => (<Row><FocusRing><button className="dv-btn" data-variant="subtle" style={{ outline: 'none' }}>Keyboard focus shows the ring</button></FocusRing><Button>Tab to me</Button></Row>) };
+export const FocusRings: S = { render: () => (<Row><FocusRing><button className="dv-button" data-variant="subtle" style={{ outline: 'none' }}>Keyboard focus shows the ring</button></FocusRing><Button>Tab to me</Button></Row>) };
 export const Ambient: S = { parameters: { layout: 'fullscreen' }, render: () => (<div style={{ position: 'relative', height: 420, overflow: 'hidden' }}><AppBackground position="absolute" /><div style={{ position: 'relative', padding: 32 }}><Card title="Graphite ambient light" style={{ width: 360 }}>Soft top-left glow plus one slow diagonal beam.</Card></div></div>) };
 function Theme() { const t = useTheme(); return <Text>Theme <b>{t.theme}</b> · density <b>{t.density}</b> · locale <b>{t.locale}</b></Text>; }
 export const Providers: S = {

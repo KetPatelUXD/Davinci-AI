@@ -7,10 +7,10 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 
 figma.connect(InlineMessage, FIGMA_NODE_URL, {
   props: {
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
     label: figma.string('label'),
   },
-  example: ({ label, tone }) => (
-    <InlineMessage tone={tone}>{label}</InlineMessage>
+  example: ({ label, intent }) => (
+    <InlineMessage intent={intent}>{label}</InlineMessage>
   ),
 });

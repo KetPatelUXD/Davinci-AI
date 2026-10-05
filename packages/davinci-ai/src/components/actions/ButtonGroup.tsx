@@ -10,5 +10,5 @@ export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
 
 /** Lays related buttons out together (`role="group"`). */
 export function ButtonGroup({ attached, className, ...rest }: ButtonGroupProps) {
-  return <div role="group" className={cn('dv-btngroup', attached && 'dv-btngroup--attached', className)} {...rest} />;
+  return <div role="group" className={cn('dv-button-group', className)} data-attached={attached || undefined} {...rest} />;
 }

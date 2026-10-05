@@ -26,12 +26,12 @@ export interface TabsProps {
 export function Tabs({ items, selectedKey, defaultSelectedKey, onSelectionChange, orientation = 'horizontal', className, 'aria-label': ariaLabel }: TabsProps) {
   return (
     <RACTabs selectedKey={selectedKey} defaultSelectedKey={defaultSelectedKey ?? items[0]?.id} onSelectionChange={(k) => onSelectionChange?.(String(k))} orientation={orientation} className={cn('dv-tabs', className)}>
-      <TabList aria-label={ariaLabel} className="dv-tabs__list">
+      <TabList aria-label={ariaLabel} className="dv-tabs__tab-list">
         {items.map((t) => (
           <Tab key={t.id} id={t.id} isDisabled={t.isDisabled} className="dv-tabs__tab">{renderIcon(t.icon)}{t.label}</Tab>
         ))}
       </TabList>
-      {items.map((t) => <TabPanel key={t.id} id={t.id} className="dv-tabpanel">{t.content}</TabPanel>)}
+      {items.map((t) => <TabPanel key={t.id} id={t.id} className="dv-tabs__panel">{t.content}</TabPanel>)}
     </RACTabs>
   );
 }

@@ -16,9 +16,9 @@ export type SliderProps = BaseSliderProps<number>;
 export function Slider({ label, hideOutput, className, ...rest }: SliderProps) {
   return (
     <RACSlider {...rest} className={cn('dv-slider', className)}>
-      <div className="dv-slider__head">
+      <div className="dv-slider__header">
         {label && <Label className="dv-field__label">{label}</Label>}
-        {!hideOutput && <SliderOutput className="dv-slider__out dv:tabular-nums" />}
+        {!hideOutput && <SliderOutput className="dv-slider__output dv:tabular-nums" />}
       </div>
       <SliderTrack className="dv-slider__track">
         {({ state }) => (
@@ -37,10 +37,10 @@ export type RangeSliderProps = BaseSliderProps<number[]> & { thumbLabels?: [stri
 /** Two-thumb range slider (e.g. price band). Each thumb has its own accessible name. */
 export function RangeSlider({ label, hideOutput, thumbLabels = ['Minimum', 'Maximum'], className, ...rest }: RangeSliderProps) {
   return (
-    <RACSlider {...rest} className={cn('dv-slider', className)}>
-      <div className="dv-slider__head">
+    <RACSlider {...rest} className={cn('dv-slider dv-range-slider', className)}>
+      <div className="dv-slider__header">
         {label && <Label className="dv-field__label">{label}</Label>}
-        {!hideOutput && <SliderOutput className="dv-slider__out dv:tabular-nums">{({ state }) => state.values.map((_, i) => state.getThumbValueLabel(i)).join(' – ')}</SliderOutput>}
+        {!hideOutput && <SliderOutput className="dv-slider__output dv:tabular-nums">{({ state }) => state.values.map((_, i) => state.getThumbValueLabel(i)).join(' – ')}</SliderOutput>}
       </div>
       <SliderTrack className="dv-slider__track">
         {({ state }) => (

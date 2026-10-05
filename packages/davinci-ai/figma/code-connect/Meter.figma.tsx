@@ -9,9 +9,9 @@ figma.connect(Meter, FIGMA_NODE_URL, {
   props: {
     label: figma.string('label'),
     showValue: figma.boolean('showValue'),
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
   },
-  example: ({ label, showValue, tone }) => (
-    <Meter showValue={showValue} tone={tone}>{label}</Meter>
+  example: ({ label, showValue, intent }) => (
+    <Meter showValue={showValue} intent={intent}>{label}</Meter>
   ),
 });

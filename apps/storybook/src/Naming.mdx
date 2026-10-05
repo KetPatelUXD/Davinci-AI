@@ -1,0 +1,50 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Naming" />
+
+# Naming
+
+One vocabulary across React, Storybook, the manifest (`components.json`) and Figma, so a Figma layer, a DOM node and a prop are always the same word. Enforced by `pnpm check:naming` and `pnpm check:anatomy` (both run in `pnpm lint`).
+
+## Components
+PascalCase, full words: `Button`, `SegmentedControl`, `OrderTicket`. The same name is the React export, the Figma component set, the manifest key, the Storybook title (`Category/Component`) and the CSS block (`dv-segmented-control`).
+
+## Parts (elements inside a component)
+- Class: `dv-{component}__{part}`, kebab-case: `Button/Label` → `.dv-button__label`.
+- Figma layer name = the part name in PascalCase (`Label`, `IconStart`, `Thumb`). Converting is mechanical.
+- Parts are flat; compound names are hyphenated (`option-label`), never nested.
+- Bare text and icon layers inside a named part do not need their own class. Composite parts always do.
+- Modifiers are **data attributes**, never `--modifier` classes.
+
+## Props
+| Idea | Prop |
+|---|---|
+| Visual style | `variant` |
+| Colour meaning | `intent` (`primary` `brand` `positive` `negative` `warning` `info` `neutral` `destructive`) |
+| Size | `size` (`sm` `md` `lg` `xl`) |
+| Direction of layout | `orientation` (`horizontal` / `vertical`) |
+| Boolean state | `isDisabled`, `isSelected`, `isLoading`, `isInvalid` … |
+| Optional slot | `iconStart`, `iconEnd`, `icon`, `suffix`, `actions` |
+| Text | `label`, `title`, `description`, `hint`, `error` |
+| Lifecycle | `status` (`pending` `running` `success` `error`; `complete` `current` `upcoming`) |
+| Content type | `type` |
+| Market side | `side` (`buy` / `sell`) |
+
+## Data attributes
+Mirror props one to one (`data-variant`, `data-intent`, `data-size`, `data-orientation`, `data-full-width`) plus React Aria states (`data-disabled`, `data-selected`, `data-invalid`, `data-pressed`, `data-hovered`, `data-focus-visible`). `data-trend` (`up` `down` `flat`) marks the sign of a change.
+
+## Figma mapping
+| React | Figma |
+|---|---|
+| Component | Component set, same name |
+| `variant` `intent` `size` `orientation` | VARIANT property, same name and values |
+| Interaction state | VARIANT property `state` |
+| Optional slot `iconStart` | INSTANCE_SWAP `iconStart` + BOOLEAN `hasIconStart` |
+| Text prop | TEXT property with the prop name |
+| Part | Layer named as the part |
+| Variant name | `variant=…, intent=…, size=…, state=…` |
+
+Each component in `components.json` lists its real `css.block` and `css.parts`, so an agent can map a Figma layer to a selector without guessing.
+
+## For consuming projects
+Name your own widgets and page regions the same way: `Widget/Header`, `Page/Sidebar`. Never target library `dv-*` classes or `data-*` attributes from project CSS (see **Guides → Extending the library**).

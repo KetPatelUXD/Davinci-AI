@@ -45,7 +45,7 @@ const gallery: Record<string, () => React.ReactElement> = {
   FileUpload: () => <FileUpload />,
   FormField: () => <FormField label="Custom" description="Hint"><input type="text" /></FormField>,
   Form: () => <Form layout="sparse"><TextField label="A" /></Form>,
-  Badge: () => <Badge tone="positive" dot>Live</Badge>,
+  Badge: () => <Badge intent="positive" dot>Live</Badge>,
   Chip: () => <Chip onRemove={() => {}}>Crude</Chip>,
   DeltaPill: () => <DeltaPill value={1.42} context="vs yesterday" />,
   CodeChip: () => <CodeChip>NSC1</CodeChip>,
@@ -59,9 +59,9 @@ const gallery: Record<string, () => React.ReactElement> = {
   ProgressCircle: () => <ProgressCircle aria-label="Sync" value={60} />,
   Meter: () => <Meter label="Limit usage" value={72} warnAt={0.7} criticalAt={0.9} showValue />,
   EmptyState: () => <EmptyState title="No data" description="Nothing yet" />,
-  Callout: () => <Callout tone="warning" title="Delayed">Prices are 15 minutes delayed.</Callout>,
-  Alert: () => <Alert tone="negative" title="Failed">Could not save.</Alert>,
-  Banner: () => <Banner tone="info" dismissible title="Maintenance">Tonight 22:00.</Banner>,
+  Callout: () => <Callout intent="warning" title="Delayed">Prices are 15 minutes delayed.</Callout>,
+  Alert: () => <Alert intent="negative" title="Failed">Could not save.</Alert>,
+  Banner: () => <Banner intent="info" dismissible title="Maintenance">Tonight 22:00.</Banner>,
   Breadcrumbs: () => <Breadcrumbs items={[{ id: 'a', label: 'Home', href: '#' }, { id: 'b', label: 'Markets', href: '#' }]} />,
   Pagination: () => <Pagination page={3} pageCount={12} onPageChange={() => {}} />,
   Stepper: () => <Stepper current={1} steps={[{ id: 'a', label: 'Details' }, { id: 'b', label: 'Review' }, { id: 'c', label: 'Done' }]} />,
@@ -72,7 +72,7 @@ const gallery: Record<string, () => React.ReactElement> = {
   Menu: () => <Menu aria-label="More" trigger={<IconButton label="More actions" icon="ellipsis-vertical" />} items={[{ id: 'a', label: 'Open' }]} />,
   Card: () => <Card title="Exposure">Body</Card>,
   Panel: () => <Panel>Panel</Panel>,
-  AccentTile: () => <AccentTile label="WTI-style" value="+0.88%" tone="positive" />,
+  AccentTile: () => <AccentTile label="WTI-style" value="+0.88%" intent="positive" />,
   Toolbar: () => <Toolbar aria-label="Tools"><Button>A</Button><Button>B</Button></Toolbar>,
   SplitPane: () => <SplitPane aria-label="Resize"><div>A</div><div>B</div></SplitPane>,
   ScrollArea: () => <ScrollArea aria-label="Log" maxHeight={40}><div style={{ height: 200 }}>x</div></ScrollArea>,
@@ -254,12 +254,12 @@ describe('behaviour', () => {
   });
 
   it('Toast is announced through a polite live region', async () => {
-    function Fire() { const { show } = useToast(); return <Button onPress={() => show({ title: 'Order placed', tone: 'positive' })}>Fire</Button>; }
+    function Fire() { const { show } = useToast(); return <Button onPress={() => show({ title: 'Order placed', intent: 'positive' })}>Fire</Button>; }
     renderThemed(<Fire />);
     await userEvent.click(screen.getByRole('button', { name: 'Fire' }));
     expect(await screen.findByRole('region', { name: /notification/ })).toBeInTheDocument();
     await waitFor(() => expect(screen.getAllByRole('status').some((n) => n.getAttribute('aria-live') === 'polite' && n.textContent === 'Order placed')).toBe(true));
-    expect(await screen.findByText('Order placed', { selector: '.dv-toast__title' })).toBeInTheDocument();
+    expect(await screen.findByText('Order placed', { selector: '.dv-toast-provider__toast-title' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Dismiss notification' })).toBeInTheDocument();
   });
 
@@ -305,14 +305,14 @@ describe('behaviour', () => {
 
   it('PriceFlash is silent by default and announces only significant moves when opted in', () => {
     const { rerender, container } = renderThemed(<PriceFlash value={100}>100.00</PriceFlash>);
-    expect(container.querySelector('.dv-flash [aria-live]')).toBeNull();
+    expect(container.querySelector('.dv-price-flash [aria-live]')).toBeNull();
     rerender(<PriceFlash value={101}>101.00</PriceFlash>);
-    expect(container.querySelector('.dv-flash [aria-live]')).toBeNull();
+    expect(container.querySelector('.dv-price-flash [aria-live]')).toBeNull();
   });
 
   it('PriceFlash announce opt-in: small tick silent, big move announced', async () => {
     const { rerender } = render(<PriceFlash value={100} announceThresholdPercent={2} announceLabel="NSC1">100</PriceFlash>);
-    const status = () => document.querySelector('.dv-flash [role="status"]')!.textContent;
+    const status = () => document.querySelector('.dv-price-flash [role="status"]')!.textContent;
     await act(async () => { rerender(<PriceFlash value={100.5} announceThresholdPercent={2} announceLabel="NSC1">100.5</PriceFlash>); });
     expect(status()).toBe('');
     await act(async () => { rerender(<PriceFlash value={103} announceThresholdPercent={2} announceLabel="NSC1">103</PriceFlash>); });
@@ -387,7 +387,7 @@ describe('behaviour', () => {
 
   it('StreamingText shows a cursor only while streaming', () => {
     const { container, rerender } = renderThemed(<StreamingText text="Hello" isStreaming />);
-    expect(container.querySelector('.dv-streaming__cursor')).toBeInTheDocument();
+    expect(container.querySelector('.dv-streaming-text__cursor')).toBeInTheDocument();
     rerender(<StreamingText text="Hello" />);
   });
 

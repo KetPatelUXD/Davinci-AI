@@ -7,12 +7,12 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 
 figma.connect(Sparkline, FIGMA_NODE_URL, {
   props: {
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'mono': 'mono', 'trend': 'trend' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'mono': 'mono', 'trend': 'trend' }),
     markers: figma.boolean('markers'),
     baseline: figma.boolean('baseline'),
     summary: figma.string('summary'),
   },
-  example: ({ tone, markers, baseline, summary }) => (
-    <Sparkline tone={tone} markers={markers} baseline={baseline} summary={summary}></Sparkline>
+  example: ({ intent, markers, baseline, summary }) => (
+    <Sparkline intent={intent} markers={markers} baseline={baseline} summary={summary}></Sparkline>
   ),
 });

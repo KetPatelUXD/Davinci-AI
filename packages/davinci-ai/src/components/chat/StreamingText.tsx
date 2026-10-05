@@ -31,9 +31,9 @@ export function StreamingText({ text, isStreaming, simulate, speed = 2, classNam
   const shown = simulate ? text.slice(0, n) : text;
   const live = isStreaming || (simulate && n < text.length);
   return (
-    <span className={cn('dv-streaming', className)} {...rest}>
+    <span className={cn('dv-streaming-text', className)} {...rest}>
       {shown}
-      {live && <span className="dv-streaming__cursor" aria-hidden="true" />}
+      {live && <span className="dv-streaming-text__cursor" aria-hidden="true" />}
     </span>
   );
 }

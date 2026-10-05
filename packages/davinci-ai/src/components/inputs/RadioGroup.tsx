@@ -18,13 +18,13 @@ export interface RadioGroupProps extends Omit<RACRadioGroupProps, 'className' | 
 /** Single choice from a few visible options (≤6). Use `Select` for longer lists. Arrow keys move and select. */
 export function RadioGroup({ label, description, errorMessage, isOptional, options, className, ...rest }: RadioGroupProps) {
   return (
-    <RACRadioGroup {...rest} className={cn('dv-field dv-group', className)}>
+    <RACRadioGroup {...rest} className={cn('dv-field dv-radio-group', className)}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
-      <div className="dv-group__items">
+      <div className="dv-radio-group__items">
         {options.map((o) => (
-          <RACRadio key={o.value} value={o.value} isDisabled={o.isDisabled} className="dv-radio">
-            <span className="dv-radio__dot" aria-hidden="true" />
-            <span className="dv-check__text">
+          <RACRadio key={o.value} value={o.value} isDisabled={o.isDisabled} className="dv-radio-group__radio">
+            <span className="dv-radio-group__radio-dot" aria-hidden="true" />
+            <span className="dv-checkbox__label">
               <span>{o.label}</span>
               {o.description && <span className="dv-field__hint">{o.description}</span>}
             </span>

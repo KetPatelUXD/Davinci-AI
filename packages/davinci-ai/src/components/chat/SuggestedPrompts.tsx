@@ -13,9 +13,9 @@ export interface SuggestedPromptsProps {
 /** Quick-start question chips. Use on empty chat states, or floating above the `Composer`. */
 export function SuggestedPrompts({ prompts, onSelect, floating, className }: SuggestedPromptsProps) {
   return (
-    <div role="group" aria-label="Suggested questions" className={cn('dv-prompts', floating && 'dv-prompts--floating', className)}>
+    <div role="group" aria-label="Suggested questions" className={cn('dv-suggested-prompts', className)} data-floating={floating || undefined}>
       {prompts.map((p) => (
-        <RACButton key={p} className={cn('dv-prompt', floating && 'dv-glass')} onPress={() => onSelect(p)}>{p}</RACButton>
+        <RACButton key={p} className={cn('dv-suggested-prompts__prompt', floating && 'dv-glass')} onPress={() => onSelect(p)}>{p}</RACButton>
       ))}
     </div>
   );

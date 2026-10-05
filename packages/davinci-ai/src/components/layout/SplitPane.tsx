@@ -42,8 +42,8 @@ export function SplitPane({ children, orientation = 'horizontal', defaultSize = 
     if (map[e.key] !== undefined) { e.preventDefault(); set(map[e.key]!); }
   };
   return (
-    <div ref={root} className={cn('dv-split', className)} data-orientation={orientation} style={{ ['--dv-split' as string]: `${value}%` }}>
-      <div id={id} className="dv-split__pane dv-split__pane--a">{children[0]}</div>
+    <div ref={root} className={cn('dv-split-pane', className)} data-orientation={orientation} style={{ ['--dv-split' as string]: `${value}%` }}>
+      <div id={id} className="dv-split-pane__pane" data-pane="a">{children[0]}</div>
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- focusable separator is a WAI-ARIA window-splitter widget */}
       <div
         role="separator"
@@ -54,11 +54,11 @@ export function SplitPane({ children, orientation = 'horizontal', defaultSize = 
         aria-valuenow={Math.round(value)}
         aria-valuemin={min}
         aria-valuemax={max}
-        className="dv-split__handle"
+        className="dv-split-pane__handle"
         onPointerDown={onPointerDown}
         onKeyDown={onKeyDown}
       />
-      <div className="dv-split__pane dv-split__pane--b">{children[1]}</div>
+      <div className="dv-split-pane__pane" data-pane="b">{children[1]}</div>
     </div>
   );
 }

@@ -55,13 +55,16 @@ Colour is bound to text/icon variables. Every component with an icon nests an `I
 
 **Prerequisite:** every designer and the machine running kit generation needs the Font Awesome 7 Pro desktop fonts installed, or uploaded as shared organisation fonts in Figma; otherwise icon layers fall back to plain text.
 
-## Generating the kit (high level)
+## Generating the kit (pipeline – components are derived from the rendered React components)
 
-1. `pnpm build && pnpm tokens:figma && pnpm build-storybook && pnpm test:screens`
-2. Create the variable collections/modes from `variables.json`, then the styles from `styles.json`.
-3. Build components in category order from `components.json` (properties → variants → anatomy bound to variables). Compare each against `dist/screens/<story-id>.<mode>.png`.
-4. Assemble Patterns and the Markets dashboard from instances.
-5. Fill `FIGMA_NODE_URL` in the Code Connect files and `pnpm figma:connect` – Dev Mode then shows real `@davinci-ai/react` code.
+1. `pnpm manifest` (components.json) and, for tokens, `pnpm tokens:figma`.
+2. Run Storybook (`cd apps/storybook && npx storybook dev -p 6007`; restart it after adding a new stories file). The `Internal/Extract*` stories host every component with all optional parts on; wrapper ids (`#default`, `#selected`, …) are state roots. Targets live in `scripts/figma-extract.config.mjs`.
+3. `node scripts/figma-extract.mjs <Component…>` renders each target in Chromium, applies variants/states, reads the real cascade and resolves every value to a design token (also SVG → vector nodes with token-bound fills/strokes, dashed circles → arcs, multi-row grids → wrapping auto-layout, nested components → instances with text/icon overrides).
+4. `node scripts/figma-compact.mjs <Component…>` factors the variants (axis tables + nested base tree, round-trip verified) → `dist/figma/build/*.f.json`; `node scripts/figma-names-check.mjs` audits layer names against the manifest; `node scripts/figma-paste.mjs` / `figma-call.mjs` print the spec / a complete `use_figma` script.
+5. The builder library (`scripts/figma-lib/*.js`) is stored in the Figma file (shared plugin data `dvlib`) and loaded by each `use_figma` call (`L.build` → `L.finish`). Never edit components in Figma and port back.
+6. Reference pages (Spacing & sizes, Radius & elevation, Motion, Icons, Patterns, Examples, Getting started, Sync & changelog) are built from the file's own variables/styles and from component instances.
+
+Hand-written patches that are not yet in the pipeline are listed on the **Sync & changelog** page of the file.
 
 ## Known limits (documented, not solved)
 

@@ -7,14 +7,14 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 
 figma.connect(Badge, FIGMA_NODE_URL, {
   props: {
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
     variant: figma.enum('variant', { 'solid': 'solid', 'subtle': 'subtle', 'outline': 'outline' }),
     size: figma.enum('size', { 'sm': 'sm', 'md': 'md' }),
     dot: figma.boolean('dot'),
     icon: figma.boolean('hasIcon', { true: figma.instance('icon'), false: undefined }),
     label: figma.string('label'),
   },
-  example: ({ label, tone, variant, size, dot, icon }) => (
-    <Badge tone={tone} variant={variant} size={size} dot={dot} icon={icon}>{label}</Badge>
+  example: ({ label, intent, variant, size, dot, icon }) => (
+    <Badge intent={intent} variant={variant} size={size} dot={dot} icon={icon}>{label}</Badge>
   ),
 });

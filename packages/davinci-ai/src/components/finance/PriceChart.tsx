@@ -88,7 +88,8 @@ export function PriceChart({ data, labels, xAxisLabels, yTicks = 4, highlight = 
       aria-label={rest['aria-label']}
       aria-describedby={`${id}-sum`}
       tabIndex={0}
-      className={cn('dv-pchart', fill && 'dv-pchart--fill', className)}
+      className={cn('dv-price-chart', className)}
+      data-fill={fill || undefined}
       style={{ minHeight: height, ...(fill ? {} : { height }) }}
       data-active={active !== null || undefined}
       onPointerMove={onPointerMove}
@@ -113,17 +114,17 @@ export function PriceChart({ data, labels, xAxisLabels, yTicks = 4, highlight = 
         <path ref={line} d={d} fill="none" stroke={`url(#${id}s)`} strokeWidth="2" vectorEffect="non-scaling-stroke" />
       </svg>
       {gridYs.map((y, k) => (
-        <span key={`yl${k}`} className="dv-pchart__y dv:tabular-nums" style={{ top: `calc(${(y / H) * 100}% - 17px)` }}>{fmt(mx - (k * (mx - mn)) / Math.max(1, yTicks - 1) - 0)}</span>
+        <span key={`yl${k}`} className="dv-price-chart__axis-y dv:tabular-nums" style={{ top: `calc(${(y / H) * 100}% - 17px)` }}>{fmt(mx - (k * (mx - mn)) / Math.max(1, yTicks - 1) - 0)}</span>
       ))}
       {xAxisLabels && (
-        <div className="dv-pchart__x dv:tabular-nums" aria-hidden="true">
+        <div className="dv-price-chart__axis-x dv:tabular-nums" aria-hidden="true">
           {xAxisLabels.map((t, i) => <span key={i} style={{ left: `${(i / Math.max(1, xAxisLabels.length - 1)) * 100}%`, transform: i === 0 ? 'none' : i === xAxisLabels.length - 1 ? 'translateX(-100%)' : 'translateX(-50%)' }}>{t}</span>)}
         </div>
       )}
       {highlight && <><i className="dv-dot" style={{ left: lp(ia), top: tp(ia) }} /><i className="dv-dot" style={{ left: lp(ib), top: tp(ib) }} /></>}
-      <div className="dv-pchart__band" style={{ left: active !== null ? lp(active) : 0 }} />
-      <i className="dv-ring" style={{ left: active !== null ? lp(active) : 0, top: active !== null ? tp(active) : 0 }} />
-      <div className="dv-pchart__tip dv:tabular-nums" style={{ ['--x' as string]: active !== null ? lp(active) : '0%', top: active !== null ? tp(active) : 0 }} aria-hidden="true">
+      <div className="dv-price-chart__band" style={{ left: active !== null ? lp(active) : 0 }} />
+      <i className="dv-price-chart__ring" style={{ left: active !== null ? lp(active) : 0, top: active !== null ? tp(active) : 0 }} />
+      <div className="dv-price-chart__tooltip dv:tabular-nums" style={{ ['--x' as string]: active !== null ? lp(active) : '0%', top: active !== null ? tp(active) : 0 }} aria-hidden="true">
         {active !== null && (<><b>{tooltipPrefix}{fmt(data[active]!)}</b> {labels?.[active] && <span>{labels[active]}</span>}</>)}
       </div>
     </div>

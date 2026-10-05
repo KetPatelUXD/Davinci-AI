@@ -15,7 +15,7 @@
     "storybook": "pnpm manifest && pnpm --filter @davinci-ai/storybook dev",
     "playground": "pnpm --filter @davinci-ai/playground dev",
     "typecheck": "pnpm -r typecheck",
-    "lint": "eslint . && node scripts/lint-tokens.mjs",
+    "lint": "eslint . && node scripts/lint-tokens.mjs && node scripts/check-naming.mjs && node scripts/check-anatomy.mjs --strict",
     "format": "prettier --write .",
     "test": "pnpm --filter @davinci-ai/react test",
     "test:storybook": "pnpm --filter @davinci-ai/storybook test:ci",
@@ -24,7 +24,9 @@
     "set-scope": "node scripts/set-scope.mjs",
     "changeset": "changeset",
     "test:storybook:light": "SB_THEME=light pnpm --filter @davinci-ai/storybook test:ci",
-    "test:all": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm build-storybook && pnpm test:storybook && pnpm test:storybook:light && pnpm test:screens"
+    "test:all": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm build-storybook && pnpm test:storybook && pnpm test:storybook:light && pnpm test:screens",
+    "check:naming": "node scripts/check-naming.mjs",
+    "check:anatomy": "node scripts/check-anatomy.mjs --strict"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",

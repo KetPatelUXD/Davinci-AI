@@ -74,19 +74,19 @@ export function Table<T extends { id: Key }>({
             sortDescriptor={sortDescriptor}
             onSortChange={onSortChange}
             onRowAction={onRowAction}
-            className="dv-table__el"
+            className="dv-table__table"
           >
-            <TableHeader className="dv-table__head">
+            <TableHeader className="dv-table__header">
               {selectionMode !== 'none' && (
-                <Column width={44} textValue="Selection" className="dv-table__th dv-table__th--select">{selectionMode === 'multiple' ? <Checkbox slot="selection" aria-label="Select all rows" /> : <span className="dv:sr-only">Select</span>}</Column>
+                <Column width={44} textValue="Selection" className="dv-table__header-cell" data-column="select">{selectionMode === 'multiple' ? <Checkbox slot="selection" aria-label="Select all rows" /> : <span className="dv:sr-only">Select</span>}</Column>
               )}
               {columns.map((c) => (
-                <Column key={c.id} id={c.id} isRowHeader={c.isRowHeader} allowsSorting={c.allowsSorting} width={c.width as never} textValue={c.textValue} className="dv-table__th" data-align={c.align ?? (c.numeric ? 'end' : 'start')}>
+                <Column key={c.id} id={c.id} isRowHeader={c.isRowHeader} allowsSorting={c.allowsSorting} width={c.width as never} textValue={c.textValue} className="dv-table__header-cell" data-align={c.align ?? (c.numeric ? 'end' : 'start')}>
                   {({ allowsSorting, sortDirection }) => (
                     <span className="dv-table__thin">
                       {c.header}
                       {allowsSorting && (
-                        <Icon name={sortDirection === 'ascending' ? 'arrow-up-wide-short' : sortDirection === 'descending' ? 'arrow-down-wide-short' : 'arrows-up-down'} size={12} className={cn('dv-table__sort', sortDirection && 'dv-table__sort--on')} />
+                        <Icon name={sortDirection === 'ascending' ? 'arrow-up-wide-short' : sortDirection === 'descending' ? 'arrow-down-wide-short' : 'arrows-up-down'} size={12} className="dv-table__sort" data-sorted={sortDirection ? true : undefined} />
                       )}
                     </span>
                   )}
@@ -99,9 +99,9 @@ export function Table<T extends { id: Key }>({
             >
               {(row) => (
                 <Row id={row.id} className="dv-table__row">
-                  {selectionMode !== 'none' && <Cell className="dv-table__td dv-table__td--select">{isLoading ? null : <Checkbox slot="selection" aria-label="Select row" />}</Cell>}
+                  {selectionMode !== 'none' && <Cell className="dv-table__cell" data-column="select">{isLoading ? null : <Checkbox slot="selection" aria-label="Select row" />}</Cell>}
                   {columns.map((c) => (
-                    <Cell key={c.id} className={cn('dv-table__td', c.numeric && 'dv:tabular-nums')} data-align={c.align ?? (c.numeric ? 'end' : 'start')}>
+                    <Cell key={c.id} className={cn('dv-table__cell', c.numeric && 'dv:tabular-nums')} data-align={c.align ?? (c.numeric ? 'end' : 'start')}>
                       {isLoading ? <Skeleton height={14} width={c.numeric ? 64 : '70%'} /> : typeof c.cell === 'function' ? c.cell(row) : (row[c.cell] as ReactNode)}
                     </Cell>
                   ))}
@@ -143,9 +143,9 @@ export interface AssetCellProps {
 /** Two-line primary cell: icon well + name (13.5/500) + muted category. */
 export function AssetCell({ name, category, icon = 'chart-line' }: AssetCellProps) {
   return (
-    <div className="dv-asset">
-      <span className="dv-asset__icon">{renderIcon(icon, 16)}</span>
-      <div className="dv-asset__text">
+    <div className="dv-asset-cell">
+      <span className="dv-asset-cell__icon-well">{renderIcon(icon, 16)}</span>
+      <div className="dv-asset-cell__text">
         <b>{name}</b>
         {category && <small>{category}</small>}
       </div>
@@ -166,7 +166,7 @@ export function RowActions({ name, items }: RowActionsProps) {
       placement="bottom end"
       items={items}
       trigger={
-        <RACButton className="dv-kebab" aria-label={`Actions for ${name}`}>
+        <RACButton className="dv-row-actions" aria-label={`Actions for ${name}`}>
           <Icon name="ellipsis-vertical" size={16} />
         </RACButton>
       }

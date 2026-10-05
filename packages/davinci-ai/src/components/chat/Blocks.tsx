@@ -22,8 +22,8 @@ export interface CodeBlockProps {
 export function CodeBlock({ code, language, className }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
   return (
-    <figure className={cn('dv-codeblock', className)}>
-      <figcaption className="dv-codeblock__head">
+    <figure className={cn('dv-code-block', className)}>
+      <figcaption className="dv-code-block__header">
         <span>{language ?? 'code'}</span>
         <IconButton
           label={copied ? 'Copied' : `Copy ${language ?? 'code'}`}
@@ -49,16 +49,16 @@ interface TraceProps {
 
 function Trace({ summary, children, defaultExpanded, icon, status, className }: TraceProps & { icon: ReactNode; status?: ReactNode }) {
   return (
-    <Disclosure defaultExpanded={defaultExpanded} className={cn('dv-trace', className)}>
-      <Heading level={3} className="dv-trace__h">
-        <RACButton slot="trigger" className="dv-trace__trigger">
+    <Disclosure defaultExpanded={defaultExpanded} className={cn('dv-tool-use-block', className)}>
+      <Heading level={3} className="dv-tool-use-block__header">
+        <RACButton slot="trigger" className="dv-tool-use-block__trigger">
           {icon}
-          <span className="dv-trace__summary">{summary}</span>
+          <span className="dv-tool-use-block__summary">{summary}</span>
           {status}
-          <Icon name="chevron-right" size={12} className="dv-trace__chev" />
+          <Icon name="chevron-right" size={12} className="dv-tool-use-block__chevron" />
         </RACButton>
       </Heading>
-      <DisclosurePanel className="dv-trace__panel">{children}</DisclosurePanel>
+      <DisclosurePanel className="dv-tool-use-block__panel">{children}</DisclosurePanel>
     </Disclosure>
   );
 }
@@ -89,9 +89,9 @@ export function ToolUseBlock({ name, status = 'success', summary, children, ...r
   return (
     <Trace
       {...rest}
-      summary={<>{name}{summary && <span className="dv-trace__sub"> · {summary}</span>}</>}
+      summary={<>{name}{summary && <span className="dv-tool-use-block__description"> · {summary}</span>}</>}
       icon={status === 'running' ? <Spinner size="sm" /> : <Icon name="gear" size={14} />}
-      status={<span className="dv-trace__status" data-status={status}><Icon name={status === 'error' ? 'circle-xmark' : status === 'success' ? 'circle-check' : 'clock'} size={12} />{label}</span>}
+      status={<span className="dv-tool-use-block__status" data-status={status}><Icon name={status === 'error' ? 'circle-xmark' : status === 'success' ? 'circle-check' : 'clock'} size={12} />{label}</span>}
     >
       {children}
     </Trace>
@@ -111,7 +111,7 @@ export interface CitationChipProps {
 export function CitationChip({ n, title, href, onPress }: CitationChipProps) {
   return (
     <Tooltip content={title} delay={150}>
-      <RACLink href={href} onPress={onPress} aria-label={`Source ${n}: ${title}`} className="dv-citation" {...(href ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{n}</RACLink>
+      <RACLink href={href} onPress={onPress} aria-label={`Source ${n}: ${title}`} className="dv-citation-chip" {...(href ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{n}</RACLink>
     </Tooltip>
   );
 }
@@ -119,7 +119,7 @@ export function CitationChip({ n, title, href, onPress }: CitationChipProps) {
 export interface ArtifactPanelProps {
   title: string;
   /** Kind label, e.g. "Table", "Report". */
-  kind?: string;
+  type?: string;
   onClose?: () => void;
   /** Extra header actions (copy, download…). */
   actions?: ReactNode;
@@ -128,15 +128,15 @@ export interface ArtifactPanelProps {
 }
 
 /** Side panel for larger outputs (reports, tables, code). A labelled complementary region with its own scroll. */
-export function ArtifactPanel({ title, kind, onClose, actions, children, className }: ArtifactPanelProps) {
+export function ArtifactPanel({ title, type, onClose, actions, children, className }: ArtifactPanelProps) {
   return (
-    <aside aria-label={title} className={cn('dv-artifact dv-card', className)} data-border="none">
-      <header className="dv-artifact__head">
-        <div className="dv-artifact__titles"><h2 className="dv-artifact__title">{title}</h2>{kind && <span className="dv-artifact__kind">{kind}</span>}</div>
+    <aside aria-label={title} className={cn('dv-artifact-panel dv-card', className)} data-border="none">
+      <header className="dv-artifact-panel__header">
+        <div className="dv-artifact-panel__titles"><h2 className="dv-artifact-panel__title">{title}</h2>{type && <span className="dv-artifact-panel__kind">{type}</span>}</div>
         {actions}
         {onClose && <IconButton label="Close panel" icon="xmark" variant="ghost" size="sm" onPress={onClose} />}
       </header>
-      <div className="dv-artifact__body" tabIndex={0} role="region" aria-label={`${title} content`}>{children}</div>
+      <div className="dv-artifact-panel__body" tabIndex={0} role="region" aria-label={`${title} content`}>{children}</div>
     </aside>
   );
 }

@@ -25,16 +25,16 @@ export function DeltaPill({ value, context, decimals = 2, arrow, children, class
   const dir = value === undefined ? 'flat' : value > 0 ? 'up' : value < 0 ? 'down' : 'flat';
   const a = arrow ?? (dir === 'flat' ? 'none' : dir);
   return (
-    <span className={cn('dv-delta dv:tabular-nums', className)} data-dir={dir} {...rest}>
+    <span className={cn('dv-delta-pill dv:tabular-nums', className)} data-trend={dir} {...rest}>
       {children ?? (
         <>
           <span className="dv:sr-only">{dir === 'up' ? 'Up ' : dir === 'down' ? 'Down ' : 'Unchanged '}</span>
           <b>{formatPercent(value ?? 0, { decimals, locale })}</b>
-          {context && <span className="dv-delta__ctx">{context}</span>}
+          {context && <span className="dv-delta-pill__context">{context}</span>}
         </>
       )}
       {a !== 'none' && (
-        <i className="dv-delta__arrow" aria-hidden="true"><Icon name={a === 'up' ? 'arrow-up' : 'arrow-down'} size={11} strokeWidth={2} /></i>
+        <i className="dv-delta-pill__arrow" aria-hidden="true"><Icon name={a === 'up' ? 'arrow-up' : 'arrow-down'} size={11} strokeWidth={2} /></i>
       )}
     </span>
   );

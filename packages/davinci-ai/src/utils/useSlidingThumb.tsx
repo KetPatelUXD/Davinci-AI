@@ -35,7 +35,7 @@ export function useSlidingThumb(ref: RefObject<HTMLElement | null>, selectedKey:
 export function SlidingThumb({ box, ready }: { box: { left: number; width: number } | null; ready: boolean }) {
   return (
     <motion.span
-      className="dv-seg__thumb"
+      className="dv-segmented-control__thumb"
       aria-hidden="true"
       initial={false}
       animate={box ? { left: box.left, width: box.width, opacity: 1 } : { opacity: 0 }}

@@ -19,7 +19,7 @@ export function Disclosure({ title, summary, level = 3, children, className, ...
     <RACDisclosure {...rest} className={cn('dv-disclosure', className)}>
       <Heading level={level} className="dv-disclosure__heading">
         <RACButton slot="trigger" className="dv-disclosure__trigger">
-          <Icon name="chevron-right" size={14} className="dv-disclosure__chev" />
+          <Icon name="chevron-right" size={14} className="dv-disclosure__chevron" />
           <span className="dv-disclosure__title">{title}</span>
           {summary && <span className="dv-disclosure__summary">{summary}</span>}
         </RACButton>
@@ -55,5 +55,5 @@ export function Accordion({ items, allowsMultipleExpanded, defaultExpandedKeys, 
 
 /** Section heading that collapses its content; same semantics as `Disclosure` with section styling. */
 export function CollapsibleSection({ className, ...props }: DisclosureProps) {
-  return <Disclosure {...props} className={cn('dv-collapsible', className)} />;
+  return <Disclosure {...props} className={cn('dv-collapsible-section', className)} />;
 }

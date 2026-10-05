@@ -13,8 +13,8 @@ function ToastButtons() {
   const { show } = useToast();
   return (
     <Row>
-      <Button variant="subtle" onPress={() => show({ title: 'Order placed', description: 'Buy 25,000 bbl NSC1 @ 84.60', tone: 'positive' })}>Success toast</Button>
-      <Button variant="subtle" onPress={() => show({ title: 'Connection lost', description: 'Retrying…', tone: 'warning', timeout: 0, action: { label: 'Retry', onPress: () => {} } })}>Sticky warning</Button>
+      <Button variant="subtle" onPress={() => show({ title: 'Order placed', description: 'Buy 25,000 bbl NSC1 @ 84.60', intent: 'positive' })}>Success toast</Button>
+      <Button variant="subtle" onPress={() => show({ title: 'Connection lost', description: 'Retrying…', intent: 'warning', timeout: 0, action: { label: 'Retry', onPress: () => {} } })}>Sticky warning</Button>
     </Row>
   );
 }
@@ -32,5 +32,5 @@ export const Sheet: S = { render: () => (<Drawer title="Assessment details" trig
 export const Pop: S = { render: () => (<div style={{ minHeight: 240 }}><Popover aria-label="Alert details" trigger={<Button variant="subtle">Details</Button>} arrow><Col gap={8}><b>Alert rule</b><span>Notify when NSC1 crosses 85.00.</span></Col></Popover></div>) };
 export const Toasts: S = { render: () => <ToastProvider><ToastButtons /></ToastProvider> };
 export const Messages: S = {
-  render: () => (<Col width={560}><Alert tone="negative" title="Could not save">Check your connection and try again.</Alert><Alert tone="positive" title="Saved" onDismiss={() => {}}>Your changes are live.</Alert><Banner tone="info" dismissible title="Maintenance tonight 22:00–23:00.">Pricing remains available.</Banner><InlineMessage tone="warning">Prices are 15 minutes delayed.</InlineMessage></Col>),
+  render: () => (<Col width={560}><Alert intent="negative" title="Could not save">Check your connection and try again.</Alert><Alert intent="positive" title="Saved" onDismiss={() => {}}>Your changes are live.</Alert><Banner intent="info" dismissible title="Maintenance tonight 22:00–23:00.">Pricing remains available.</Banner><InlineMessage intent="warning">Prices are 15 minutes delayed.</InlineMessage></Col>),
 };

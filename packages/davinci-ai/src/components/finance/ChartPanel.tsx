@@ -16,10 +16,10 @@ export interface ChartPanelProps extends Omit<CardProps, 'children'> {
 /** Shell for a chart: header (title, range selector), legend slot, chart slot, footer stats. */
 export function ChartPanel({ rangeSelector, legend, footer, children, title, actions, className, ...rest }: ChartPanelProps) {
   return (
-    <Card {...rest} title={title} actions={<>{actions}{rangeSelector}</>} className={cn('dv-chartpanel', className)}>
-      {legend && <div className="dv-chartpanel__legend">{legend}</div>}
-      <div className="dv-chartpanel__chart">{children}</div>
-      {footer && <div className="dv-chartpanel__foot">{footer}</div>}
+    <Card {...rest} title={title} actions={<>{actions}{rangeSelector}</>} className={cn('dv-chart-panel', className)}>
+      {legend && <div className="dv-chart-panel__legend">{legend}</div>}
+      <div className="dv-chart-panel__chart">{children}</div>
+      {footer && <div className="dv-chart-panel__footer">{footer}</div>}
     </Card>
   );
 }

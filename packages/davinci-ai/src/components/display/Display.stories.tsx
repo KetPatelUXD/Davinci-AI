@@ -8,7 +8,7 @@ import { Kbd } from './Kbd';
 import { Divider } from './Divider';
 import { Col, Row, Section } from '../../stories/helpers';
 
-const meta = { title: 'Components/Display/Badge, Chip, DeltaPill, CodeChip, Avatar', component: Badge, args: { children: 'Live', tone: 'positive', dot: true }, argTypes: { tone: { control: 'select', options: ['neutral', 'brand', 'positive', 'negative', 'warning', 'info'] }, variant: { control: 'inline-radio', options: ['subtle', 'solid', 'outline'] } }, parameters: { docs: { components: ["Badge", "Chip", "DeltaPill", "CodeChip", "Avatar", "AvatarGroup", "Kbd", "Divider"], description: { component: 'Small display primitives. Colour is **always paired with text, a sign or an icon**.' } } } } satisfies Meta<typeof Badge>;
+const meta = { title: 'Components/Display/Badge, Chip, DeltaPill, CodeChip, Avatar', component: Badge, args: { children: 'Live', intent: 'positive', dot: true }, argTypes: { intent: { control: 'select', options: ['neutral', 'brand', 'positive', 'negative', 'warning', 'info'] }, variant: { control: 'inline-radio', options: ['subtle', 'solid', 'outline'] } }, parameters: { docs: { components: ["Badge", "Chip", "DeltaPill", "CodeChip", "Avatar", "AvatarGroup", "Kbd", "Divider"], description: { component: 'Small display primitives. Colour is **always paired with text, a sign or an icon**.' } } } } satisfies Meta<typeof Badge>;
 export default meta;
 type S = StoryObj<typeof meta>;
 
@@ -17,7 +17,7 @@ export const Tones: S = {
   render: () => (
     <Col>
       {(['subtle', 'solid', 'outline'] as const).map((v) => (
-        <Section key={v} title={v}><Row>{(['neutral', 'brand', 'positive', 'negative', 'warning', 'info'] as const).map((t) => <Badge key={t} tone={t} variant={v} dot>{t}</Badge>)}</Row></Section>
+        <Section key={v} title={v}><Row>{(['neutral', 'brand', 'positive', 'negative', 'warning', 'info'] as const).map((t) => <Badge key={t} intent={t} variant={v} dot>{t}</Badge>)}</Row></Section>
       ))}
     </Col>
   ),

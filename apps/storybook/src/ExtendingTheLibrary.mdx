@@ -46,7 +46,7 @@ Compose library components. Don't restyle them.
 - Use **token variables** for anything colour-like on your wrapper (`var(--dv-surface)`, `var(--dv-line)`), so dark/light and theming keep working.
 
 **Breaks on library updates**
-- CSS that targets internals: `.dv-btn`, `[data-selected]`, `.dv-card__title` – class names and data attributes are **not** a public API.
+- CSS that targets internals: `.dv-button`, `[data-selected]`, `.dv-card__title` – class names and data attributes are **not** a public API.
 - Overriding token values inside one widget to tweak a primitive (fine globally via a theme, a hidden fork per widget).
 - Copying a primitive's markup or CSS into the project.
 

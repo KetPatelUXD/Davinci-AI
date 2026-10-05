@@ -29,7 +29,7 @@ function range(page: number, count: number, siblings: number): (number | '…')[
 export function Pagination({ page, pageCount, onPageChange, siblings = 1, className, 'aria-label': label = 'Pagination' }: PaginationProps) {
   return (
     <nav aria-label={label} className={cn('dv-pagination', className)}>
-      <RACButton className="dv-iconbtn" data-size="sm" aria-label="Previous page" isDisabled={page <= 1} onPress={() => onPageChange(page - 1)}><Icon name="chevron-left" size={14} /></RACButton>
+      <RACButton className="dv-icon-button" data-size="sm" aria-label="Previous page" isDisabled={page <= 1} onPress={() => onPageChange(page - 1)}><Icon name="chevron-left" size={14} /></RACButton>
       <ul className="dv-pagination__list">
         {range(page, pageCount, siblings).map((p, i) => (
           <li key={`${p}-${i}`}>
@@ -39,7 +39,7 @@ export function Pagination({ page, pageCount, onPageChange, siblings = 1, classN
           </li>
         ))}
       </ul>
-      <RACButton className="dv-iconbtn" data-size="sm" aria-label="Next page" isDisabled={page >= pageCount} onPress={() => onPageChange(page + 1)}><Icon name="chevron-right" size={14} /></RACButton>
+      <RACButton className="dv-icon-button" data-size="sm" aria-label="Next page" isDisabled={page >= pageCount} onPress={() => onPageChange(page + 1)}><Icon name="chevron-right" size={14} /></RACButton>
     </nav>
   );
 }

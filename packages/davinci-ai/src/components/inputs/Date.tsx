@@ -11,18 +11,18 @@ import { FieldFoot, FieldLabel, type FieldProps } from './shared';
 
 function CalendarHead() {
   return (
-    <header className="dv-cal__head">
-      <RACButton slot="previous" className="dv-iconbtn" data-variant="ghost" data-size="sm"><Icon name="chevron-left" size={14} /></RACButton>
-      <Heading className="dv-cal__title" />
-      <RACButton slot="next" className="dv-iconbtn" data-variant="ghost" data-size="sm"><Icon name="chevron-right" size={14} /></RACButton>
+    <header className="dv-calendar__header">
+      <RACButton slot="previous" className="dv-icon-button dv-calendar__previous" data-variant="ghost" data-size="sm"><Icon name="chevron-left" size={14} /></RACButton>
+      <Heading className="dv-calendar__title" />
+      <RACButton slot="next" className="dv-icon-button dv-calendar__next" data-variant="ghost" data-size="sm"><Icon name="chevron-right" size={14} /></RACButton>
     </header>
   );
 }
 function CalendarBody() {
   return (
-    <CalendarGrid className="dv-cal__grid">
-      <CalendarGridHeader>{(d) => <CalendarHeaderCell className="dv-cal__dow">{d}</CalendarHeaderCell>}</CalendarGridHeader>
-      <CalendarGridBody>{(date) => <CalendarCell date={date} className="dv-cal__cell" />}</CalendarGridBody>
+    <CalendarGrid className="dv-calendar__grid">
+      <CalendarGridHeader>{(d) => <CalendarHeaderCell className="dv-calendar__weekday">{d}</CalendarHeaderCell>}</CalendarGridHeader>
+      <CalendarGridBody>{(date) => <CalendarCell date={date} className="dv-calendar__cell" />}</CalendarGridBody>
     </CalendarGrid>
   );
 }
@@ -30,7 +30,7 @@ function CalendarBody() {
 /** Month calendar (single date). Arrow keys move by day, PageUp/PageDown by month. */
 export function Calendar<T extends DateValue>({ className, ...rest }: Omit<CalendarProps<T>, 'className' | 'children'> & { className?: string }) {
   return (
-    <RACCalendar {...rest} className={cn('dv-cal', className)}>
+    <RACCalendar {...rest} className={cn('dv-calendar', className)}>
       <CalendarHead />
       <CalendarBody />
     </RACCalendar>
@@ -39,7 +39,7 @@ export function Calendar<T extends DateValue>({ className, ...rest }: Omit<Calen
 
 export function RangeCalendar<T extends DateValue>({ className, ...rest }: Omit<RangeCalendarProps<T>, 'className' | 'children'> & { className?: string }) {
   return (
-    <RACRangeCalendar {...rest} className={cn('dv-cal', className)}>
+    <RACRangeCalendar {...rest} className={cn('dv-calendar dv-range-calendar', className)}>
       <CalendarHead />
       <CalendarBody />
     </RACRangeCalendar>
@@ -51,7 +51,7 @@ export interface DatePickerProps<T extends DateValue> extends Omit<RACDatePicker
 /** Typed date field with a calendar popover. Segments are individually editable by keyboard. */
 export function DatePicker<T extends DateValue>({ label, description, errorMessage, isOptional, size, className, ...rest }: DatePickerProps<T>) {
   return (
-    <RACDatePicker {...rest} className={cn('dv-field', className)} data-size={size}>
+    <RACDatePicker {...rest} className={cn('dv-field dv-date-picker', className)} data-size={size}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
       <Group className="dv-input">
         <DateInput className="dv-dateinput">{(seg) => <DateSegment segment={seg} className="dv-dateseg" />}</DateInput>
@@ -68,7 +68,7 @@ export interface DateRangePickerProps<T extends DateValue> extends Omit<RACDateR
 /** Start–end date range with a two-month-capable range calendar. */
 export function DateRangePicker<T extends DateValue>({ label, description, errorMessage, isOptional, size, className, ...rest }: DateRangePickerProps<T>) {
   return (
-    <RACDateRangePicker {...rest} className={cn('dv-field', className)} data-size={size}>
+    <RACDateRangePicker {...rest} className={cn('dv-field dv-date-range-picker', className)} data-size={size}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
       <Group className="dv-input">
         <DateInput slot="start" className="dv-dateinput">{(seg) => <DateSegment segment={seg} className="dv-dateseg" />}</DateInput>
@@ -87,7 +87,7 @@ export interface TimeFieldProps<T extends TimeValue> extends Omit<RACTimeFieldPr
 /** Hour/minute (optionally seconds) field in the locale's 12/24-hour convention. */
 export function TimeField<T extends TimeValue>({ label, description, errorMessage, isOptional, size, className, ...rest }: TimeFieldProps<T>) {
   return (
-    <RACTimeField {...rest} className={cn('dv-field', className)} data-size={size}>
+    <RACTimeField {...rest} className={cn('dv-field dv-time-field', className)} data-size={size}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
       <Group className="dv-input">
         <DateInput className="dv-dateinput">{(seg) => <DateSegment segment={seg} className="dv-dateseg" />}</DateInput>

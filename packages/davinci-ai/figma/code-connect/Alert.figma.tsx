@@ -7,10 +7,10 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 
 figma.connect(Alert, FIGMA_NODE_URL, {
   props: {
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
     label: figma.string('label'),
   },
-  example: ({ label, tone }) => (
-    <Alert tone={tone}>{label}</Alert>
+  example: ({ label, intent }) => (
+    <Alert intent={intent}>{label}</Alert>
   ),
 });

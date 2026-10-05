@@ -15,9 +15,9 @@ export interface ToggleButtonProps extends Omit<RACToggleButtonProps, 'className
 /** Pill that toggles on/off (`aria-pressed`). Selected state uses the white/ink `on` fill. */
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(function ToggleButton({ size = 'md', iconStart, className, children, ...rest }, ref) {
   return (
-    <RACToggleButton ref={ref} {...rest} data-size={size} data-variant="subtle" className={cn('dv-btn dv-togglebtn', className)}>
+    <RACToggleButton ref={ref} {...rest} data-size={size} data-variant="subtle" className={cn('dv-button dv-toggle-button', className)}>
       {renderIcon(iconStart)}
-      {children != null && <span className="dv-btn__label">{children}</span>}
+      {children != null && <span className="dv-button__label">{children}</span>}
     </RACToggleButton>
   );
 });

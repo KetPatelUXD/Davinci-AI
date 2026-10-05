@@ -38,10 +38,10 @@ export function FilterBar({ filters, value, defaultValue, onChange, savedViews, 
     ...(onSaveView ? [{ id: 'sep', type: 'separator' as const }, { id: 'save', label: 'Save current view…', icon: 'bookmark', onAction: onSaveView }] : []),
   ];
   return (
-    <Toolbar aria-label={label} className={cn('dv-filterbar', className)}>
-      <div role="group" aria-label="Quick filters" className="dv-filterbar__chips">
+    <Toolbar aria-label={label} className={cn('dv-filter-bar', className)}>
+      <div role="group" aria-label="Quick filters" className="dv-filter-bar__chips">
         {filters.map((f) => (
-          <ToggleButton key={f.id} isSelected={selected.includes(f.id)} onChange={(on) => set(on ? [...selected, f.id] : selected.filter((x) => x !== f.id))} className="dv-filterchip">{f.label}</ToggleButton>
+          <ToggleButton key={f.id} isSelected={selected.includes(f.id)} onChange={(on) => set(on ? [...selected, f.id] : selected.filter((x) => x !== f.id))} className="dv-filter-bar__chip">{f.label}</ToggleButton>
         ))}
       </div>
       {viewItems.length > 0 && <Menu trigger={<Button variant="subtle" size="sm" iconEnd="chevron-down" iconStart="bookmark">Saved views</Button>} items={viewItems} />}

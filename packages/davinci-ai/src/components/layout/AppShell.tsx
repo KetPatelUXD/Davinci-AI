@@ -24,14 +24,14 @@ export interface AppShellProps {
  */
 export function AppShell({ header, sidebar, dock, ambient = true, maxWidth = 1560, skipLabel = 'Skip to main content', children, className }: AppShellProps) {
   return (
-    <div className={cn('dv-shell', className)}>
+    <div className={cn('dv-app-shell', className)}>
       {ambient && <AppBackground />}
-      <a href="#dv-main" className="dv-skip">{skipLabel}</a>
-      <div className="dv-shell__frame" style={{ maxWidth }}>
+      <a href="#dv-app-shell__main" className="dv-app-shell__skip-link">{skipLabel}</a>
+      <div className="dv-app-shell__frame" style={{ maxWidth }}>
         {header}
-        <div className="dv-shell__body" data-sidebar={sidebar ? '' : undefined}>
+        <div className="dv-app-shell__body" data-sidebar={sidebar ? '' : undefined}>
           {sidebar}
-          <main id="dv-main" tabIndex={-1} className="dv-shell__main" data-dock={dock ? '' : undefined}>{children}</main>
+          <main id="dv-app-shell__main" tabIndex={-1} className="dv-app-shell__main" data-dock={dock ? '' : undefined}>{children}</main>
         </div>
       </div>
       {dock}

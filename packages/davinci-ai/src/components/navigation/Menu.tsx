@@ -27,7 +27,7 @@ export interface MenuEntry {
 }
 
 function renderEntry(e: MenuEntry): ReactNode {
-  if (e.type === 'separator') return <Separator key={e.id} className="dv-menu__sep" />;
+  if (e.type === 'separator') return <Separator key={e.id} className="dv-menu__separator" />;
   if (e.type === 'section')
     return (
       <MenuSection key={e.id} className="dv-menu__section">
@@ -36,11 +36,11 @@ function renderEntry(e: MenuEntry): ReactNode {
       </MenuSection>
     );
   const item = (
-    <MenuItem key={e.id} id={e.id} textValue={e.textValue ?? (typeof e.label === 'string' ? e.label : e.id)} isDisabled={e.isDisabled} href={e.href} onAction={e.onAction} className={cn('dv-menuitem', e.destructive && 'dv-menuitem--destructive')}>
+    <MenuItem key={e.id} id={e.id} textValue={e.textValue ?? (typeof e.label === 'string' ? e.label : e.id)} isDisabled={e.isDisabled} href={e.href} onAction={e.onAction} className="dv-menu__item" data-intent={e.destructive ? 'destructive' : undefined}>
       {renderIcon(e.icon)}
-      <span className="dv-menuitem__label">{e.label}</span>
-      {e.shortcut && <Keyboard className="dv-menuitem__kbd">{e.shortcut}</Keyboard>}
-      {e.children && <Icon name="chevron-right" size={14} className="dv-menuitem__sub" />}
+      <span className="dv-menu__item-label">{e.label}</span>
+      {e.shortcut && <Keyboard className="dv-menu__item-shortcut">{e.shortcut}</Keyboard>}
+      {e.children && <Icon name="chevron-right" size={14} className="dv-menu__item-description" />}
     </MenuItem>
   );
   if (e.children?.length) {
@@ -101,7 +101,7 @@ export function ContextMenu({ items, onAction, children, 'aria-label': ariaLabel
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- wrapper only listens for the context-menu gesture; the menu itself is a real menu
     <div
-      className={cn('dv-contextarea', className)}
+      className={cn('dv-context-menu__area', className)}
       onContextMenu={(e: MouseEvent) => { e.preventDefault(); openAt(e.clientX, e.clientY); }}
       onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'ContextMenu' || (e.shiftKey && e.key === 'F10')) {
@@ -112,7 +112,7 @@ export function ContextMenu({ items, onAction, children, 'aria-label': ariaLabel
       }}
     >
       {children}
-      <span ref={anchor} className="dv-contextanchor" aria-hidden="true" />
+      <span ref={anchor} className="dv-context-menu__anchor" aria-hidden="true" />
       <RACPopover triggerRef={anchor} isOpen={open} onOpenChange={setOpen} placement="bottom start" {...attrs} className={cn(root, 'dv-popover dv-glass')}>
         <RACMenu className="dv-menu" aria-label={ariaLabel} onAction={(k) => { onAction?.(k); setOpen(false); }}>{items.map(renderEntry)}</RACMenu>
       </RACPopover>

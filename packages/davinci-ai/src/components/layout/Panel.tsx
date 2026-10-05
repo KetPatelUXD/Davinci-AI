@@ -8,5 +8,5 @@ export interface PanelProps extends HTMLAttributes<HTMLDivElement> {
 
 /** Nested surface inside a card: `panel` fill, hairline inset edge, radius 20. Groups form controls or a pill bar. */
 export function Panel({ flush, className, ...rest }: PanelProps) {
-  return <div className={cn('dv-panel', flush && 'dv-panel--flush', className)} {...rest} />;
+  return <div className={cn('dv-panel', className)} data-flush={flush || undefined} {...rest} />;
 }

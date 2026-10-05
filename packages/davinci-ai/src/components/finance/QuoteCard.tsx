@@ -41,22 +41,22 @@ export function QuoteCard({ title, unit, price, currency, decimals = 2, change, 
   const id = useId();
   const n = useCountUp(price);
   return (
-    <Card {...rest} title={undefined} aria-labelledby={id} className={cn('dv-quote', className)}>
-      <div className="dv-quote__top">
+    <Card {...rest} title={undefined} aria-labelledby={id} className={cn('dv-quote-card', className)}>
+      <div className="dv-quote-card__top">
         <div>
           <h2 id={id} className="dv-card__title">{title}{unit && <> <span className="dv-card__unit">· {unit}</span></>}</h2>
-          <DisplayNumber size={64} className="dv-quote__price" value={formatNumber(n, { decimals, locale })} unit={currency} />
+          <DisplayNumber size={64} className="dv-quote-card__price" value={formatNumber(n, { decimals, locale })} unit={currency} />
           <span className="dv:sr-only">{formatNumber(price, { decimals, locale })} {currency}</span>
-          {change && <div className="dv-quote__delta"><DeltaPill value={change.percent} context={change.context} /></div>}
+          {change && <div className="dv-quote-card__delta"><DeltaPill value={change.percent} context={change.context} /></div>}
         </div>
-        {rangeSelector && <div className="dv-quote__range">{rangeSelector}</div>}
+        {rangeSelector && <div className="dv-quote-card__range">{rangeSelector}</div>}
       </div>
-      {children && <div className="dv-quote__chart">{children}</div>}
+      {children && <div className="dv-quote-card__chart">{children}</div>}
       {(stats || dayRange) && (
-        <dl className="dv-quote__stats dv:tabular-nums">
+        <dl className="dv-quote-card__stats dv:tabular-nums">
           {stats?.map((s) => (<div key={s.label}><dt>{s.label}</dt><dd>{s.value}</dd></div>))}
           {dayRange && (
-            <div className="dv-quote__range-stat">
+            <div className="dv-quote-card__range-stat">
               <dt>Day range · {formatNumber(dayRange.low, { decimals, locale })} – {formatNumber(dayRange.high, { decimals, locale })}</dt>
               <dd><DayRange variant="bar" low={dayRange.low} high={dayRange.high} value={price} decimals={decimals} /></dd>
             </div>

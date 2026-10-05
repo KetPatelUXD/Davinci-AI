@@ -66,7 +66,7 @@ export const ListsAndTrees: S = {
   args: Default.args,
   render: () => (
     <div style={{ display: 'grid', gap: 32, gridTemplateColumns: 'repeat(3, minmax(0, 320px))' }}>
-      <List aria-label="Alerts" selectionMode="single" items={[{ id: 'a', title: 'NSC1 above 85.00', description: 'Created today', icon: 'bell', trailing: <Badge tone="positive">Active</Badge> }, { id: 'b', title: 'TTF1 below 30.00', description: 'Created yesterday', icon: 'bell', trailing: <Badge>Paused</Badge> }]} />
+      <List aria-label="Alerts" selectionMode="single" items={[{ id: 'a', title: 'NSC1 above 85.00', description: 'Created today', icon: 'bell', trailing: <Badge intent="positive">Active</Badge> }, { id: 'b', title: 'TTF1 below 30.00', description: 'Created yesterday', icon: 'bell', trailing: <Badge>Paused</Badge> }]} />
       <TreeView aria-label="Instruments" defaultExpandedKeys={['oil']} nodes={[{ id: 'oil', label: 'Oil & products', icon: 'droplet', children: [{ id: 'nsc1', label: 'North Sea Crude M1' }, { id: 'uls', label: 'NWE Diesel 10ppm' }] }, { id: 'gas', label: 'Gas & power', icon: 'fire', children: [{ id: 'ttf1', label: 'Continental Gas M1' }] }]} />
       <DescriptionList items={[{ term: 'Notional', details: '$2,115,000.00' }, { term: 'Est. fees', details: '$412.50' }, { term: 'Settlement', details: 'T+2' }]} />
     </div>

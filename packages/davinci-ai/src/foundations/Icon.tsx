@@ -75,7 +75,7 @@ export function Icon({ name, icon, size, label, className, style, strokeWidth, .
   if (isFa(source)) {
     const [w, h, , , path] = source.icon;
     return (
-      <svg className={cn(cls, 'dv-icon--fill')} viewBox={`0 0 ${w} ${h}`} {...dim} {...a11y} style={st} data-icon={source.iconName} {...rest}>
+      <svg className={cls} data-fill viewBox={`0 0 ${w} ${h}`} {...dim} {...a11y} style={st} data-icon={source.iconName} {...rest}>
         {Array.isArray(path) ? (<><path d={path[0]} opacity={0.4} /><path d={path[1]} /></>) : <path d={path} />}
       </svg>
     );

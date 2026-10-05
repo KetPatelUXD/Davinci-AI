@@ -11,7 +11,7 @@ for (const id of STORIES) {
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
     await page.goto(storyUrl(id, id.endsWith('light') ? 'light' : 'dark'), { waitUntil: 'load' });
-    await page.waitForSelector('.dv-root');
+    await page.waitForSelector('.dv-theme-provider');
     await settle(page);
     expect(errors, errors.join('\n')).toEqual([]);
     // no horizontal page overflow
@@ -25,9 +25,9 @@ for (const id of STORIES) {
 
 test('keyboard focus ring is visible', async ({ page, browserName }) => {
   await page.goto(storyUrl('components-actions-button--default', 'dark'), { waitUntil: 'load' });
-  await page.waitForSelector('.dv-btn');
+  await page.waitForSelector('.dv-button');
   await page.keyboard.press('Tab');
-  const outline = await page.locator('.dv-btn').evaluate((el) => getComputedStyle(el).outlineStyle + ' ' + getComputedStyle(el).outlineWidth);
+  const outline = await page.locator('.dv-button').evaluate((el) => getComputedStyle(el).outlineStyle + ' ' + getComputedStyle(el).outlineWidth);
   expect(outline, browserName).toMatch(/solid 2px/);
 });
 

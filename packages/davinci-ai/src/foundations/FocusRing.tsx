@@ -20,6 +20,6 @@ export function FocusRing({ children, within, isTextInput }: FocusRingProps) {
   const { isFocusVisible, focusProps } = useFocusRing({ within, isTextInput });
   return cloneElement(children, {
     ...focusProps,
-    className: cn(children.props.className, 'dv-focus-target', isFocusVisible && 'dv-focus-ring'),
+    className: cn(children.props.className, 'dv-focus-ring__target', isFocusVisible && 'dv-focus-ring'),
   } as object);
 }

@@ -32,7 +32,7 @@ export interface ListProps {
 /** Keyboard-navigable list with optional selection. Rows are 1px-divided; selected rows use the hover fill. */
 export function List({ items, dense, emptyState, className, ...rest }: ListProps) {
   return (
-    <GridList {...rest} items={items} renderEmptyState={() => emptyState ?? <div className="dv-listbox__empty">Nothing here yet</div>} className={cn('dv-list', dense && 'dv-list--dense', className)}>
+    <GridList {...rest} items={items} renderEmptyState={() => emptyState ?? <div className="dv-listbox__empty">Nothing here yet</div>} className={cn('dv-list', className)} data-dense={dense || undefined}>
       {(it) => (
         <GridListItem id={it.id} textValue={it.textValue ?? (typeof it.title === 'string' ? it.title : it.id)} isDisabled={it.isDisabled} className="dv-list__item">
           {renderIcon(it.icon, 18)}
@@ -64,13 +64,13 @@ export interface TreeViewProps {
 
 function renderNode(n: TreeNode): ReactNode {
   return (
-    <TreeItem key={n.id} id={n.id} textValue={n.label} className="dv-tree__item">
+    <TreeItem key={n.id} id={n.id} textValue={n.label} className="dv-tree-view__item">
       <TreeItemContent>
         {({ hasChildItems }) => (
-          <span className="dv-tree__row">
+          <span className="dv-tree-view__row">
             {hasChildItems ? (
-              <RACButton slot="chevron" className="dv-tree__chev"><Icon name="chevron-right" size={14} /></RACButton>
-            ) : <span className="dv-tree__chev dv-tree__chev--empty" />}
+              <RACButton slot="chevron" className="dv-tree-view__chevron"><Icon name="chevron-right" size={14} /></RACButton>
+            ) : <span className="dv-tree-view__chevron" data-empty />}
             {renderIcon(n.icon, 16)}
             <span>{n.label}</span>
           </span>
@@ -83,7 +83,7 @@ function renderNode(n: TreeNode): ReactNode {
 
 /** Hierarchical list: ←/→ collapse/expand, ↑/↓ move, type-ahead. */
 export function TreeView({ nodes, className, ...rest }: TreeViewProps) {
-  return <Tree {...rest} className={cn('dv-tree', className)}>{nodes.map(renderNode)}</Tree>;
+  return <Tree {...rest} className={cn('dv-tree-view', className)}>{nodes.map(renderNode)}</Tree>;
 }
 
 export interface DescriptionItem {
@@ -101,9 +101,9 @@ export interface DescriptionListProps {
 /** Key–value pairs (`<dl>`), e.g. notional / fees. Numeric details use tabular figures. */
 export function DescriptionList({ items, layout = 'inline', className }: DescriptionListProps) {
   return (
-    <dl className={cn('dv-dl', className)} data-layout={layout}>
+    <dl className={cn('dv-description-list', className)} data-layout={layout}>
       {items.map((it, i) => (
-        <div key={i} className="dv-dl__row">
+        <div key={i} className="dv-description-list__row">
           <dt>{it.term}</dt>
           <dd className="dv:tabular-nums">{it.details}</dd>
         </div>

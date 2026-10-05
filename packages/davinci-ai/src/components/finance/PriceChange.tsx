@@ -33,9 +33,9 @@ export function PriceChange({ value, percent, decimals = 2, hideIcon, size = 'md
   if (value !== undefined) parts.push(formatSigned(value, decimals, locale));
   if (percent !== undefined) parts.push(value !== undefined ? `(${formatPercent(percent, { decimals, locale })})` : formatPercent(percent, { decimals, locale }));
   return (
-    <span className={cn('dv-pchg dv:tabular-nums', className)} data-dir={dir} data-size={size} {...rest}>
+    <span className={cn('dv-price-change dv:tabular-nums', className)} data-trend={dir} data-size={size} {...rest}>
       <span className="dv:sr-only">{dir === 'up' ? 'Up ' : dir === 'down' ? 'Down ' : 'Unchanged '}{spoken}</span>
-      <span aria-hidden="true" className="dv-pchg__vis">
+      <span aria-hidden="true" className="dv-price-change__vis">
         {!hideIcon && dir !== 'flat' && <Icon name={dir === 'up' ? 'arrow-up' : 'arrow-down'} size={size === 'sm' ? 11 : 12} strokeWidth={2} />}
         {parts.join(' ')}
       </span>
@@ -89,7 +89,7 @@ export function PriceFlash({ value, children, duration = 600, announceThresholdP
     }
   }, [value, announceThresholdPercent, announceLabel]);
   return (
-    <span className={cn('dv-flash dv:tabular-nums', className)} data-flash={flash ?? undefined} {...rest}>
+    <span className={cn('dv-price-flash dv:tabular-nums', className)} data-flash={flash ?? undefined} {...rest}>
       {children}
       {announceThresholdPercent !== undefined && <span className="dv:sr-only" role="status" aria-live="polite">{message}</span>}
     </span>

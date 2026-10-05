@@ -29,31 +29,31 @@ export function ChatMessage({ role, children, text, onEdit, actions, trace, clas
   const [draft, setDraft] = useState(text ?? '');
   if (role === 'user') {
     return (
-      <article aria-label="Your message" className={cn('dv-msg dv-msg--user', className)}>
+      <article aria-label="Your message" className={cn('dv-chat-message', className)} data-role="user">
         {editing ? (
-          <form className="dv-msg__edit" onSubmit={(e) => { e.preventDefault(); onEdit?.(draft); setEditing(false); }}>
+          <form className="dv-chat-message__edit" onSubmit={(e) => { e.preventDefault(); onEdit?.(draft); setEditing(false); }}>
             <TextArea aria-label="Edit your message" value={draft} onChange={setDraft} rows={3} autoFocus />
-            <div className="dv-msg__editbtns">
+            <div className="dv-chat-message__edit-actions">
               <Button variant="ghost" size="sm" onPress={() => { setDraft(text ?? ''); setEditing(false); }}>Cancel</Button>
               <Button size="sm" type="submit" isDisabled={!draft.trim()}>Save &amp; resend</Button>
             </div>
           </form>
         ) : (
           <>
-            <div className="dv-msg__bubble">{children}</div>
-            {onEdit && text !== undefined && <IconButton label="Edit message" icon="pen" size="sm" variant="ghost" className="dv-msg__edit-btn" onPress={() => { setDraft(text); setEditing(true); }} />}
+            <div className="dv-chat-message__bubble">{children}</div>
+            {onEdit && text !== undefined && <IconButton label="Edit message" icon="pen" size="sm" variant="ghost" className="dv-chat-message__edit-action" onPress={() => { setDraft(text); setEditing(true); }} />}
           </>
         )}
       </article>
     );
   }
   return (
-    <article aria-label="LEO's reply" className={cn('dv-msg dv-msg--assistant', className)}>
-      <LeoMark size={22} className="dv-msg__avatar" />
-      <div className="dv-msg__main">
+    <article aria-label="LEO's reply" className={cn('dv-chat-message', className)} data-role="assistant">
+      <LeoMark size={22} className="dv-chat-message__avatar" />
+      <div className="dv-chat-message__main">
         {trace}
-        <div className="dv-msg__body">{children}</div>
-        {actions && <div className="dv-msg__actions">{actions}</div>}
+        <div className="dv-chat-message__body">{children}</div>
+        {actions && <div className="dv-chat-message__actions">{actions}</div>}
       </div>
     </article>
   );

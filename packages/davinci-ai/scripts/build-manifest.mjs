@@ -151,6 +151,15 @@ function expand(node, sizes) {
 }
 
 // ---------------------------------------------------------------- 4. assemble
+// DOM contract: the CSS block and parts each component actually renders (docs/naming-convention.md)
+const kebabName = (s) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').replace(/([A-Z])([A-Z][a-z])/g, '$1-$2').toLowerCase();
+const codeParts = {};
+{
+  const walkSrc = (d, out = []) => { for (const f of readdirSync(d)) { const p = join(d, f); if (statSync(p).isDirectory()) walkSrc(p, out); else out.push(p); } return out; };
+  for (const dir of ['components', 'foundations', 'utils']) for (const f of walkSrc(join(root, 'src', dir)).filter((x) => /\.tsx$/.test(x) && !/\.(stories|test)\./.test(x))) {
+    for (const m of readFileSync(f, 'utf8').matchAll(/(?<![-\w])dv-([a-z0-9]+(?:-[a-z0-9]+)*)__([a-z0-9]+(?:-[a-z0-9]+)*)/g)) (codeParts[m[1]] ||= new Set()).add(m[2]);
+  }
+}
 const storybookIds = (() => {
   const p = join(root, '..', '..', 'apps', 'storybook', 'storybook-static', 'index.json');
   if (!existsSync(p)) return null;
@@ -189,6 +198,7 @@ for (const [name, cfg] of Object.entries(config)) {
     states: cfg.states ?? ['default'],
     accessibility: { keyboard: cfg.keyboard ?? null, aria: cfg.aria ?? null, notes: cfg.notes ?? [], wcag: 'WCAG 2.2 AA; verified with axe in unit tests and Storybook for dark and light themes.' },
     related: cfg.related ?? [],
+    css: cfg.nonVisual ? undefined : { block: `dv-${kebabName(name)}`, parts: [...(codeParts[kebabName(name)] ?? [])].sort().map((p) => `dv-${kebabName(name)}__${p}`), sharedBlocks: cfg.shares?.map((b) => `dv-${b}`) },
     figma,
     storybook: sb ? sb.id : undefined,
   };

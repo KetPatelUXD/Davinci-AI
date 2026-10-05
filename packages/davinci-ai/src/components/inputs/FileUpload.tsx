@@ -35,30 +35,30 @@ export function FileUpload({ label = 'Upload files', description, accept, multip
     set(multiple ? [...files, ...ok] : ok.slice(0, 1));
   };
   return (
-    <div className={cn('dv-field', className)}>
+    <div className={cn('dv-field dv-file-upload', className)}>
       <span className="dv-field__label" id={id}>{label}</span>
       <DropZone
         aria-labelledby={id}
         isDisabled={isDisabled}
-        className="dv-drop"
+        className="dv-file-upload__drop-zone"
         onDrop={async (e) => {
           const items = e.items.filter((i) => i.kind === 'file') as { getFile: () => Promise<File> }[];
           add(await Promise.all(items.map((i) => i.getFile())));
         }}
       >
         <Icon name="upload" size={20} />
-        <Text slot="label" className="dv-drop__text">Drag files here or</Text>
+        <Text slot="label" className="dv-file-upload__drop-zone-text">Drag files here or</Text>
         <FileTrigger acceptedFileTypes={accept} allowsMultiple={multiple} onSelect={add}>
-          <RACButton className="dv-btn" data-variant="subtle" data-size="sm" isDisabled={isDisabled}>Browse files</RACButton>
+          <RACButton className="dv-button" data-variant="subtle" data-size="sm" isDisabled={isDisabled}>Browse files</RACButton>
         </FileTrigger>
       </DropZone>
       {files.length > 0 && (
-        <ul className="dv-filelist" aria-label="Selected files">
+        <ul className="dv-file-upload__file-list" aria-label="Selected files">
           {files.map((f, i) => (
-            <li key={`${f.name}-${i}`} className="dv-filelist__item">
+            <li key={`${f.name}-${i}`} className="dv-file-upload__file-list-item">
               <Icon name="file" size={16} />
               <span className="dv:truncate dv:min-w-0">{f.name}</span>
-              <span className="dv-filelist__size">{fmt(f.size)}</span>
+              <span className="dv-file-upload__file-list-size">{fmt(f.size)}</span>
               <IconButton label={`Remove ${f.name}`} icon="xmark" variant="ghost" size="sm" onPress={() => set(files.filter((_, j) => j !== i))} />
             </li>
           ))}

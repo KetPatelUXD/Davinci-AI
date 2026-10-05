@@ -26,7 +26,7 @@ export function WatchlistPage() {
         <GridItem span={{ base: 12, lg: 7 }}>
           <Card title={active.name} unit={`· ${active.category}`}>
             <Stack gap={12}>
-              <Stack direction="row" gap={12}>
+              <Stack orientation="horizontal" gap={12}>
                 <span className="dv-display dv-display--48 dv:tabular-nums">{formatNumber(active.last)}</span>
                 <DeltaPill value={active.change} context="1D" />
               </Stack>
@@ -56,7 +56,7 @@ export function DenseOrderForm() {
           <GridItem span={6}><DatePicker label="Expires" isOptional /></GridItem>
           <GridItem span={6}><TextField label="Client reference" placeholder="e.g. DESK-2231" isOptional /></GridItem>
           <GridItem span={12}>
-            <Stack direction="row" gap={16}>
+            <Stack orientation="horizontal" gap={16}>
               <Checkbox defaultSelected>Reduce only</Checkbox>
               <Checkbox>Post only</Checkbox>
               <span className="dv:flex-1" />
@@ -85,8 +85,8 @@ export function SparseSettingsForm() {
           <MultiSelect label="Markets" isOptional items={assessments.map((a) => ({ id: a.id, label: a.name }))} defaultValue={['nsc1', 'ttf1']} />
           <Switch defaultSelected>Pause alerts outside market hours</Switch>
         </Fieldset>
-        <Callout tone="info" title="Fictional demo">Nothing on this page is saved.</Callout>
-        <Stack direction="row" gap={8}><span className="dv:flex-1" /><Button variant="subtle">Cancel</Button><Button type="submit" size="lg">Save changes</Button></Stack>
+        <Callout intent="info" title="Fictional demo">Nothing on this page is saved.</Callout>
+        <Stack orientation="horizontal" gap={8}><span className="dv:flex-1" /><Button variant="subtle">Cancel</Button><Button type="submit" size="lg">Save changes</Button></Stack>
       </Form>
     </Card>
   );
@@ -143,7 +143,7 @@ export function ChatPanel() {
           </div>
         </div>
         {open ? (
-          <ArtifactPanel title="NSC1 vs peers" kind="Table" onClose={() => setOpen(false)}>
+          <ArtifactPanel title="NSC1 vs peers" type="Table" onClose={() => setOpen(false)}>
             <Table aria-label="Peer comparison" columns={cols} rows={assessments.slice(0, 4)} density="compact" />
           </ArtifactPanel>
         ) : <span />}

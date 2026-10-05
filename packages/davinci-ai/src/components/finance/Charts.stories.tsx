@@ -25,14 +25,14 @@ export default meta;
 type S = StoryObj<typeof meta>;
 
 export const Hero: S = {};
-export const HoverCrosshair: S = { play: async ({ canvasElement }) => { const el = canvasElement.querySelector('.dv-pchart') as HTMLElement; await userEvent.hover(el, { clientX: 400, clientY: 120 } as never); await userEvent.tab(); await userEvent.keyboard('{ArrowLeft}{ArrowLeft}'); } };
+export const HoverCrosshair: S = { play: async ({ canvasElement }) => { const el = canvasElement.querySelector('.dv-price-chart') as HTMLElement; await userEvent.hover(el, { clientX: 400, clientY: 120 } as never); await userEvent.tab(); await userEvent.keyboard('{ArrowLeft}{ArrowLeft}'); } };
 export const NoHighlight: S = { args: { highlight: false } };
 export const Sparklines: S = {
   decorators: [(S) => <div style={{ width: 520 }}><S /></div>],
   render: () => (
     <Col>
       <Section title="Mono (default) with band + markers"><Sparkline data={series} band height={70} /></Section>
-      <Section title="Trend colouring"><Row gap={32}><div style={{ width: 200 }}><Sparkline data={series} tone="trend" height={40} /></div><div style={{ width: 200 }}><Sparkline data={seriesDown} tone="trend" height={40} /></div></Row></Section>
+      <Section title="Trend colouring"><Row gap={32}><div style={{ width: 200 }}><Sparkline data={series} intent="trend" height={40} /></div><div style={{ width: 200 }}><Sparkline data={seriesDown} intent="trend" height={40} /></div></Row></Section>
       <Section title="Plain, no baseline"><Sparkline data={series} baseline={false} height={30} style={{ width: 120 }} /></Section>
     </Col>
   ),

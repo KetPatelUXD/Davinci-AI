@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
 export default tseslint.config(
-  { ignores: ['**/figma/code-connect/**', '**/dist/**', '**/storybook-static/**', 'reference/**', 'assets/**', '**/node_modules/**', '**/*.d.ts'] },
+  { ignores: ['**/figma/code-connect/**', '**/dist/**', 'scripts/figma-lib/**', '**/storybook-static/**', 'reference/**', 'assets/**', '**/node_modules/**', '**/*.d.ts'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

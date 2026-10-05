@@ -22,7 +22,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
   ref,
 ) {
   return (
-    <RACButton ref={ref} {...rest} aria-label={label} data-variant={variant} data-size={size} className={cn('dv-iconbtn', className)}>
+    <RACButton ref={ref} {...rest} aria-label={label} data-variant={variant} data-size={size} className={cn('dv-icon-button', className)}>
       {renderIcon(icon)}
     </RACButton>
   );

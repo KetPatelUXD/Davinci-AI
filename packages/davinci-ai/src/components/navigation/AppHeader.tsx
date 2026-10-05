@@ -33,24 +33,24 @@ export interface AppHeaderProps {
  */
 export function AppHeader({ brand = 'DaVinci.AI', logo, nav, currentId, onNavigate, actions, 'aria-label': navLabel = 'Primary', className }: AppHeaderProps) {
   return (
-    <header className={cn('dv-appheader', className)}>
-      <div className="dv-appheader__brand">
-        <span className="dv-appheader__logo">{logo ?? <DaVinciLogo decorative size={22} />}</span>
+    <header className={cn('dv-app-header', className)}>
+      <div className="dv-app-header__brand">
+        <span className="dv-app-header__logo-tile">{logo ?? <DaVinciLogo decorative size={22} />}</span>
         {brand}
       </div>
       {nav && (
-        <nav aria-label={navLabel} className="dv-pillnav">
+        <nav aria-label={navLabel} className="dv-app-header__nav">
           {nav.map((n) => {
             const current = n.id === currentId;
             return n.href ? (
-              <RACLink key={n.id} href={n.href} aria-current={current ? 'page' : undefined} onPress={() => onNavigate?.(n.id)} className="dv-pillnav__item" data-current={current || undefined}>{n.label}</RACLink>
+              <RACLink key={n.id} href={n.href} aria-current={current ? 'page' : undefined} onPress={() => onNavigate?.(n.id)} className="dv-app-header__tab" data-current={current || undefined}>{n.label}</RACLink>
             ) : (
-              <RACButton key={n.id} aria-current={current ? 'page' : undefined} onPress={() => onNavigate?.(n.id)} className="dv-pillnav__item" data-current={current || undefined}>{n.label}</RACButton>
+              <RACButton key={n.id} aria-current={current ? 'page' : undefined} onPress={() => onNavigate?.(n.id)} className="dv-app-header__tab" data-current={current || undefined}>{n.label}</RACButton>
             );
           })}
         </nav>
       )}
-      <div className="dv-appheader__actions">{actions}</div>
+      <div className="dv-app-header__actions">{actions}</div>
     </header>
   );
 }
@@ -67,9 +67,9 @@ export interface UserChipProps {
 /** Pill with avatar, name, role and chevron. A button – typically the trigger of an account `Menu`. */
 export function UserChip({ name, subtitle, src, onPress, className }: UserChipProps) {
   return (
-    <RACButton onPress={onPress} className={cn('dv-userchip', className)} aria-label={`${name}${subtitle ? `, ${subtitle}` : ''}. Account menu`}>
+    <RACButton onPress={onPress} className={cn('dv-user-chip', className)} aria-label={`${name}${subtitle ? `, ${subtitle}` : ''}. Account menu`}>
       <Avatar name={name} src={src} size="md" decorative />
-      <span className="dv-userchip__text"><b>{name}</b>{subtitle && <small>{subtitle}</small>}</span>
+      <span className="dv-user-chip__text"><b>{name}</b>{subtitle && <small>{subtitle}</small>}</span>
       <Icon name="chevron-down" size={16} />
     </RACButton>
   );

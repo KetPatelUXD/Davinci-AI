@@ -22,11 +22,11 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(functi
   ref,
 ) {
   return (
-    <RACNumberField {...rest} className={cn('dv-field', className)} data-size={size}>
+    <RACNumberField {...rest} className={cn('dv-field dv-number-field', className)} data-size={size}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
       <Group className="dv-input">
         <Input ref={ref} placeholder={placeholder} className="dv-input__el dv:tabular-nums" />
-        {suffix && <span className="dv-input__affix dv-input__affix--end">{suffix}</span>}
+        {suffix && <span className="dv-input__affix">{suffix}</span>}
         {!hideSteppers && (
           <span className="dv-input__steppers">
             <RACButton slot="increment" className="dv-input__stepper"><Icon name="caret-up" size={12} /></RACButton>
@@ -55,6 +55,7 @@ export const PriceField = forwardRef<HTMLInputElement, PriceFieldProps>(function
     <NumberField
       ref={ref}
       {...rest}
+      className={cn('dv-price-field', rest.className)}
       step={tick}
       suffix={suffix ?? currency}
       formatOptions={{ minimumFractionDigits: precision, maximumFractionDigits: precision, useGrouping: true }}

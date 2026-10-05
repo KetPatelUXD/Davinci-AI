@@ -95,7 +95,7 @@ export function ThemeProvider({
     <ThemeContext.Provider value={value}>
       <I18nProvider locale={locale}>
         <MotionConfig reducedMotion="user">
-          <div {...rest} {...attrs} className={cn('dv-root', canvas && 'dv-root--canvas', className)}>
+          <div {...rest} {...attrs} className={cn('dv-theme-provider', className)} data-canvas={canvas || undefined}>
             {children}
           </div>
         </MotionConfig>
@@ -123,5 +123,5 @@ export function DensityProvider({ density, className, children, ...rest }: Densi
 /** Attributes to put on portalled overlays (Popover, Modal, Tooltip, Toast) so they inherit theme, density and locale. */
 export function useThemeAttributes() {
   const { theme, style, density, direction, cardBorder, colorBlindSafe } = useTheme();
-  return { 'data-theme': theme, 'data-style': style, 'data-density': density, 'data-direction': direction, 'data-card-border': cardBorder, ...(colorBlindSafe ? { 'data-cvd': 'true' } : {}), className: 'dv-root' } as const;
+  return { 'data-theme': theme, 'data-style': style, 'data-density': density, 'data-direction': direction, 'data-card-border': cardBorder, ...(colorBlindSafe ? { 'data-cvd': 'true' } : {}), className: 'dv-theme-provider' } as const;
 }

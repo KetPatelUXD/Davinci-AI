@@ -27,7 +27,7 @@ export function FormField({ label, description, errorMessage, isRequired, isOpti
   const errId = `${id}-err`;
   const describedBy = [description ? hintId : null, errorMessage ? errId : null].filter(Boolean).join(' ') || undefined;
   return (
-    <div className={cn('dv-field', className)}>
+    <div className={cn('dv-field dv-form-field', className)}>
       <label htmlFor={id} className="dv-field__label">
         {label}
         {isRequired && <span className="dv-field__req" aria-hidden="true"> *</span>}

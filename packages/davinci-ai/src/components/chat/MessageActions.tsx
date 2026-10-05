@@ -23,7 +23,7 @@ export function MessageActions({ copyText, onCopy, onRetry, feedback, onFeedback
   const fb = feedback ?? own;
   const setFb = (v: 'up' | 'down' | null) => { setOwn(v); onFeedback?.(v); };
   return (
-    <div role="toolbar" aria-label="Message actions" className={cn('dv-msgactions', className)}>
+    <div role="toolbar" aria-label="Message actions" className={cn('dv-message-actions', className)}>
       <IconButton
         label={copied ? 'Copied' : 'Copy message'}
         icon={copied ? 'check' : 'copy'}
@@ -37,8 +37,8 @@ export function MessageActions({ copyText, onCopy, onRetry, feedback, onFeedback
         }}
       />
       {onRetry && <IconButton label="Retry" icon="rotate-right" size="sm" variant="ghost" onPress={onRetry} />}
-      <ToggleButton aria-label="Good response" isSelected={fb === 'up'} onChange={(s) => setFb(s ? 'up' : null)} className="dv-iconbtn" data-variant="ghost" data-size="sm"><Icon name="thumbs-up" size={14} /></ToggleButton>
-      <ToggleButton aria-label="Poor response" isSelected={fb === 'down'} onChange={(s) => setFb(s ? 'down' : null)} className="dv-iconbtn" data-variant="ghost" data-size="sm"><Icon name="thumbs-down" size={14} /></ToggleButton>
+      <ToggleButton aria-label="Good response" isSelected={fb === 'up'} onChange={(s) => setFb(s ? 'up' : null)} className="dv-icon-button" data-variant="ghost" data-size="sm"><Icon name="thumbs-up" size={14} /></ToggleButton>
+      <ToggleButton aria-label="Poor response" isSelected={fb === 'down'} onChange={(s) => setFb(s ? 'down' : null)} className="dv-icon-button" data-variant="ghost" data-size="sm"><Icon name="thumbs-down" size={14} /></ToggleButton>
       <span className="dv:sr-only" role="status">{copied ? 'Message copied' : ''}</span>
     </div>
   );

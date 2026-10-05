@@ -18,7 +18,7 @@ export function DayRange({ low, high, value, decimals = 2, variant = 'marker', c
   const f = (n: number) => formatNumber(n, { decimals, locale });
   const pos = Math.min(100, Math.max(0, ((value - low) / (high - low || 1)) * 100));
   return (
-    <div role="img" aria-label={`Day range ${f(low)} to ${f(high)}, last ${f(value)}`} className={cn(variant === 'bar' ? 'dv-rangebar' : 'dv-dayrange', className)}>
+    <div role="img" aria-label={`Day range ${f(low)} to ${f(high)}, last ${f(value)}`} className={cn(variant === 'bar' ? 'dv-day-range__bar' : 'dv-day-range', className)}>
       <i style={{ left: `${pos}%` }} />
     </div>
   );

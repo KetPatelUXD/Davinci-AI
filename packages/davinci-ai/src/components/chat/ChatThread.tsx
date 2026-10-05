@@ -37,13 +37,13 @@ export function ChatThread({ children, isStreaming, announcement, className, ...
     return () => ro.disconnect();
   }, [toBottom]);
   return (
-    <div className={cn('dv-chat', className)} data-streaming={isStreaming || undefined}>
+    <div className={cn('dv-chat-thread', className)} data-streaming={isStreaming || undefined}>
       <div
         ref={scroller}
         role="log"
         aria-live="off"
         tabIndex={0}
-        className="dv-chat__scroll"
+        className="dv-chat-thread__scroll"
         {...rest}
         onScroll={(e) => {
           const el = e.currentTarget;
@@ -52,10 +52,10 @@ export function ChatThread({ children, isStreaming, announcement, className, ...
           setAtBottom(near);
         }}
       >
-        <div ref={inner} className="dv-chat__col">{children}</div>
+        <div ref={inner} className="dv-chat-thread__column">{children}</div>
       </div>
       {!atBottom && (
-        <IconButton label="Scroll to latest message" icon="arrow-down" size="md" className="dv-chat__down" onPress={() => { stick.current = true; toBottom(true); }} />
+        <IconButton label="Scroll to latest message" icon="arrow-down" size="md" className="dv-chat-thread__scroll-down" onPress={() => { stick.current = true; toBottom(true); }} />
       )}
       <div className="dv:sr-only" role="status" aria-live="polite">{announcement}</div>
     </div>

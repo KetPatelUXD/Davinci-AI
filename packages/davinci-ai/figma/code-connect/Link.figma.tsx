@@ -7,10 +7,10 @@ const FIGMA_NODE_URL = 'FIGMA_NODE_URL'; // e.g. https://www.figma.com/design/<f
 
 figma.connect(Link, FIGMA_NODE_URL, {
   props: {
-    tone: figma.enum('tone', { 'inherit': 'inherit', 'brand': 'brand' }),
+    intent: figma.enum('intent', { 'inherit': 'inherit', 'brand': 'brand' }),
     label: figma.string('label'),
   },
-  example: ({ label, tone }) => (
-    <Link tone={tone}>{label}</Link>
+  example: ({ label, intent }) => (
+    <Link intent={intent}>{label}</Link>
   ),
 });

@@ -15,14 +15,14 @@ export interface CheckboxProps extends Omit<RACCheckboxProps, 'className' | 'chi
 /** Checkbox with indeterminate support. Box border is `border-strong` (≥3:1); checked state uses the `on` fill. */
 export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(function Checkbox({ className, children, description, ...rest }, ref) {
   return (
-    <RACCheckbox ref={ref} {...rest} className={cn('dv-check', className)}>
+    <RACCheckbox ref={ref} {...rest} className={cn('dv-checkbox', className)}>
       {({ isSelected, isIndeterminate }) => (
         <>
-          <span className="dv-check__box" aria-hidden="true">
+          <span className="dv-checkbox__box" aria-hidden="true">
             {isIndeterminate ? <Icon name="minus" size={12} strokeWidth={2.4} /> : isSelected ? <Icon name="check" size={12} strokeWidth={2.4} /> : null}
           </span>
           {(children || description) && (
-            <span className="dv-check__text">
+            <span className="dv-checkbox__label">
               {children && <span>{children}</span>}
               {description && <span className="dv-field__hint">{description}</span>}
             </span>
@@ -40,9 +40,9 @@ export interface CheckboxGroupProps extends Omit<RACCheckboxGroupProps, 'classNa
 
 export function CheckboxGroup({ label, description, errorMessage, isOptional, orientation = 'vertical', className, children, ...rest }: CheckboxGroupProps) {
   return (
-    <RACCheckboxGroup {...rest} className={cn('dv-field dv-group', className)} data-orientation={orientation}>
+    <RACCheckboxGroup {...rest} className={cn('dv-field dv-checkbox-group', className)} data-orientation={orientation}>
       <FieldLabel label={label} isRequired={rest.isRequired} isOptional={isOptional} />
-      <div className="dv-group__items">{children}</div>
+      <div className="dv-checkbox-group__items">{children}</div>
       <FieldFoot description={description} errorMessage={errorMessage} />
     </RACCheckboxGroup>
   );

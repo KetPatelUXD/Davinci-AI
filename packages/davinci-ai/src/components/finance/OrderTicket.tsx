@@ -57,17 +57,17 @@ export function OrderTicket({
   const fees = notional * feeRate;
   const money = (n: number) => formatNumber(n, { currency: 'USD', locale });
   const body = (
-    <div className={cn('dv-ticket', className)}>
+    <div className={cn('dv-order-ticket', className)}>
       <SwitchRow title={`Quick ticket · ${symbol}`} hint="GTC" switchLabel="Good till cancelled" isSelected={gtc} onChange={setGtc} />
-      <Panel className="dv-ticket__panel">
+      <Panel className="dv-order-ticket__panel">
         <SideToggle value={side} onChange={setSide} />
         <Select label="Order type" items={orderTypes} selectedKey={type} onSelectionChange={(k) => k && setType(String(k))} />
-        <div className="dv-ticket__pair">
+        <div className="dv-order-ticket__pair">
           <NumberField label="Quantity" value={qty} onChange={setQty} minValue={0} step={1000} suffix={quantityUnit} hideSteppers formatOptions={{ maximumFractionDigits: 0 }} />
           <NumberField label="Limit price" value={price} onChange={setPrice} minValue={0} step={0.05} suffix={currency} hideSteppers formatOptions={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }} isDisabled={type === 'market'} />
         </div>
       </Panel>
-      <dl className="dv-ticket__sum dv:tabular-nums" aria-describedby={id}>
+      <dl className="dv-order-ticket__summary dv:tabular-nums" aria-describedby={id}>
         <div><dt>Notional</dt><dd>{money(notional)}</dd></div>
         <div><dt>Est. fees</dt><dd>{money(fees)}</dd></div>
       </dl>

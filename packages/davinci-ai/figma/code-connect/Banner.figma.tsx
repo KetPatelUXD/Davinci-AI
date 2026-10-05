@@ -9,9 +9,9 @@ figma.connect(Banner, FIGMA_NODE_URL, {
   props: {
     dismissible: figma.boolean('dismissible'),
     label: figma.string('label'),
-    tone: figma.enum('tone', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
+    intent: figma.enum('intent', { 'positive': 'positive', 'negative': 'negative', 'brand': 'brand', 'neutral': 'neutral', 'warning': 'warning', 'info': 'info' }),
   },
-  example: ({ label, dismissible, tone }) => (
-    <Banner dismissible={dismissible} tone={tone}>{label}</Banner>
+  example: ({ label, dismissible, intent }) => (
+    <Banner dismissible={dismissible} intent={intent}>{label}</Banner>
   ),
 });

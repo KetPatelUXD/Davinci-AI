@@ -31,9 +31,9 @@ export function TickerTape({ items, decimals = 2, duration = 40, className, 'ari
   const { locale } = useTheme();
   const [paused, setPaused] = useState(false);
   const list = (hidden?: boolean) => (
-    <ul className="dv-ticker__list" {...(hidden ? { 'aria-hidden': true } : {})}>
+    <ul className="dv-ticker-tape__list" {...(hidden ? { 'aria-hidden': true } : {})}>
       {items.map((it) => (
-        <li key={it.id} className="dv-ticker__item">
+        <li key={it.id} className="dv-ticker-tape__item">
           <CodeChip>{it.symbol}</CodeChip>
           <span className="dv:tabular-nums">{formatNumber(it.last, { decimals, locale })}</span>
           <PriceChange percent={it.changePercent} size="sm" />
@@ -42,10 +42,10 @@ export function TickerTape({ items, decimals = 2, duration = 40, className, 'ari
     </ul>
   );
   return (
-    <div className={cn('dv-ticker', className)} role="region" aria-label={label} data-paused={paused || undefined}>
+    <div className={cn('dv-ticker-tape', className)} role="region" aria-label={label} data-paused={paused || undefined}>
       <IconButton label={paused ? 'Resume ticker' : 'Pause ticker'} icon={paused ? 'arrow-right' : 'stop'} size="sm" variant="ghost" onPress={() => setPaused((p) => !p)} />
-      <div className="dv-ticker__viewport" tabIndex={0} aria-label={`${label} items`} style={{ ['--dv-ticker-duration' as string]: `${duration}s` }}>
-        <div className="dv-ticker__track">{list()}{list(true)}</div>
+      <div className="dv-ticker-tape__viewport" tabIndex={0} aria-label={`${label} items`} style={{ ['--dv-ticker-duration' as string]: `${duration}s` }}>
+        <div className="dv-ticker-tape__track">{list()}{list(true)}</div>
       </div>
     </div>
   );

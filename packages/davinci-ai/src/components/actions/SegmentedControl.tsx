@@ -43,7 +43,7 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
   const selected = value ?? undefined;
   const { box, ready } = useSlidingThumb(inner, value ?? defaultValue);
   return (
-    <div ref={ref} className={cn('dv-seg', className)} data-size={size} data-full={fullWidth || undefined} data-ready={ready || undefined}>
+    <div ref={ref} className={cn('dv-segmented-control', className)} data-size={size} data-full-width={fullWidth || undefined} data-ready={ready || undefined}>
       <RadioGroup
         ref={inner}
         aria-label={ariaLabel}
@@ -51,12 +51,12 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
         isDisabled={isDisabled}
         {...(selected !== undefined ? { value: selected } : { defaultValue: defaultValue ?? first ?? '' })}
         onChange={(k) => onChange?.(k)}
-        className="dv-seg__track"
+        className="dv-segmented-control__track"
       >
         <SlidingThumb box={box} ready={ready} />
         {options.map((o) => (
-          <Radio key={o.id} value={o.id} isDisabled={o.isDisabled} aria-label={o['aria-label']} className="dv-seg__item">
-            {o.dot && <i className="dv-seg__dot" data-dot={o.dot} aria-hidden="true" />}
+          <Radio key={o.id} value={o.id} isDisabled={o.isDisabled} aria-label={o['aria-label']} className="dv-segmented-control__option">
+            {o.dot && <i className="dv-segmented-control__dot" data-dot={o.dot} aria-hidden="true" />}
             {renderIcon(o.icon)}
             <span>{o.label}</span>
           </Radio>

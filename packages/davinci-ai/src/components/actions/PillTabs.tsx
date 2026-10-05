@@ -32,12 +32,12 @@ export function PillTabs({ items, selectedKey, defaultSelectedKey, onSelectionCh
   const ref = useRef<HTMLDivElement>(null);
   const { box, ready } = useSlidingThumb(ref, selectedKey ?? defaultSelectedKey, '[data-selected="true"]');
   return (
-    <Tabs selectedKey={selectedKey} defaultSelectedKey={defaultSelectedKey ?? items[0]?.id} onSelectionChange={(k) => onSelectionChange?.(String(k))} keyboardActivation={keyboardActivation} className={cn('dv-pilltabs', className)}>
-      <div className="dv-seg" data-size={size} data-ready={ready || undefined}>
-        <TabList ref={ref} aria-label={ariaLabel} className="dv-seg__track">
+    <Tabs selectedKey={selectedKey} defaultSelectedKey={defaultSelectedKey ?? items[0]?.id} onSelectionChange={(k) => onSelectionChange?.(String(k))} keyboardActivation={keyboardActivation} className={cn('dv-pill-tabs', className)}>
+      <div className="dv-segmented-control" data-size={size} data-ready={ready || undefined}>
+        <TabList ref={ref} aria-label={ariaLabel} className="dv-segmented-control__track">
           <SlidingThumb box={box} ready={ready} />
           {items.map((it) => (
-            <Tab key={it.id} id={it.id} isDisabled={it.isDisabled} className="dv-seg__item">
+            <Tab key={it.id} id={it.id} isDisabled={it.isDisabled} className="dv-segmented-control__option">
               {renderIcon(it.icon)}
               <span>{it.label}</span>
             </Tab>
@@ -45,7 +45,7 @@ export function PillTabs({ items, selectedKey, defaultSelectedKey, onSelectionCh
         </TabList>
       </div>
       {items.filter((i) => i.content != null).map((it) => (
-        <TabPanel key={it.id} id={it.id} className={cn('dv-tabpanel', panelClassName)}>{it.content}</TabPanel>
+        <TabPanel key={it.id} id={it.id} className={cn('dv-pill-tabs__panel', panelClassName)}>{it.content}</TabPanel>
       ))}
     </Tabs>
   );

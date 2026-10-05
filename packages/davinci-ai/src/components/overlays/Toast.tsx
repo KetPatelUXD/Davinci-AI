@@ -8,7 +8,7 @@ import type { Tone } from '../display/Badge';
 export interface ToastOptions {
   title: string;
   description?: string;
-  tone?: Tone;
+  intent?: Tone;
   /** ms before auto-dismiss. Default 5000; `0` keeps it until dismissed. Errors should use 0 or ≥ 8000. */
   timeout?: number;
   /** Optional action rendered as a link-like button. */
@@ -50,16 +50,16 @@ export function ToastProvider({ children, placement = 'bottom-end' }: { children
     <ToastCtx.Provider value={value}>
       {children}
       <div className="dv:sr-only" role="status" aria-live="polite" aria-atomic="true">{announcement}</div>
-      <ToastRegion queue={queue} {...attrs} className={`${root} dv-toastregion`} data-placement={placement}>
+      <ToastRegion queue={queue} {...attrs} className={`${root} dv-toast-provider__region`} data-placement={placement}>
         {({ toast }) => (
-          <Toast toast={toast} className="dv-toast dv-glass" data-tone={toast.content.tone ?? 'neutral'}>
-            <Icon name={ICONS[toast.content.tone ?? 'neutral']} size={18} className="dv-toast__icon" />
-            <div className="dv-toast__content">
-              <Text slot="title" className="dv-toast__title">{toast.content.title}</Text>
-              {toast.content.description && <Text slot="description" className="dv-toast__desc">{toast.content.description}</Text>}
+          <Toast toast={toast} className="dv-toast-provider__toast dv-glass" data-intent={toast.content.intent ?? 'neutral'}>
+            <Icon name={ICONS[toast.content.intent ?? 'neutral']} size={18} className="dv-toast-provider__toast-icon" />
+            <div className="dv-toast-provider__toast-content">
+              <Text slot="title" className="dv-toast-provider__toast-title">{toast.content.title}</Text>
+              {toast.content.description && <Text slot="description" className="dv-toast-provider__toast-description">{toast.content.description}</Text>}
             </div>
-            {toast.content.action && <RACButton className="dv-toast__action" onPress={() => { toast.content.action!.onPress(); queue.close(toast.key); }}>{toast.content.action.label}</RACButton>}
-            <RACButton slot="close" className="dv-iconbtn" data-variant="ghost" data-size="sm" aria-label="Dismiss notification"><Icon name="xmark" size={14} /></RACButton>
+            {toast.content.action && <RACButton className="dv-toast-provider__toast-action" onPress={() => { toast.content.action!.onPress(); queue.close(toast.key); }}>{toast.content.action.label}</RACButton>}
+            <RACButton slot="close" className="dv-icon-button" data-variant="ghost" data-size="sm" aria-label="Dismiss notification"><Icon name="xmark" size={14} /></RACButton>
           </Toast>
         )}
       </ToastRegion>

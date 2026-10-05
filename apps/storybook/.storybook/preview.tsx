@@ -34,7 +34,7 @@ const preview: Preview = {
     // Fail the Storybook test runner on any axe violation.
     a11y: { test: 'error', options: { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] } } },
     backgrounds: { disable: true },
-    options: { storySort: { order: ['Cover', 'Introduction', 'Guides', 'Foundations', 'Components', 'Examples'] } },
+    options: { storySort: { order: ['Cover', 'Introduction', 'Guides', 'Foundations', 'Components', 'Examples', 'Internal'] } },
     docs: { toc: true, page: DocsPage },
   },
   tags: ['autodocs'],

@@ -13,5 +13,5 @@ export interface AppBackgroundProps extends HTMLAttributes<HTMLDivElement> {
  * (static under `prefers-reduced-motion`). Purely decorative (`aria-hidden`).
  */
 export function AppBackground({ position = 'fixed', dotGrid, className, ...rest }: AppBackgroundProps) {
-  return <div aria-hidden="true" className={cn('dv-ambient', dotGrid && 'dv-ambient--dots', className)} data-position={position} {...rest} />;
+  return <div aria-hidden="true" className={cn('dv-app-background', className)} data-position={position} data-dot-grid={dotGrid || undefined} {...rest} />;
 }
