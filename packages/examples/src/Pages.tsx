@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  AppHeader, AppShell, Button, Card, ChatMessage, ChatThread, Checkbox, CitationChip, CodeBlock, Composer, DeltaPill, Fieldset, FilterBar, Form, MessageActions, NewsList,
+  AppHeader, AppShell, ArticleView, Button, Card, ChatMessage, ChatThread, Checkbox, CitationChip, CodeBlock, Composer, DeltaPill, Fieldset, FilterBar, Form, MessageActions, NewsList,
   NumberField, PageHeader, PriceChart, Prose, ReasoningBlock, RadioGroup, Select, Stack, StreamingText, Switch, SuggestedPrompts, TextField, ToolUseBlock, Watchlist, SideToggle,
   ArtifactPanel, SplitPane, Table, AssetCell, CodeChip, PriceChange, PriceFlash, formatNumber, EmptyState, TextArea, PriceField, MultiSelect, DatePicker, Callout, Panel, Grid, GridItem,
   type TableColumn, type OrderSide,
@@ -92,15 +92,27 @@ export function SparseSettingsForm() {
   );
 }
 
-/** News page with filters and expandable summaries. */
+/** News page with filters. Opening a headline shows the full article with a Back button. */
 export function NewsPage() {
   const [filters, setFilters] = useState<string[]>([]);
+  const [openId, setOpenId] = useState<string | null>(null);
   const list = filters.length ? news.filter((n) => n.tags?.some((t) => filters.includes(t.toLowerCase()))) : news;
+  const open = news.find((n) => n.id === openId);
+  if (open) {
+    return (
+      <AppShell header={<AppHeader nav={nav} currentId="analytics" />}>
+        <ArticleView title={open.headline} onBack={() => setOpenId(null)} backLabel="Back to news" source={open.source} time={open.time} tags={open.tags} standfirst={open.summary}>
+          <p>Sample text only. This is where the full article would appear, with paragraphs, headings and lists.</p>
+          <p>All names, figures and headlines in this example are invented.</p>
+        </ArticleView>
+      </AppShell>
+    );
+  }
   return (
     <AppShell header={<AppHeader nav={nav} currentId="analytics" />}>
       <PageHeader title="News" subtitle="Headlines for your watchlists · fictional sample data" />
       <Card title="Latest" actions={<FilterBar filters={[{ id: 'crude', label: 'Crude' }, { id: 'products', label: 'Products' }, { id: 'gas', label: 'Gas' }, { id: 'freight', label: 'Freight' }]} value={filters} onChange={setFilters} savedViews={[{ id: 'a', label: 'Energy morning' }]} />}>
-        {list.length ? <NewsList aria-label="Latest news" items={list} /> : <EmptyState title="No headlines match" description="Clear a filter to see more." />}
+        {list.length ? <NewsList aria-label="Latest news" items={list} onOpen={setOpenId} /> : <EmptyState title="No headlines match" description="Clear a filter to see more." />}
       </Card>
     </AppShell>
   );
