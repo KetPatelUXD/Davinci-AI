@@ -1,0 +1,9 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+import { AudienceHero, stripLead } from './docs/DocBlocks';
+import md from '../../../docs/knowledge/designer.md?raw';
+
+<Meta title="Guides/Knowledge/For designers" />
+
+<AudienceHero audience="designer" title="DaVinci.AI designer guide" summary="How the Figma file mirrors the code, the design rules to follow, what Figma cannot show, and how to ask for a change." />
+
+<Markdown>{stripLead(md)}</Markdown>

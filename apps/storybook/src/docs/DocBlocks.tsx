@@ -213,3 +213,57 @@ export function DensityDemo() {
     </div>
   );
 }
+
+/** Knowledge-base pages: one markdown source per audience in `docs/knowledge/`, rendered here with a hero header. */
+export const AUDIENCES = [
+  { id: 'architect', path: 'guides-knowledge-for-architects--docs', title: 'For architects', icon: 'grid-2', blurb: 'Stack, theming model, quality gates, risks and adoption options.' },
+  { id: 'product', path: 'guides-knowledge-for-product--docs', title: 'For product', icon: 'chart-line', blurb: 'What it is, the business value, current gaps and how to measure payoff.' },
+  { id: 'developer', path: 'guides-knowledge-for-developers--docs', title: 'For developers', icon: 'command', blurb: 'Setup, the rules, component map, theming and the new-component checklist.' },
+  { id: 'designer', path: 'guides-knowledge-for-designers--docs', title: 'For designers', icon: 'pen', blurb: 'The Figma file, how it maps to code, design rules and how to request changes.' },
+] as const;
+
+/** Removes the leading H1 and the one-line audience statement; the hero shows them instead. */
+export function stripLead(md: string): string {
+  return md.replace(/^#\s.*\n+/, '').replace(/^[^#\n][^\n]*\n+/, '');
+}
+
+export function AudienceHero({ audience, title, summary }: { audience: (typeof AUDIENCES)[number]['id']; title: string; summary: string }) {
+  const me = AUDIENCES.find((a) => a.id === audience)!;
+  return (
+    <ThemeProvider theme="dark" canvas style={{ display: 'block', margin: '0 0 28px', padding: 20, borderRadius: 24, minHeight: 0 }}>
+      <Card>
+        <div style={{ display: 'grid', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Badge intent="brand" icon={me.icon}>{me.title}</Badge>
+            <span style={mono}>Knowledge base</span>
+          </div>
+          <div role="heading" aria-level={1} style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--dv-text)' }}>{title}</div>
+          <div style={{ fontSize: 15, lineHeight: 1.55, color: 'var(--dv-text-secondary)', maxWidth: 720 }}>{summary}</div>
+          <nav aria-label="Other audiences" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 4 }}>
+            {AUDIENCES.filter((a) => a.id !== audience).map((a) => (
+              <Button key={a.id} variant="subtle" size="sm" iconStart={a.icon} onPress={() => { window.top!.location.search = `?path=/docs/${a.path}`; }}>{a.title}</Button>
+            ))}
+          </nav>
+        </div>
+      </Card>
+    </ThemeProvider>
+  );
+}
+
+export function KnowledgeHub() {
+  return (
+    <ThemeProvider theme="dark" canvas style={{ display: 'block', padding: 20, borderRadius: 24, margin: '16px 0 24px', minHeight: 0 }}>
+    <div style={{ display: 'grid', gap: 14, gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
+      {AUDIENCES.map((a) => (
+        <Card key={a.id}>
+          <div style={{ display: 'grid', gap: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}><span style={{ fontSize: 17, fontWeight: 600, color: 'var(--dv-text)' }}>{a.title}</span><Icon name={a.icon} /></div>
+            <div style={{ fontSize: 13.5, lineHeight: 1.5, color: 'var(--dv-text-secondary)' }}>{a.blurb}</div>
+            <Button variant="subtle" size="sm" iconEnd="arrow-right" onPress={() => { window.top!.location.search = `?path=/docs/${a.path}`; }}>Open</Button>
+          </div>
+        </Card>
+      ))}
+    </div>
+    </ThemeProvider>
+  );
+}

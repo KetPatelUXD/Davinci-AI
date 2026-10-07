@@ -25,7 +25,7 @@ import { ThemeProvider, Button } from '@davinci-ai/react';
 | `@davinci-ai/react/tailwind` | Tailwind v4 `@theme` for host apps (`bg-surface`, `text-secondary`, …) |
 | `@davinci-ai/react/tokens` · `tokens.json` · `tokens.css` | Typed tokens · DTCG source · CSS variables |
 | `@davinci-ai/react/components.json` | Machine-readable component manifest (props, variants, a11y, Figma mapping) |
-| `npx davinci theme` | Per-project theme generator (contrast-checked) |
+| `npx davinci theme` | Per-project theme file: `--init`, `--file`, `--validate`, `--from-figma` (contrast-checked); also `<ThemeProvider themeConfig>` and `@davinci-ai/react/theme.schema.json` |
 
 See `AGENTS.md` for the rules code assistants must follow, and the repository README for theming, Tailwind/non-Tailwind usage, Font Awesome Pro setup and moving the npm scope.
 

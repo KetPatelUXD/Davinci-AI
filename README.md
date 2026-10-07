@@ -54,6 +54,19 @@ export default function App() {
 
 ### Per-project theme without forking
 
+The recommended way is a **theme file**: one JSON document with brand colour, radius, density, fonts and optional per-mode colour overrides, validated for contrast.
+
+```bash
+npx davinci theme --init --primary teal          # writes davinci.theme.json
+npx davinci theme --validate davinci.theme.json
+npx davinci theme --file davinci.theme.json --out src/theme   # → davinci.theme.css
+npx davinci theme --from-figma variables.json   # start from a Figma variables export
+```
+
+Or at runtime: `<ThemeProvider themeConfig={theme}>`. Full walkthrough: [docs/theming-guide.md](docs/theming-guide.md) (also in Storybook under Guides → Theming).
+
+Quick start without a file:
+
 ```bash
 npx davinci theme                                   # interactive
 npx davinci theme --primary teal --density large --radius soft --mode light --yes

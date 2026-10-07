@@ -92,7 +92,7 @@ Run the app's axe checks; the library's own CI fails on contrast regressions (to
 - **Tokens:** edit `packages/tokens/scripts/seed.mjs` → `pnpm --filter @davinci-ai/tokens seed && pnpm tokens`. Never hand-edit `tokens.json` or `src/generated`.
 
 ## Custom styling rules (for project widgets)
-Safe: compose library components with documented props; style only your own wrapper (layout/spacing); use `var(--dv-…)` tokens. Not safe: targeting `.dv-*` classes or `data-*` attributes, per-widget token overrides, copying primitive markup/CSS, hard-coded hex, inline colours. Whole-brand changes go through `npx davinci theme` or global token overrides. Full guide: Storybook → **Guides → Extending the library**.
+Safe: compose library components with documented props; style only your own wrapper (layout/spacing); use `var(--dv-…)` tokens. Not safe: targeting `.dv-*` classes or `data-*` attributes, per-widget token overrides, copying primitive markup/CSS, hard-coded hex, inline colours. Whole-brand changes go through a theme file (`npx davinci theme --init`, then `--file` or `<ThemeProvider themeConfig>`; guide: `docs/theming-guide.md`) or global token overrides. Full guide: Storybook → **Guides → Extending the library**.
 
 ## Roadmap / open decisions (not done yet)
 - **Distribution:** nothing is published. Plan: private registry (GitHub Packages), set `davinci.config.json` scope → `pnpm set-scope`, enable the manual Publish workflow. Until then install via `pnpm pack` tarball or `link:`.

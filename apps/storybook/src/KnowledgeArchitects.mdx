@@ -1,0 +1,9 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+import { AudienceHero, stripLead } from './docs/DocBlocks';
+import md from '../../../docs/knowledge/architect.md?raw';
+
+<Meta title="Guides/Knowledge/For architects" />
+
+<AudienceHero audience="architect" title="DaVinci.AI architecture assessment" summary="A senior architect's view: what it is built on, how theming and generation work, what is enforced, where the risks are, and the options for adopting it." />
+
+<Markdown>{stripLead(md)}</Markdown>

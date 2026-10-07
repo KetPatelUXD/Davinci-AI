@@ -33,7 +33,17 @@ Providers nest. Overlays (menus, dialogs, tooltips, toasts) render in portals an
 
 The library's own Tailwind classes use the **`dv:` prefix** so they never clash with host utilities. There are no global resets or font injection unless you opt in. SSR safe (Next.js App Router: client components carry `"use client"`).
 
-## Per-project theme without forking
+## Theme file (recommended)
+
+A theme is one JSON file (`davinci.theme.json`, W3C design-token style): brand colour, radius, density, fonts and optional per-mode colour overrides. Compile it to CSS with `npx davinci theme --file davinci.theme.json`, or pass it to the provider:
+
+```tsx
+<ThemeProvider themeConfig={theme} canvas attachToRoot>
+```
+
+The compiler checks contrast and rejects unreadable colours. A Figma variables export (colours, radii and component sizes/paddings) can be imported with `npx davinci theme --from-figma variables.json`. See **Guides → Theming → Change the theme step by step** and the live **Foundations → Theme file** story.
+
+## Per-project theme without forking (quick start, no file)
 
 ```bash
 npx davinci theme                    # interactive: primary colour, density, radius feel, default mode

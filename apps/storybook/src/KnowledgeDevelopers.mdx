@@ -1,0 +1,9 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+import { AudienceHero, stripLead } from './docs/DocBlocks';
+import md from '../../../docs/knowledge/developer.md?raw';
+
+<Meta title="Guides/Knowledge/For developers" />
+
+<AudienceHero audience="developer" title="DaVinci.AI developer guide" summary="Everything needed to build screens with the library or add to it: setup, rules, theming, the new-component checklist and the gotchas." />
+
+<Markdown>{stripLead(md)}</Markdown>

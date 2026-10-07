@@ -1,0 +1,9 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+import { AudienceHero, stripLead } from './docs/DocBlocks';
+import md from '../../../docs/knowledge/product.md?raw';
+
+<Meta title="Guides/Knowledge/For product" />
+
+<AudienceHero audience="product" title="What DaVinci.AI is and why it matters" summary="A plain-language view for product and business stakeholders: what you get, the business value, what is not there yet, and how to measure whether it pays off." />
+
+<Markdown>{stripLead(md)}</Markdown>

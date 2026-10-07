@@ -63,6 +63,7 @@ import { Card, Stat, PriceChange } from '@davinci-ai/react';
 ### Rules to keep things looking right
 - Use the library components. Don't write your own colours or restyle them.
 - Light version: `<ThemeProvider theme="light">`.
+- Your own brand colour, corners and density: use a theme file (`npx davinci theme --init`). Step-by-step guide: Storybook → Guides → Theming, or `docs/theming-guide.md`.
 - If a component you need doesn't exist, ask the design-system owner to add it. Don't build a lookalike.
 
 ---
