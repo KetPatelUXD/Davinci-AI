@@ -9,102 +9,28 @@ import { createInterface } from 'node:readline/promises';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parse, toHex, over, contrast, tune, rgba, toHsl, fromHsl } from './lib/color.mjs';
+import { PRESETS, propose, RADIUS, DENSITY, brandTokens as brandTokensCore, compileTheme, validateTheme, sampleTheme } from './lib/theme-core.mjs';
+import { importFigma } from './lib/figma-import.mjs';
+
+export { PRESETS, propose, RADIUS, DENSITY };
 
 const here = dirname(fileURLToPath(import.meta.url));
-const resolvedTokens = ['../dist/tokens.resolved.json', '../src/generated/tokens.resolved.json'].map((p) => join(here, p)).find(existsSync);
-
-export const PRESETS = {
-  violet: '#7c3aed', indigo: '#4f46e5', blue: '#2563eb', sky: '#0284c7', teal: '#0f766e', emerald: '#047857', amber: '#b45309', orange: '#c2410c', rose: '#be123c', pink: '#be185d', slate: '#475569',
-};
-const KEYWORDS = {
-  color: { purple: 'violet', violet: 'violet', lavender: 'violet', indigo: 'indigo', blue: 'blue', navy: 'indigo', sky: 'sky', cyan: 'sky', teal: 'teal', turquoise: 'teal', green: 'emerald', emerald: 'emerald', gold: 'amber', amber: 'amber', yellow: 'amber', orange: 'orange', red: 'rose', crimson: 'rose', rose: 'rose', pink: 'pink', magenta: 'pink', grey: 'slate', gray: 'slate', slate: 'slate', neutral: 'slate' },
-  density: { dense: 'small', compact: 'small', tight: 'small', small: 'small', spacious: 'large', airy: 'large', large: 'large', roomy: 'large', comfortable: 'medium', balanced: 'medium' },
-  radius: { sharp: 'sharp', square: 'sharp', crisp: 'sharp', angular: 'sharp', rounded: 'soft', soft: 'soft', friendly: 'soft', pill: 'soft', round: 'soft' },
-  mode: { dark: 'dark', night: 'dark', light: 'light', bright: 'light', day: 'light', system: 'system', auto: 'system' },
-};
-
-/** Deterministic keyword proposal for a free-text brand description (no network, no model). */
-export function propose(text) {
-  const words = String(text).toLowerCase().match(/[a-z]+/g) ?? [];
-  const pick = (map) => { for (const w of words) if (map[w]) return map[w]; return undefined; };
-  return { primary: pick(KEYWORDS.color) ?? 'violet', density: pick(KEYWORDS.density) ?? 'medium', radius: pick(KEYWORDS.radius) ?? 'balanced', mode: pick(KEYWORDS.mode) ?? 'dark' };
-}
-
-const RADIUS = {
-  sharp: { 'radius-card': '12px', 'radius-composer': '14px', 'radius-panel': '10px', 'radius-tile': '8px', 'radius-control': '8px', 'radius-menu': '8px', 'radius-tooltip': '6px', 'radius-code': '4px' },
-  balanced: {},
-  soft: { 'radius-card': '32px', 'radius-composer': '32px', 'radius-panel': '26px', 'radius-tile': '20px', 'radius-control': '18px', 'radius-menu': '20px', 'radius-tooltip': '14px', 'radius-code': '9px' },
-};
-const DENSITY = {
-  small: { defaultDensity: 'compact', css: {} },
-  medium: { defaultDensity: 'comfortable', css: {} },
-  large: { defaultDensity: 'comfortable', css: { 'button-height-sm': '34px', 'button-height-md': '42px', 'button-height-lg': '48px', 'button-height-xl': '52px', 'icon-button-sm': '34px', 'icon-button-md': '42px', 'icon-button-lg': '46px', 'input-height-sm': '40px', 'input-height-md': '48px', 'input-height-lg': '52px', 'table-row-height': '72px', 'card-px': '28px', 'card-py': '26px' } },
+const find = (...paths) => paths.map((p) => join(here, p)).find(existsSync);
+const resolvedTokens = find('../dist/tokens.resolved.json', '../src/generated/tokens.resolved.json');
+const libraryVariables = find('../dist/figma/variables.json', '../../../dist/figma/variables.json');
+const loadResolved = () => {
+  if (!resolvedTokens) throw new Error('tokens.resolved.json not found – run `pnpm build` first');
+  return JSON.parse(readFileSync(resolvedTokens, 'utf8'));
 };
 
 /** Builds the brand tokens for a base colour, enforcing the design system's contrast rules in both modes. */
-export function brandTokens(hex) {
-  if (!resolvedTokens) throw new Error('tokens.resolved.json not found – run `pnpm build` first');
-  const t = JSON.parse(readFileSync(resolvedTokens, 'utf8'));
-  const base = parse(hex);
-  const white = parse('#ffffff');
-  const surfaces = (mode) => {
-    const m = t[mode], bg = parse(m.bg);
-    const out = ['bg', 'bg-elevated', 'surface', 'raised', 'hover', 'well'].map((n) => over(parse(m[n]), bg));
-    const stops = (m.card.match(/rgba?\([^)]*\)|#[0-9a-f]{3,8}/gi) ?? []).map(parse);
-    const spot = parse(m['spotlight-fill']);
-    for (const s of stops) { const c = over(s, bg); out.push(c, over(spot, c)); }
-    return out;
-  };
-  const dark = surfaces('dark'), light = surfaces('light');
-  // fill: white label ≥ 4.5:1 → darken until it passes
-  const fill = tune(base, -1, (c) => contrast(white, c) >= 4.5);
-  // dark mode text/icon: lighten until ≥ 4.5:1 on the brightest surfaces, also against its own wash
-  const darkText = tune(base.a ? fromHsl({ ...toHsl(base), l: Math.max(toHsl(base).l, 0.6) }) : base, +1, (c) => dark.every((s) => contrast(c, s) >= 4.5 && contrast(c, over({ ...c, a: 0.12 }, s)) >= 4.5));
-  // light mode text/icon: darken until ≥ 4.5:1 on every light surface incl. an 8% wash of itself
-  const lightText = tune(base, -1, (c) => light.every((s) => contrast(c, s) >= 4.5 && contrast(c, over({ ...c, a: 0.08 }, s)) >= 4.5));
-  // focus ring ≥ 3:1 on every surface
-  const darkFocus = tune(darkText, +1, (c) => dark.every((s) => contrast(c, s) >= 3));
-  const lightFocus = tune(lightText, -1, (c) => light.every((s) => contrast(c, s) >= 3));
-  const report = {
-    fillWhite: +contrast(white, fill).toFixed(2),
-    darkText: +Math.min(...dark.map((s) => contrast(darkText, s))).toFixed(2),
-    lightText: +Math.min(...light.map((s) => contrast(lightText, s))).toFixed(2),
-    darkFocus: +Math.min(...dark.map((s) => contrast(darkFocus, s))).toFixed(2),
-    lightFocus: +Math.min(...light.map((s) => contrast(lightFocus, s))).toFixed(2),
-  };
-  return {
-    dark: { brand: toHex(darkText), 'brand-fill': toHex(fill), 'wash-brand': rgba(darkText, 0.12), focus: toHex(darkFocus), 'focus-halo': rgba(darkFocus, 0.25) },
-    light: { brand: toHex(lightText), 'brand-fill': toHex(fill), 'wash-brand': rgba(lightText, 0.08), focus: toHex(lightFocus), 'focus-halo': rgba(lightFocus, 0.2) },
-    report,
-  };
-}
+export function brandTokens(hex) { return brandTokensCore(hex, loadResolved()); }
 
+/** Legacy entry point (`{ primary, density, radius, mode }` → CSS/JSON/TS). Throws on invalid input or failed contrast. */
 export function buildTheme({ primary = 'violet', density = 'medium', radius = 'balanced', mode = 'dark' }) {
-  const hex = PRESETS[primary] ?? (/^#[0-9a-f]{3,6}$/i.test(primary) ? primary : null);
-  if (!hex) throw new Error(`Unknown primary colour "${primary}". Use a preset (${Object.keys(PRESETS).join(', ')}) or a hex like #0f766e.`);
-  if (!DENSITY[density]) throw new Error(`density must be small | medium | large`);
-  if (!RADIUS[radius]) throw new Error(`radius must be sharp | balanced | soft`);
-  if (!['dark', 'light', 'system'].includes(mode)) throw new Error('mode must be dark | light | system');
-  const b = brandTokens(hex);
-  const decl = (o) => Object.entries(o).map(([k, v]) => `  --dv-${k}: ${v};`).join('\n');
-  const css = `/* Generated by \`npx davinci theme\` – import AFTER @davinci-ai/react/styles.css.
-   Primary ${primary} · density ${density} · radius ${radius} · default mode ${mode}
-   Contrast verified: white on fill ${b.report.fillWhite}:1 · text dark ${b.report.darkText}:1 / light ${b.report.lightText}:1 · focus ≥ ${Math.min(b.report.darkFocus, b.report.lightFocus)}:1 */
-:root,
-[data-theme='dark'] {
-${decl(b.dark)}
-}
-[data-theme='light'] {
-${decl(b.light)}
-}
-${Object.keys(RADIUS[radius]).length ? `:root {\n${decl(RADIUS[radius])}\n}\n` : ''}${Object.keys(DENSITY[density].css).length ? `:root,\n[data-density='comfortable'] {\n${decl(DENSITY[density].css)}\n}\n` : ''}`;
-  const json = { primary, hex, defaultTheme: mode, defaultDensity: DENSITY[density].defaultDensity, density, radius, tokens: { dark: b.dark, light: b.light }, contrast: b.report };
-  const ts = `// Generated by \`npx davinci theme\`.
-export const theme = { defaultTheme: '${mode}', density: '${DENSITY[density].defaultDensity}' } as const;
-// <ThemeProvider defaultTheme={theme.defaultTheme} density={theme.density}> … </ThemeProvider>
-`;
-  return { css, json, ts, report: b.report };
+  const r = compileTheme({ brand: primary, density, radius, mode }, loadResolved());
+  if (!r.ok) throw new Error(r.errors.join('\n'));
+  return { css: r.css, json: r.json, ts: r.ts, report: r.report };
 }
 
 function parseArgs(argv) {
@@ -116,14 +42,75 @@ function parseArgs(argv) {
   return out;
 }
 
+const HELP = `davinci theme – build a project theme
+
+  Write a theme file, then compile it:
+    davinci theme --init [--primary teal] [--out dir]      create davinci.theme.json to edit
+    davinci theme --file davinci.theme.json [--out dir]    compile it to davinci.theme.css (+ .ts)
+    davinci theme --validate davinci.theme.json            check it (contrast, unknown roles); no files written
+
+  Start from Figma:
+    davinci theme --from-figma variables.json [--out dir]  import a Figma variables export into davinci.theme.json
+
+  Quick start without a file:
+    davinci theme [--primary violet|teal|…|#hex] [--density small|medium|large] [--radius sharp|balanced|soft]
+                  [--mode dark|light|system] [--describe "calm teal fintech, rounded"] [--out dir] [--yes]`;
+
+const readJson = (file) => {
+  try { return JSON.parse(readFileSync(resolve(file), 'utf8')); }
+  catch (e) { console.error(`✗ Cannot read ${file}: ${e.message}`); process.exit(1); }
+};
+const show = (r) => {
+  for (const w of r.warnings ?? []) console.warn(`! ${w}`);
+  for (const e of r.errors ?? []) console.error(`✗ ${e}`);
+};
+const writeOut = (out, name, text) => { mkdirSync(out, { recursive: true }); writeFileSync(join(out, name), text); };
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const cmd = args._[0];
-  if (!cmd || cmd === 'help' || args.help) {
-    console.log(`davinci theme [--primary violet|teal|…|#hex] [--density small|medium|large] [--radius sharp|balanced|soft] [--mode dark|light|system] [--describe "text"] [--out dir] [--yes]`);
+  if (!cmd || cmd === 'help' || args.help) { console.log(HELP); return; }
+  if (cmd !== 'theme') { console.error(`Unknown command "${cmd}". Try: davinci theme --help`); process.exit(1); }
+  const out = resolve(typeof args.out === 'string' ? args.out : '.');
+
+  if (args.init) {
+    const brand = typeof args.primary === 'string' ? (PRESETS[args.primary] ?? args.primary) : undefined;
+    writeOut(out, 'davinci.theme.json', JSON.stringify(sampleTheme(brand), null, 2) + '\n');
+    console.log(`✓ Wrote davinci.theme.json to ${out}\n\nNext: edit it, then run  davinci theme --file davinci.theme.json  (see Storybook → Guides → Theming).`);
     return;
   }
-  if (cmd !== 'theme') { console.error(`Unknown command "${cmd}". Try: davinci theme`); process.exit(1); }
+
+  if (typeof args.validate === 'string') {
+    const r = validateTheme(readJson(args.validate), loadResolved());
+    show(r);
+    if (!r.ok) process.exit(1);
+    console.log(`✓ ${args.validate} is valid${r.report ? `. Contrast: ${JSON.stringify(r.report)}` : ''}`);
+    return;
+  }
+
+  if (typeof args['from-figma'] === 'string') {
+    if (!libraryVariables) { console.error('✗ figma/variables.json not found – run `pnpm build` first.'); process.exit(1); }
+    const { theme, report } = importFigma(readJson(args['from-figma']), loadResolved(), JSON.parse(readFileSync(libraryVariables, 'utf8')));
+    const check = validateTheme(theme, loadResolved());
+    writeOut(out, 'davinci.theme.json', JSON.stringify(theme, null, 2) + '\n');
+    console.log(`✓ Matched ${report.matched} variables, ${report.changed} differ from the library defaults. Wrote davinci.theme.json to ${out}`);
+    for (const n of report.notes) console.log(`  note: ${n}`);
+    if (report.unmatched.length) console.log(`  ${report.unmatched.length} variables did not match a DaVinci.AI role and were skipped:\n    ${report.unmatched.slice(0, 20).join('\n    ')}${report.unmatched.length > 20 ? '\n    …' : ''}`);
+    show(check);
+    if (!check.ok) { console.error('\nThe imported theme fails the contrast rules. Edit davinci.theme.json, or mark it unsafe, then run --validate.'); process.exit(1); }
+    console.log('\nNext: davinci theme --file davinci.theme.json');
+    return;
+  }
+
+  if (typeof args.file === 'string') {
+    const r = compileTheme(readJson(args.file), loadResolved());
+    show(r);
+    if (!r.ok) process.exit(1);
+    writeOut(out, 'davinci.theme.css', r.css);
+    writeOut(out, 'davinci.theme.ts', r.ts);
+    console.log(`✓ Wrote davinci.theme.css / .ts to ${out}${r.report ? `\n  Contrast: ${JSON.stringify(r.report)}` : ''}\n\nUse it:\n  import '@davinci-ai/react/styles.css';\n  import './davinci.theme.css';\n\nOr at runtime: <ThemeProvider themeConfig={theme}> with the JSON file.`);
+    return;
+  }
 
   let choice = { primary: args.primary, density: args.density, radius: args.radius, mode: args.mode };
   if (typeof args.describe === 'string') {
@@ -145,12 +132,11 @@ async function main() {
   choice = { primary: choice.primary ?? 'violet', density: choice.density ?? 'medium', radius: choice.radius ?? 'balanced', mode: choice.mode ?? 'dark' };
   let theme;
   try { theme = buildTheme(choice); } catch (e) { console.error(`✗ ${e.message}`); process.exit(1); }
-  const out = resolve(typeof args.out === 'string' ? args.out : '.');
-  mkdirSync(out, { recursive: true });
-  writeFileSync(join(out, 'davinci.theme.css'), theme.css);
-  writeFileSync(join(out, 'davinci.theme.json'), JSON.stringify(theme.json, null, 2) + '\n');
-  writeFileSync(join(out, 'davinci.theme.ts'), theme.ts);
-  console.log(`✓ Wrote davinci.theme.css / .json / .ts to ${out}\n  Contrast: ${JSON.stringify(theme.report)}\n\nUse it:\n  import '@davinci-ai/react/styles.css';\n  import './davinci.theme.css';`);
+  const source = { ...sampleTheme(PRESETS[choice.primary] ?? choice.primary), radius: { $value: choice.radius }, density: { $value: choice.density }, mode: { $value: choice.mode } };
+  writeOut(out, 'davinci.theme.css', theme.css);
+  writeOut(out, 'davinci.theme.json', JSON.stringify(source, null, 2) + '\n');
+  writeOut(out, 'davinci.theme.ts', theme.ts);
+  console.log(`✓ Wrote davinci.theme.css / .json / .ts to ${out}\n  Contrast: ${JSON.stringify(theme.report)}\n\nUse it:\n  import '@davinci-ai/react/styles.css';\n  import './davinci.theme.css';\n\nThe .json is your editable theme file: change it and run  davinci theme --file davinci.theme.json.`);
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();

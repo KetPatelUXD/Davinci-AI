@@ -30,7 +30,10 @@
     "./tokens.css": "./dist/tokens.css",
     "./components.json": "./dist/components.json",
     "./icons/manifest.json": "./assets/icons/manifest.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./theme.schema.json": "./dist/theme.schema.json",
+    "./themes/*": "./assets/themes/*",
+    "./figma/variables.json": "./dist/figma/variables.json"
   },
   "files": [
     "dist",

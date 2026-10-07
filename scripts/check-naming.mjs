@@ -24,7 +24,7 @@ const UTILITY_BLOCKS = new Set(['sr-only', 'spin', 'blink', 'pop', 'shimmer', 'i
 /** Attributes that are props are allowed automatically (data-{prop}); these are the rest. */
 const ALLOWED_DATA = new Set([
   // theme (ThemeProvider)
-  'theme', 'style', 'density', 'direction', 'card-border', 'cvd', 'canvas', 'animation',
+  'theme', 'style', 'density', 'direction', 'card-border', 'cvd', 'canvas', 'animation', 'dv-theme', 'dv-theme-style',
   // React Aria states and interaction
   'disabled', 'selected', 'invalid', 'pressed', 'hovered', 'focus-visible', 'focus-within', 'focused', 'open', 'loading', 'readonly', 'indeterminate', 'placeholder', 'expanded', 'dragging', 'entering', 'exiting',
   'current', 'pending', 'unavailable', 'today', 'outside-month', 'selection-start', 'selection-end', 'drop-target', 'href', 'icon', 'type',

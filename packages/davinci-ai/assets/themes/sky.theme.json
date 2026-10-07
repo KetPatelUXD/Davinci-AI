@@ -1,0 +1,38 @@
+{
+  "$schema": "../../dist/theme.schema.json",
+  "$description": "Sample: sky blue, sharp corners with a 16px card, compact density, a custom dark canvas and one size override.",
+  "brand": {
+    "$type": "color",
+    "$value": "#0284c7"
+  },
+  "radius": {
+    "$value": "sharp",
+    "card": {
+      "$type": "dimension",
+      "$value": "16px"
+    }
+  },
+  "density": {
+    "$value": "small"
+  },
+  "mode": {
+    "$value": "light"
+  },
+  "color": {
+    "dark": {
+      "bg": {
+        "$type": "color",
+        "$value": "#05080c"
+      }
+    },
+    "light": {}
+  },
+  "size": {
+    "compact": {
+      "button-height-md": {
+        "$type": "dimension",
+        "$value": "30px"
+      }
+    }
+  }
+}

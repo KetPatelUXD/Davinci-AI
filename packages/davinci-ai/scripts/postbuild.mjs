@@ -18,6 +18,10 @@ mkdirSync(join(dist, 'figma'), { recursive: true });
 const figma = join(root, '..', '..', 'dist', 'figma');
 for (const f of ['variables.json', 'styles.json']) if (existsSync(join(figma, f))) copyFileSync(join(figma, f), join(dist, 'figma', f));
 
+// theme file schema (colour roles come from the resolved tokens, so it cannot drift)
+const { themeSchema } = await import('../bin/lib/theme-core.mjs');
+writeFileSync(join(dist, 'theme.schema.json'), JSON.stringify(themeSchema(JSON.parse(readFileSync(join(gen, 'tokens.resolved.json'), 'utf8'))), null, 2) + '\n');
+
 // make `./tokens` types self-contained for consumers
 writeFileSync(join(dist, 'tokens.d.ts'), `export * from './generated/tokens';\n`);
 

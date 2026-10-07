@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { I18nProvider } from 'react-aria-components';
 import { MotionConfig } from 'motion/react';
 import { cn } from '../utils/cn';
+import { compileTheme, type ThemeConfig } from '../theme';
 
 export type ThemeName = 'dark' | 'light' | (string & {});
 export type StyleName = 'graphite' | (string & {});
@@ -45,6 +46,13 @@ export interface ThemeProviderProps extends Omit<HTMLAttributes<HTMLDivElement>,
   colorBlindSafe?: boolean;
   /** BCP-47 locale for numbers, currency and dates. Default `en-US`. */
   locale?: string;
+  /**
+   * A theme file (the JSON written by `npx davinci theme --init`): brand colour, radius, density, fonts and per-mode colour overrides.
+   * It is compiled to CSS custom properties, contrast-checked, and scoped to this provider (and `<html>` with `attachToRoot`).
+   * An invalid file is ignored (the default theme stays) and the problems are logged in development.
+   * For a static stylesheet instead, compile it with the CLI. Changing the object's contents recompiles it.
+   */
+  themeConfig?: ThemeConfig;
   /** Also write `data-theme` etc. to `<html>` so portalled overlays and the page background follow the theme. */
   attachToRoot?: boolean;
   /** Render without a wrapper box (`display: contents`). Default true. Set false to paint the canvas colour. */
@@ -57,8 +65,22 @@ export interface ThemeProviderProps extends Omit<HTMLAttributes<HTMLDivElement>,
  * SSR-safe: renders `dark` on the server and resolves `system` after hydration.
  */
 export function ThemeProvider({
-  theme: themeProp, defaultTheme = 'dark', onThemeChange, styleName = 'graphite', density = 'comfortable', cardBorder = 'spotlight', direction = 'standard', colorBlindSafe, locale = 'en-US', attachToRoot, canvas, className, children, ...rest
+  theme: themeProp, defaultTheme = 'dark', onThemeChange, styleName = 'graphite', density = 'comfortable', cardBorder = 'spotlight', direction = 'standard', colorBlindSafe, locale = 'en-US', themeConfig, attachToRoot, canvas, className, children, ...rest
 }: ThemeProviderProps) {
+  const dev = typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production';
+  const configKey = themeConfig ? JSON.stringify(themeConfig) : '';
+  const compiled = useMemo(() => {
+    if (!configKey) return null;
+    try {
+      const probe = compileTheme(JSON.parse(configKey));
+      if (!probe.ok) { if (dev) console.error(`[DaVinci.AI] themeConfig ignored:\n${probe.errors.join('\n')}`); return null; }
+      return { ...compileTheme(JSON.parse(configKey), { scope: `[data-dv-theme='${probe.id}']` }), id: probe.id };
+    } catch (e) {
+      if (dev) console.error(`[DaVinci.AI] themeConfig ignored: ${(e as Error).message}`);
+      return null;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [configKey]);
   const [internal, setInternal] = useState<ThemeName | 'system'>(defaultTheme);
   const requested = themeProp ?? internal;
   const [systemDark, setSystemDark] = useState(true);
@@ -77,6 +99,7 @@ export function ThemeProvider({
   const attrs = {
     'data-theme': theme, 'data-style': styleName, 'data-density': density, 'data-card-border': cardBorder, 'data-direction': direction,
     ...(colorBlindSafe ? { 'data-cvd': 'true' } : {}),
+    ...(compiled ? { 'data-dv-theme': compiled.id } : {}),
   };
   useEffect(() => {
     if (!attachToRoot) return;
@@ -85,7 +108,7 @@ export function ThemeProvider({
     Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
     return () => Object.entries(prev).forEach(([k, v]) => (v === null ? el.removeAttribute(k) : el.setAttribute(k, v)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [attachToRoot, theme, styleName, density, cardBorder, direction, colorBlindSafe]);
+  }, [attachToRoot, theme, styleName, density, cardBorder, direction, colorBlindSafe, compiled?.id]);
 
   const value = useMemo<ThemeContextValue>(
     () => ({ theme, setTheme, toggleTheme, style: styleName, density, cardBorder, direction, colorBlindSafe: !!colorBlindSafe, locale }),
@@ -96,6 +119,7 @@ export function ThemeProvider({
       <I18nProvider locale={locale}>
         <MotionConfig reducedMotion="user">
           <div {...rest} {...attrs} className={cn('dv-theme-provider', className)} data-canvas={canvas || undefined}>
+            {compiled && <style data-dv-theme-style={compiled.id} dangerouslySetInnerHTML={{ __html: compiled.css }} />}
             {children}
           </div>
         </MotionConfig>

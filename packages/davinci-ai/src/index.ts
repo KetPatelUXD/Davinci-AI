@@ -95,6 +95,7 @@ export * from './components/finance/FilterBar';
 export * from './components/finance/ChartPanel';
 export * from './components/finance/Watchlist';
 export * from './components/finance/News';
+export * from './components/finance/ArticleView';
 export * from './components/finance/OrderTicket';
 export * from './components/finance/TickerTape';
 
@@ -106,3 +107,6 @@ export * from './components/chat/MessageActions';
 export * from './components/chat/Composer';
 export * from './components/chat/SuggestedPrompts';
 export * from './components/chat/Blocks';
+
+export { compileTheme, validateTheme } from './theme';
+export type { ThemeConfig, CompiledTheme } from './theme';

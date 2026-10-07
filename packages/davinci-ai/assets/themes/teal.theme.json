@@ -1,0 +1,8 @@
+{
+  "$schema": "../../dist/theme.schema.json",
+  "$description": "Sample: calm teal, soft corners, comfortable density.",
+  "brand": { "$type": "color", "$value": "teal" },
+  "radius": { "$value": "soft" },
+  "density": { "$value": "medium" },
+  "mode": { "$value": "dark" }
+}

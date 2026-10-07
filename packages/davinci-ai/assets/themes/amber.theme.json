@@ -1,0 +1,5 @@
+{
+  "$schema": "../../dist/theme.schema.json",
+  "$description": "Sample: warm amber brand with the Graphite defaults otherwise.",
+  "brand": { "$type": "color", "$value": "amber" }
+}
