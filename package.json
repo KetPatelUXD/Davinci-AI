@@ -15,6 +15,7 @@
     "storybook": "pnpm manifest && pnpm --filter @davinci-ai/storybook dev",
     "playground": "pnpm --filter @davinci-ai/playground dev",
     "typecheck": "pnpm -r typecheck",
+    "gen:stories": "node scripts/gen-stories.mjs",
     "lint": "eslint . && node scripts/lint-tokens.mjs && node scripts/check-naming.mjs && node scripts/check-anatomy.mjs --strict",
     "format": "prettier --write .",
     "test": "pnpm --filter @davinci-ai/react test",
