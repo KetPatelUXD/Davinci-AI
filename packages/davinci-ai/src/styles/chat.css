@@ -28,10 +28,12 @@
 .dv-prose > * + * { margin-top: 0.85em; }
 .dv-prose h1, .dv-prose h2, .dv-prose h3 { margin: 1.2em 0 0.4em; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
 .dv-prose h1 { font-size: 20px; } .dv-prose h2 { font-size: 17px; } .dv-prose h3 { font-size: 15px; }
-.dv-prose p { margin: 0; }
-.dv-prose ul, .dv-prose ol { padding-left: 1.4em; margin: 0; display: grid; gap: 0.35em; }
+:where(.dv-prose) :where(p) { margin: 0; } /* zero specificity so the block spacing below wins */
+.dv-prose ul, .dv-prose ol { padding-left: 1.4em; display: grid; gap: 0.35em; }
+:where(.dv-prose) :where(ul, ol) { margin: 0; }
+:where(.dv-prose) :where(blockquote) { margin: 0; }
 .dv-prose a { color: var(--dv-brand); text-underline-offset: 3px; }
-.dv-prose blockquote { margin: 0; padding: 2px 0 2px 14px; box-shadow: inset 2px 0 0 var(--dv-line-strong); color: var(--dv-text-secondary); }
+.dv-prose blockquote { padding: 2px 0 2px 14px; box-shadow: inset 2px 0 0 var(--dv-line-strong); color: var(--dv-text-secondary); }
 .dv-prose code:not(pre code) { padding: 1px 6px; border-radius: var(--dv-radius-code); background: var(--dv-field); box-shadow: var(--dv-inset-line); font-size: 12.5px; font-family: var(--dv-font-mono); }
 .dv-prose table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
 .dv-prose th { text-align: left; color: var(--dv-text-muted); font-weight: 400; font-size: 12px; padding: 8px 12px; background: var(--dv-panel); }

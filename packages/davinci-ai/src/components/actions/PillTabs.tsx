@@ -34,15 +34,18 @@ export function PillTabs({ items, selectedKey, defaultSelectedKey, onSelectionCh
   return (
     <Tabs selectedKey={selectedKey} defaultSelectedKey={defaultSelectedKey ?? items[0]?.id} onSelectionChange={(k) => onSelectionChange?.(String(k))} keyboardActivation={keyboardActivation} className={cn('dv-pill-tabs', className)}>
       <div className="dv-segmented-control" data-size={size} data-ready={ready || undefined}>
-        <TabList ref={ref} aria-label={ariaLabel} className="dv-segmented-control__track">
+        {/* The thumb lives outside TabList: React Aria's TabList is a collection and only accepts Tab children. */}
+        <div ref={ref} className="dv-segmented-control__track">
           <SlidingThumb box={box} ready={ready} />
-          {items.map((it) => (
-            <Tab key={it.id} id={it.id} isDisabled={it.isDisabled} className="dv-segmented-control__option">
-              {renderIcon(it.icon)}
-              <span>{it.label}</span>
-            </Tab>
-          ))}
-        </TabList>
+          <TabList aria-label={ariaLabel} className="dv-pill-tabs__list">
+            {items.map((it) => (
+              <Tab key={it.id} id={it.id} isDisabled={it.isDisabled} className="dv-segmented-control__option">
+                {renderIcon(it.icon)}
+                <span>{it.label}</span>
+              </Tab>
+            ))}
+          </TabList>
+        </div>
       </div>
       {items.filter((i) => i.content != null).map((it) => (
         <TabPanel key={it.id} id={it.id} className={cn('dv-pill-tabs__panel', panelClassName)}>{it.content}</TabPanel>

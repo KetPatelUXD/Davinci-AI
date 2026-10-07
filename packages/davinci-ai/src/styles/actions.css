@@ -83,6 +83,7 @@
 .dv-segmented-control[data-full-width] { display: flex; width: 100%; }
 .dv-segmented-control__track { position: relative; display: inline-flex; gap: 2px; padding: 4px; border-radius: var(--dv-radius-pill); background: var(--dv-panel); box-shadow: var(--dv-inset-line); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
 .dv-segmented-control[data-full-width] .dv-segmented-control__track { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; width: 100%; }
+.dv-pill-tabs__list { display: inline-flex; gap: 2px; }
 .dv-segmented-control__option {
   position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; background: none; font: inherit;
   height: calc(var(--h) - 8px); padding: 0 14px; border-radius: var(--dv-radius-pill); font-size: var(--fs); font-weight: 500; white-space: nowrap; cursor: pointer;

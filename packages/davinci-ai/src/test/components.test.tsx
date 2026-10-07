@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {
   Accordion, Alert, Avatar, AvatarGroup, Badge, Banner, Breadcrumbs, Button, ButtonGroup, Callout, Card, ChartLegend, ChatMessage, ChatThread, Checkbox, CheckboxGroup, Chip, CitationChip, CodeBlock, CodeChip,
   Composer, ConfirmDialog, DaVinciLogo, DayRange, Dialog, DeltaPill, Divider, DonutChart, Drawer, DescriptionList, EmptyState, FileUpload, FilterBar, Form, FormField, Icon, IconButton, Kbd, Link, List, Menu,
-  Meter, MessageActions, MultiSelect, NewsList, NumberField, OrderTicket, Pagination, PasswordField, PillTabs, Popover, PriceChange, PriceChart, PriceField, PriceFlash, ProgressBar, ProgressCircle,
+  Meter, MessageActions, MultiSelect, NewsList, ArticleView, NumberField, OrderTicket, Pagination, PasswordField, PillTabs, Popover, PriceChange, PriceChart, PriceField, PriceFlash, ProgressBar, ProgressCircle,
   RadioGroup, ReasoningBlock, ScrollArea, SearchField, SegmentedControl, Select, SideToggle, Skeleton, Slider, Spinner, SplitPane, Sparkline, Stat, Stepper, StreamingText, SuggestedPrompts, Switch, SwitchRow,
   Table, Tabs, TextArea, TextField, TickerTape, TimeRangeSelector, ToolUseBlock, Tooltip, Toolbar, ToggleButton, TreeView, Watchlist, useToast, QuoteCard, MarketPulse, AccentTile, Panel, PageHeader, AppHeader,
   SideNav, ComboBox, DatePicker, RangeSlider, Disclosure, CommandPalette, ArtifactPanel, Drawer as _D,
@@ -95,7 +95,8 @@ const gallery: Record<string, () => React.ReactElement> = {
   MarketPulse: () => <MarketPulse markets={[{ name: 'Brent-style', change: 1.2 }, { name: 'Diesel', change: -0.8 }]} />,
   FilterBar: () => <FilterBar filters={[{ id: 'a', label: 'Crude' }]} />,
   Watchlist: () => <Watchlist aria-label="Watchlist" items={[{ id: 'a', symbol: 'NSC1', name: 'North Sea', last: 84.62, change: 1.1, changePercent: 1.3, series }]} />,
-  NewsList: () => <NewsList aria-label="News" items={[{ id: 'a', time: '09:42', headline: 'Headline', unread: true, summary: 'Summary', tags: ['Crude'] }]} />,
+  NewsList: () => <NewsList aria-label="News" onOpen={() => {}} items={[{ id: 'a', time: '09:42', headline: 'Headline', unread: true, summary: 'Summary', tags: ['Crude'] }]} />,
+  ArticleView: () => <ArticleView title="Headline" onBack={() => {}} backLabel="Back to news" source="Fictional Wire" time="09:42" tags={['Crude']} standfirst="Intro"><p>Body text.</p></ArticleView>,
   OrderTicket: () => <OrderTicket symbol="NSC1" />,
   TickerTape: () => <TickerTape items={[{ id: 'a', symbol: 'NSC1', last: 84.6, changePercent: 1.2 }]} />,
   ChatThread: () => <ChatThread aria-label="Chat"><ChatMessage role="user" text="Hi">Hi</ChatMessage><ChatMessage role="assistant" actions={<MessageActions copyText="x" />}>Hello</ChatMessage></ChatThread>,
@@ -391,13 +392,19 @@ describe('behaviour', () => {
     rerender(<StreamingText text="Hello" />);
   });
 
-  it('NewsItem summary is disclosed on demand', async () => {
-    renderThemed(<NewsList aria-label="News" items={[{ id: 'a', time: '09:42', headline: 'Loading programme cut', summary: 'Sample summary text' }]} />);
-    const btn = screen.getByRole('button', { name: /loading programme cut/i });
-    expect(btn).toHaveAttribute('aria-expanded', 'false');
-    await userEvent.click(btn);
-    expect(btn).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByText('Sample summary text')).toBeVisible();
+  it('NewsItem headline opens the article', async () => {
+    const onOpen = vi.fn();
+    renderThemed(<NewsList aria-label="News" onOpen={onOpen} items={[{ id: 'a', time: '09:42', headline: 'Loading programme cut' }]} />);
+    await userEvent.click(screen.getByRole('button', { name: /loading programme cut/i }));
+    expect(onOpen).toHaveBeenCalledWith('a');
+  });
+
+  it('ArticleView has a Back button and a labelled article', async () => {
+    const onBack = vi.fn();
+    renderThemed(<ArticleView title="Loading programme cut" onBack={onBack} backLabel="Back to news" source="Fictional Wire" time="09:42" tags={['Crude']} standfirst="Intro"><p>Body</p></ArticleView>);
+    expect(screen.getByRole('article', { name: 'Loading programme cut' })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'Back to news' }));
+    expect(onBack).toHaveBeenCalled();
   });
 
   it('OrderTicket: CTA label and notional follow side/quantity', async () => {

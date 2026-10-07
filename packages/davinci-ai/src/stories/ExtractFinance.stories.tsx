@@ -12,6 +12,7 @@ import { FilterBar } from '../components/finance/FilterBar';
 import { ChartPanel } from '../components/finance/ChartPanel';
 import { Watchlist } from '../components/finance/Watchlist';
 import { NewsList } from '../components/finance/News';
+import { ArticleView } from '../components/finance/ArticleView';
 import { OrderTicket } from '../components/finance/OrderTicket';
 import { TickerTape } from '../components/finance/TickerTape';
 import { series, seriesDown } from './helpers';
@@ -67,3 +68,5 @@ export const OrderTicketFull: S = { render: () => (<Col w={460}>
   <W id="sell"><OrderTicket symbol="NSC1" defaultSide="sell" /></W>
 </Col>) };
 export const TickerTapeFull: S = { render: () => <Col w={760}><TickerTape items={[{ id: 'a', symbol: 'NSC1', last: 84.62, changePercent: 1.42 }, { id: 'b', symbol: 'WTX1', last: 80.11, changePercent: -0.86 }, { id: 'c', symbol: 'TTF1', last: 31.08, changePercent: -2.14 }, { id: 'd', symbol: 'CPF', last: 18420, changePercent: 1.95 }]} /></Col> };
+
+export const ArticleViewFull: S = { render: () => <Col w={640}><ArticleView title="Loading programme revised lower" onBack={() => {}} backLabel="Back to news" source="Fictional Wire" time="10/05/2026 09:42" tags={['Crude', 'Top News']} standfirst="Sample text only. The programme was trimmed against schedule."><p>Sample text only. Loading programmes were revised lower after maintenance was scheduled at two terminals.</p><p>Traders said the change tightened prompt supply.</p></ArticleView></Col> };

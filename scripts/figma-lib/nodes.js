@@ -46,7 +46,7 @@
     const want = Object.assign({}, c.ip || {}, { state: 'default' });
     const cand = setNode.children.find((v) => { const vp = Object.fromEntries(v.name.split(', ').map((x) => x.split('='))); return Object.keys(want).every((k) => vp[k] === undefined || vp[k] === String(want[k])); }) || setNode.defaultVariant;
     const inst = cand.createInstance(); parent.appendChild(inst); inst.name = c.n;
-    if (c.tc) { const k = Object.keys(inst.componentProperties).find((x) => x.startsWith('label#')); if (k) inst.setProperties({ [k]: c.tc }); else { const t = inst.findOne((n) => n.type === 'TEXT'); if (t) { await figma.loadFontAsync(t.fontName); t.characters = c.tc; } } }
+    if (c.tc) { const k = Object.keys(inst.componentProperties).find((x) => /^(label|children)#/.test(x) && inst.componentProperties[x].type === 'TEXT'); if (k) inst.setProperties({ [k]: c.tc }); else { const t = inst.findOne((n) => n.type === 'TEXT' && n.name !== 'Glyph' && !/Awesome/i.test(String(n.fontName.family))); if (t) { await figma.loadFontAsync(t.fontName); t.characters = c.tc; } } }
     if (c.tt) { const ts = inst.findAll((n) => n.type === 'TEXT' && !/Awesome/i.test(String(n.fontName.family))); if (ts.length === c.tt.length) for (let i = 0; i < ts.length; i++) { await figma.loadFontAsync(ts[i].fontName); ts[i].characters = c.tt[i]; } }
     if (c.ic) { const ic = inst.findAll((n) => n.type === 'INSTANCE' && Object.keys(n.componentProperties).some((x) => x.startsWith('name#')))[0]; if (ic) ic.setProperties({ [Object.keys(ic.componentProperties).find((x) => x.startsWith('name#'))]: c.ic }); }
     return inst;

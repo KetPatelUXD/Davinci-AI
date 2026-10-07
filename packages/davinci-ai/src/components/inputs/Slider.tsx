@@ -23,7 +23,7 @@ export function Slider({ label, hideOutput, className, ...rest }: SliderProps) {
       <SliderTrack className="dv-slider__track">
         {({ state }) => (
           <>
-            <div className="dv-slider__fill" style={{ width: `${state.getThumbPercent(0) * 100}%` }} />
+            <div className="dv-slider__fill" style={rest.orientation === 'vertical' ? { height: `${state.getThumbPercent(0) * 100}%` } : { width: `${state.getThumbPercent(0) * 100}%` }} />
             <SliderThumb className="dv-slider__thumb" />
           </>
         )}
@@ -45,7 +45,7 @@ export function RangeSlider({ label, hideOutput, thumbLabels = ['Minimum', 'Maxi
       <SliderTrack className="dv-slider__track">
         {({ state }) => (
           <>
-            <div className="dv-slider__fill" style={{ left: `${state.getThumbPercent(0) * 100}%`, width: `${(state.getThumbPercent(1) - state.getThumbPercent(0)) * 100}%` }} />
+            <div className="dv-slider__fill" style={rest.orientation === 'vertical' ? { bottom: `${state.getThumbPercent(0) * 100}%`, height: `${(state.getThumbPercent(1) - state.getThumbPercent(0)) * 100}%` } : { left: `${state.getThumbPercent(0) * 100}%`, width: `${(state.getThumbPercent(1) - state.getThumbPercent(0)) * 100}%` }} />
             <SliderThumb index={0} aria-label={thumbLabels[0]} className="dv-slider__thumb" />
             <SliderThumb index={1} aria-label={thumbLabels[1]} className="dv-slider__thumb" />
           </>

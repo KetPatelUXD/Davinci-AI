@@ -16,6 +16,14 @@
       ]
     },
     {
+      "name": "arrow-left",
+      "defaultStyle": "light",
+      "builtin": true,
+      "usedIn": [
+        "components/finance/ArticleView.tsx"
+      ]
+    },
+    {
       "name": "arrow-up",
       "defaultStyle": "light",
       "builtin": true,
@@ -72,7 +80,6 @@
       "usedIn": [
         "components/chat/Composer.tsx",
         "components/finance/FilterBar.tsx",
-        "components/finance/News.tsx",
         "components/inputs/Select.tsx",
         "components/navigation/AppHeader.tsx"
       ]

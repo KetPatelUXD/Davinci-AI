@@ -205,6 +205,7 @@ Object.assign(targets, {
   Watchlist: { story: FN('watchlist-full'), root: '.dv-watchlist', axes: {}, states: ['default'], fixRootWidth: true, instances: { '.dv-watchlist__row': 'WatchlistRow' } },
   WatchlistRow: { story: FN('watchlist-row-full'), root: '.dv-watchlist__row', axes: {}, states: ['default', 'hovered', 'selected', 'focus-visible'], fixRootWidth: true, instances: { '.dv-code-chip': 'CodeChip', '.dv-sparkline': 'Sparkline', '.dv-price-change': 'PriceChange' } },
   NewsList: { story: FN('news-list-full'), root: '.dv-news-list', axes: {}, states: ['default'], fixRootWidth: true },
+  ArticleView: { story: FN('article-view-full'), root: '.dv-article-view', axes: {}, states: ['default'], fixRootWidth: true, instances: { '.dv-button': 'Button', '.dv-badge': 'Badge' } },
   NewsItem: { story: FN('news-item-full'), root: '.dv-news-list__item', axes: {}, states: ['default'], fixRootWidth: true },
   OrderTicket: states(FN('order-ticket-full'), '.dv-order-ticket', ['buy', 'sell'], { extra: { stateAs: 'side', fixRootWidth: true, instances: { '.dv-segmented-control': 'SegmentedControl', '.dv-switch-row': 'SwitchRow', '.dv-number-field': 'NumberField', '.dv-price-field': 'PriceField', '.dv-select': 'Select', '.dv-button': 'Button', '.dv-panel': 'Panel' } } }),
   TickerTape: { story: FN('ticker-tape-full'), root: '.dv-ticker-tape', axes: {}, states: ['default'], fixRootWidth: true },
